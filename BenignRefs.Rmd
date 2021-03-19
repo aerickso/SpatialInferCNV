@@ -1,0 +1,19 @@
+---
+title: Selecting Benign References
+author: "Andrew Erickson, Nuffield Department of Surgical Sciences, Unviersity of Oxford"
+output:
+  md_document:
+    variant: markdown_github
+#output: html_document
+---
+
+```{r setup, eval = FALSE}
+library(SpatialInferCNV)
+```
+
+# Selecting Benign References
+
+```{r, eval = FALSE}
+
+```
+
