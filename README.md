@@ -1,7 +1,7 @@
 Introduction
 ============
 
-In this analysis, we want to analyze all of the luminal epithelial cells
+(Alastair's Edit) In this analysis, we want to analyze all of the luminal epithelial cells
 from a given section (Section H2\_1), while using benign luminal
 epithelial cells, with little-to-no inferred copy number variation from
 all other sections (Sections H1\_5, H2\_2, H1\_2, H2\_5, H1\_4, and
