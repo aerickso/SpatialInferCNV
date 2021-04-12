@@ -214,9 +214,9 @@ H2_1_ManualNodeSelection_infCNV = infercnv::run(H2_1_ManualNodeSelection_infCNV,
                                               cutoff=0.1,
                                             out_dir="./Data/InferCNV Files/TestOutputs/Unsupervised", 
                                               num_threads = 18,
-                                              cluster_by_groups=TRUE, 
+                                              cluster_by_groups=FALSE, 
                                               denoise=TRUE,
-                                              HMM=TRUE)
+                                              HMM=FALSE)
 ```
 
 ![](./Data/InferCNV%20Files/ExampleOutputs/Unsupervised/infercnv.21_denoised.png)
