@@ -396,4 +396,6 @@ H2_1_Supervised_infCNV = infercnv::run(H2_1_Supervised_infCNV,
 ![](./Data/InferCNV%20Files/ExampleOutputs/Supervised/infercnv.17_HMM_predHMMi6.hmm_mode-samples.png)  
 \# Clone Tree Building
 
+<p align="center">
 ![](./Images/CloneTree.png){width = 10%, height=10%}
+</p>
