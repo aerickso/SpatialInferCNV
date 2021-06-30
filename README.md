@@ -17,7 +17,7 @@ performance cluster. In our project, such analyses were ran on the
 [BMRC](https://www.medsci.ox.ac.uk/divisional-services/support-services-1/bmrc/cluster-usage),
 with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
-<img src="./Images/Prostate.png" style="width:75.0%" />
+<img src="./Images/Prostate_Updated.png" style="width:75.0%" />
 
 <img src="./Images/H2_1_HistologicalAnnotations_LoupeBrowser.png" style="width:75.0%" />
 
