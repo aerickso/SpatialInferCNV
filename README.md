@@ -51,7 +51,7 @@ library(tidyverse)
 library(SpatialInferCNV)
 ```
 
-![](./Images/Workflow.png)
+![](./Images/Workflow_Updated.png)
 
 Defining (Benign) Reference Set
 ===============================
