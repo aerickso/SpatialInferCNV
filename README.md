@@ -397,5 +397,5 @@ H2_1_Supervised_infCNV = infercnv::run(H2_1_Supervised_infCNV,
 \# Clone Tree Building
 
 <p align="center">
-![](./Images/CloneTree.png){width = 10%, height=10%}
+  <img src="./Images/CloneTree.png" style="width:75.0%" />
 </p>
