@@ -1,4 +1,4 @@
-![Logo](https://www.nds.ox.ac.uk/images/logos/primary-logo)
+![](https://www.nds.ox.ac.uk/images/logos/primary-logo)
 
 Introduction
 ============
