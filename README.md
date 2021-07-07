@@ -1,5 +1,5 @@
 ![](https://www.nds.ox.ac.uk/images/logos/primary-logo)
-![](https://www.nds.ox.ac.uk/images/logos/secondary-logo)
+![](https://www.nds.ox.ac.uk/images/logos/secondary-logo =250x250)
 
 Introduction
 ============
