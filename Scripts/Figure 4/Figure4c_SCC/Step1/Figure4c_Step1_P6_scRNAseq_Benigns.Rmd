@@ -1,0 +1,182 @@
+---
+title: "SCC_benigns"
+author: "Andrew Erickson"
+output: md_document
+---
+
+```{r, messages=FALSE}
+library(tidyverse)
+library(SpatialInferCNV)
+```
+
+```{r, eval = FALSE}
+counturl <- "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE144236&format=file&file=GSE144236%5FcSCC%5Fcounts%2Etxt%2Egz"
+tmp <- tempfile()
+download.file(counturl,tmp)
+
+#Warning, this next step will take 10-60 minutes
+merge10pts_counts <- read.delim(gzfile(tmp))
+merge10pts_counts <- as.data.frame(t(merge10pts_counts))
+
+SCC_P6_Benigns <- merge10pts_counts %>%
+            filter(Patient == 6) %>%
+            filter(`Tissue: 0=Normal, 1=Tumor` == 0)
+
+SCC_P6_Benigns <- SCC_P6_Benigns %>%
+      select(-Patient, -`Tissue: 0=Normal, 1=Tumor`)
+
+save(SCC_P6_Benigns, file = "SCC_P6_Benigns.RData")
+```
+
+```{r, eval = FALSE}
+#Import SCC, Patient 6, scRNAseq benigns that we subset out above
+load("./SCC_P6_Benigns.RData")
+
+#Following code creates a barcode dataframe that we will need later
+P6_Benigns_forannotations <- SCC_P6_Benigns %>% rownames_to_column()
+
+Barcodes_P6 <- P6_Benigns_forannotations %>% 
+                  select(rowname) %>%
+                  mutate(Histology = "P6_Benigns")
+names(Barcodes_P6)[1] <- "Barcodes"
+
+#Next, we will prepare the gene order file required for infercnv:run
+SCC_P6_Benigns <- as.data.frame(t(SCC_P6_Benigns))
+SCC_P6_Benigns <- SCC_P6_Benigns %>% rownames_to_column()
+names(SCC_P6_Benigns)[1] <- "Genes"
+
+#Importing previously created file to map gene names to ENSMBLIDs
+GeneToENSMBL <- read.csv("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/GeneNameRefFile/InferCNV_GeneName_to_ENSMBLID_14122020.csv")
+
+Counts_joined <- SCC_P6_Benigns
+Counts_joined <- Counts_joined %>%
+                    separate(Genes, c("Genes", NA))
+
+Counts_joined <- Counts_joined %>% select(Genes)
+
+#Selecting Gene name, chromosome, start and stop locations
+GenesForMapping <- GeneToENSMBL %>% select(Genes, chr, start, stop)
+GenesInSample <- Counts_joined %>% select(Genes)
+
+#Next, reordering the entries from Chromsomes 1-22, followed by X and Y
+GenesInSamplevsOrdering <- inner_join(GenesInSample, GenesForMapping, by = c("Genes" = "Genes"))
+  dedup_GenesInSamplevsOrdering <- GenesInSamplevsOrdering[!duplicated(GenesInSamplevsOrdering$Genes), ]
+  dedup_GenesInSamplevsOrdering$chromorder <- gsub("chr","",dedup_GenesInSamplevsOrdering$chr)
+  dedup_GenesInSamplevsOrdering$chromorder <- as.numeric(ifelse(dedup_GenesInSamplevsOrdering$chromorder == "X", 23,
+                                                         ifelse(dedup_GenesInSamplevsOrdering$chromorder == "Y", 24,      dedup_GenesInSamplevsOrdering$chromorder)))
+  dedup_GenesInSamplevsOrdering <- dedup_GenesInSamplevsOrdering[order(dedup_GenesInSamplevsOrdering$chromorder),]
+  dedup_GenesInSamplevsOrdering <- dedup_GenesInSamplevsOrdering[,1:4]  
+
+MappingFileForInferCNV <- dedup_GenesInSamplevsOrdering
+
+#Selecting only genes that have location data
+CountmappedGenes <- select(MappingFileForInferCNV, Genes)
+Counts_joined <- SCC_P6_Benigns
+Counts_joined <- Counts_joined %>%
+                    separate(Genes, c("Genes", NA))
+
+#Selecting only genes that have location and count data
+Mapped_Counts_joined <- left_join(CountmappedGenes, Counts_joined)
+#Removing duplicates
+Mapped_Counts_joined <- Mapped_Counts_joined[!duplicated(Mapped_Counts_joined$Genes), ]
+
+#Write GenesInSamplevsOrdering
+write.table(Mapped_Counts_joined, 
+            "SCC_P6_Bg_Selected_Mapped_Counts.tsv",
+            row.names = FALSE,
+            sep = "\t")
+
+write.table(Barcodes_P6, 
+            "SCC_P6_Bg_Selected_CorrectedBarcodes.tsv", 
+            quote = FALSE, 
+            col.names = FALSE, 
+            row.names = FALSE, 
+            sep = "\t")
+
+write.table(MappingFileForInferCNV, 
+            "SCC_P6_Bg_MappingFileForInferCNV.tsv", 
+            quote = FALSE, 
+            col.names = FALSE, 
+            row.names = FALSE, 
+            sep = "\t")
+```
+
+```{r, eval = FALSE}
+P6_Bg_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./SCC_P6_Bg_Selected_Mapped_Counts.tsv", 
+                                               gene_order_file="./SCC_P6_Bg_MappingFileForInferCNV.tsv",
+                                               annotations_file="./SCC_P6_Bg_Selected_CorrectedBarcodes.tsv",
+                                               delim="\t",
+                                               ref_group_names=NULL,
+                                               chr_exclude = c("chrM"))
+
+
+```
+
+```{r, eval = FALSE}
+P6_Bg_infCNV = infercnv::run(P6_Bg_infCNV,
+                                              cutoff=0.1,
+                                              out_dir="./Outputs", 
+                                              num_threads = 10,
+                                              cluster_by_groups=FALSE, 
+                                              denoise=TRUE,
+                                              HMM=FALSE)
+```
+
+
+# Importing dendrogram
+
+Next, we want to import this dendrogram file.
+
+```{r, eval = FALSE}
+library(ape)
+library(phylogram)
+SCC_P6_benigns_for_clustering <- read.dendrogram(file = "./Outputs/infercnv.21_denoised.observations_dendrogram.txt")
+
+SCC_P6_benigns_for_clustering_phylo <- as.phylo(SCC_P6_benigns_for_clustering)
+```
+
+# Visualizing dendrogram node numbers
+
+Next, we want to visualize the numbers associated with the nodes of interest (clones). We output a large image file that allows us to manually inspect which nodes should be selected as subclones.
+
+```{r, eval = FALSE}
+my.subtrees = subtrees(SCC_P6_benigns_for_clustering_phylo)  # subtrees() to subset
+
+png("SCC_P6_benigns_for_clustering_phylo.png",width=10000,height=2500, res = 300)
+plot(SCC_P6_benigns_for_clustering_phylo,show.tip.label = FALSE)
+nodelabels(text=1:SCC_P6_benigns_for_clustering_phylo$Nnode,node=1:SCC_P6_benigns_for_clustering_phylo$Nnode+Ntip(SCC_P6_benigns_for_clustering_phylo))
+dev.off()
+```
+
+```{r, eval = FALSE}
+#A - 4034
+#B - 3605   
+#B - 3360  
+#B - 2316
+#B - 724
+#C - 2
+```
+
+# Selecting clones in R
+
+Next, after identifying the numerical nodes that correspond to dendrogram branches that correspond with a given set of molecular signals (aka, clones), we then manually select these nodes in R, apply a label, then join them all together and output for visualization in Loupe Browswer, as well as to take forward into supervised clustering (Hidden Markov Models).
+
+```{r, eval = FALSE}
+library(SpatialInferCNV)
+library(tidyverse)
+
+Node4034 <- SelectingSubTreeData(my.subtrees, 4034)
+Node2 <- SelectingSubTreeData(my.subtrees, 2)
+
+Merged <- rbind(Node4034, Node2)
+table(Merged$Node)
+
+Merged$Node <- ifelse(Merged$Node == "Node_4034", "PurestBenigns", "OtherBenigns")
+names(Merged)[2] <- "Histology"
+
+BenignRefs <- filter(Merged, Histology == "PurestBenigns") %>%
+                                            select(Barcode, Histology)
+
+write.csv(BenignRefs, "Figure4c_SCCP6_BenignReferenceSet.csv", row.names = FALSE)
+
+```
