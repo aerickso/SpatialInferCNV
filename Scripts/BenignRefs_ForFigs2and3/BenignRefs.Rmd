@@ -19,6 +19,8 @@ library(tidyverse)
 # Selecting Benign References
 
 ```{r, eval = FALSE}
+#28022022 - needs updating to final annotation set
+
 H1_2_Cleaned <- ImportHistologicalAnnotations("H1_2", "./Data/HistologicalAnnotations/H1_2_Consensus_Version_1.1_CorrectedCancerAnnotations_20112020.csv")
 H1_2_Benigns <- filter(H1_2_Cleaned, Histology == "Benign")
 rm(H1_2_Cleaned)
