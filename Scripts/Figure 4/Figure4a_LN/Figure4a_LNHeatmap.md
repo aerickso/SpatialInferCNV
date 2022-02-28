@@ -1,10 +1,5 @@
 # Setup
 
-``` r
-library(remotes)
-library(devtools)
-```
-
     ## Loading required package: usethis
 
     ## 
@@ -24,12 +19,6 @@ library(devtools)
     ##     install_gitlab, install_local, install_svn, install_url,
     ##     install_version, update_packages
 
-``` r
-library(ape)
-library(phylogram)
-library(tidyverse)
-```
-
     ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
 
     ## v ggplot2 3.3.5     v purrr   0.3.4
@@ -40,10 +29,6 @@ library(tidyverse)
     ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
-
-``` r
-library(SpatialInferCNV)
-```
 
     ## Registered S3 method overwritten by 'spatstat.geom':
     ##   method     from
