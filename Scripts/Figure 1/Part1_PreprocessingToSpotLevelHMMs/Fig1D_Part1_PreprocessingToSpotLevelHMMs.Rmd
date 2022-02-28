@@ -2,7 +2,7 @@
 title: "Figure1d OrganscaleSpatialiCNV - Prostate Patient 1, spot level siCNV HMM calls"
 author: "Andrew Erickson"
 date: "21, Feb, 2022"
-output: html_document
+output: md_document
 ---
 
 ```{r, message=FALSE}
@@ -14,7 +14,7 @@ library(readxl)
 library(SpatialInferCNV)
 ```
 
-```{r}
+```{r1, eval = FALSE}
 Counts_H2.1 <- ImportOriginalSTCountData("H2_1", "./Data/H2_1/180903_L11_CN63_D1_H2.1_EB_stdata.tsv")
 Counts_H2.2 <- ImportOriginalSTCountData("H2_2", "./Data/H2_2/180614_L11_53_C1_H2.2_EB_stdata.tsv")
 Counts_H2.3 <- ImportOriginalSTCountData("H2_3", "./Data/H2_3/180614_L11_53_D1_H2.3_EB_stdata.tsv")
@@ -41,7 +41,7 @@ Counts_H1.4 <- ImportOriginalSTCountData("H1_4", "./Data/H1_4/180903_L11_CN51_E1
 Counts_H1.5 <- ImportOriginalSTCountData("H1_5", "./Data/H1_5/180903_L11_CN63_C1_H1.5_EB_stdata.tsv")
 ```
 
-```{r}
+```{r2, eval = FALSE}
 H2_1_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("H2_1", "./Data/H2_1/spot_data-selection-180903_L11_CN63_D1_P_H2.1_CY3_EB_aligned.tsv")
 H2_2_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("H2_2", "./Data/H2_2/spot_data-selection-180614_L11_53_C1_H2.2_Cy3_EB_aligned.tsv")
 H2_3_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("H2_3", "./Data/H2_3/spot_data-selection-180614_L11_53_D2_H2.3_Cy3_aligned.tsv")
@@ -70,7 +70,7 @@ H1_5_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("H1_5", "./Data/
 save.image(file = "Counts_my_work_space.RData")
 ```
 
-```{r}
+```{r3, eval = FALSE}
 Barcodes_H2_1 <- H2_1_SelectedBarcodes %>% 
                   select(Barcode) %>%
                   mutate(Histology = "H2_1")
@@ -188,7 +188,7 @@ saveRDS(JoinedBarcodes, file = "Fig1d_Barcodes.rds")
 
 ```
 
-```{r}
+```{r4, eval = FALSE}
 JoinedCounts_H2.1 <- OriginalST_MergingCountAndAnnotationData(Barcodes_H2_1, Counts_H2.1)
 JoinedCounts_H2.2 <- OriginalST_MergingCountAndAnnotationData(Barcodes_H2_2, Counts_H2.2)
 JoinedCounts_H2.3 <- OriginalST_MergingCountAndAnnotationData(Barcodes_H2_3, Counts_H2.3)
@@ -261,7 +261,7 @@ rm(Barcodes_H2_1,       Barcodes_H2_2,
 save.image(file = "Fig1d_joined_counts_my_work_space.RData")
 ```
 
-```{r}
+```{r5, eval = FALSE}
 Counts_joined <- JoinedCounts_H2.1 %>% full_join(JoinedCounts_H2.2, by = "Genes")
 rm(JoinedCounts_H2.1, JoinedCounts_H2.2)
 Counts_joined <- Counts_joined %>% full_join(JoinedCounts_H2.3, by = "Genes")
@@ -311,7 +311,7 @@ saveRDS(Counts_joined, file = "Fig1d_Counts_joined.rds")
 ```
 
 
-```{r}
+```{r6, eval = FALSE}
 Counts_joined <- Counts_joined %>% replace(., is.na(.), 0)
 
 saveRDS(Counts_joined, file = "Fig1d_noNA_Counts_joined.rds")
@@ -320,7 +320,7 @@ Fig1d_Counts_joined <- Counts_joined
 
 ```
 
-```{r}
+```{r7, eval = FALSE}
 #removing "."
 GeneToENSMBL <- read.csv("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/GeneNameRefFile/InferCNV_GeneName_to_ENSMBLID_14122020.csv")
 GeneToENSMBL <- GeneToENSMBL %>% separate(ENSMBLID, c("ENSMBLID", NA))
@@ -348,7 +348,7 @@ saveRDS(MappingFileForInferCNV, file = "Fig1d_MappingFileForInferCNV.rds")
 ```
 
 
-```{r}
+```{r8, eval = FALSE}
 CountmappedGenes <- select(MappingFileForInferCNV, Genes)
 
 Counts_joined <- Fig1d_Counts_joined
@@ -392,9 +392,9 @@ write.table(MappingFileForInferCNV,
 
 ```
 
-# Unsupervised Test (prior to pushing to cluster)
+# Creating the inferCNV object (prior to run)
 
-```{r}
+```{r9, eval = FALSE}
 STOrganscale <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Fig1d_STOrganscale_Selected_Mapped_Counts.tsv", 
                                                gene_order_file="./Fig1d_STOrganscale_GeneOrderFile.tsv",
                                                annotations_file="./Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv",
@@ -402,9 +402,10 @@ STOrganscale <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Fig1d_STOrga
                                                ref_group_names=NULL,
 								                               chr_exclude = c("chrM"))
 ```
-# Unsupervised Test (prior to pushing to cluster)
 
-```{r}
+# Unsupervised Run - (Typically ran on cluster)
+
+```{r10, eval = FALSE}
 STOrganscale = infercnv::run(STOrganscale,
                              cutoff=0.1,
                              out_dir="./Outputs",
