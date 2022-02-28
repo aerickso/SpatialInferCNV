@@ -1,31 +1,68 @@
----
-title: Figure 4a - siCNV Heatmap for 10X Lymph Node specimen
-  Data with InferCNV
-author: "Andrew Erickson, Nuffield Department of Surgical Sciences, Unviersity of Oxford"
-output:
-  md_document:
-    variant: markdown_github
-#output: html_document
----
+# Setup
 
-# Setup 
-
-```{r setup}
+``` r
 library(remotes)
 library(devtools)
+```
+
+    ## Loading required package: usethis
+
+    ## 
+    ## Attaching package: 'usethis'
+
+    ## The following object is masked from 'package:remotes':
+    ## 
+    ##     git_credentials
+
+    ## 
+    ## Attaching package: 'devtools'
+
+    ## The following objects are masked from 'package:remotes':
+    ## 
+    ##     dev_package_deps, install_bioc, install_bitbucket, install_cran,
+    ##     install_deps, install_dev, install_git, install_github,
+    ##     install_gitlab, install_local, install_svn, install_url,
+    ##     install_version, update_packages
+
+``` r
 library(ape)
 library(phylogram)
 library(tidyverse)
+```
+
+    ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+
+    ## v ggplot2 3.3.5     v purrr   0.3.4
+    ## v tibble  3.1.1     v dplyr   1.0.6
+    ## v tidyr   1.1.3     v stringr 1.4.0
+    ## v readr   2.0.1     v forcats 0.5.1
+
+    ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+    ## x dplyr::filter() masks stats::filter()
+    ## x dplyr::lag()    masks stats::lag()
+
+``` r
 library(SpatialInferCNV)
 ```
 
+    ## Registered S3 method overwritten by 'spatstat.geom':
+    ##   method     from
+    ##   print.boxx cli
+
+    ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
+    ## loading 'SpatialInferCNV'
+
 # Importing Count Data
 
-This code chunk imports the .h5 files a default processed output from [10x Genomics cell ranger pipeline documentation](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/output/molecule_info), and appends a section label to the barcode. 
+This code chunk imports the .h5 files a default processed output from
+[10x Genomics cell ranger pipeline
+documentation](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/output/molecule_info),
+and appends a section label to the barcode.
 
-We use the function ImportCountData(), which requires a section label, and a path to the corresponding .h5 file.
+We use the function ImportCountData(), which requires a section label,
+and a path to the corresponding .h5 file.
 
-```{r, eval = FALSE}
+``` r
 setwd("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/GithubRepo_21022022/Figure4a_LN")
 download.file("https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Lymph_Node/V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5", "./V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5", mode = "wb")
 
@@ -39,23 +76,28 @@ Lymph_Annotations$Histology <- "Lymph"
 
 # QC, and Merging Count and Annotation Data
 
-We then join the annotations with the count data, to select only spots that are to be analyzed. This step also includes a bare minimum QC thresholding step of allowing only Visium spots with 500 counts or more to be included in the analysis
+We then join the annotations with the count data, to select only spots
+that are to be analyzed. This step also includes a bare minimum QC
+thresholding step of allowing only Visium spots with 500 counts or more
+to be included in the analysis
 
-```{r, eval = FALSE}
+``` r
 #H2_1_Joined_Counts <- MergingCountAndAnnotationData("H2_1",MergedAll, H2_1_ENSBMLID_Counts)
 Lymph_Joined_Counts <- MergingCountAndAnnotationData("LN10X",Lymph_Annotations, Lymph_ENSBMLID_Counts)
 
 
 rm(Lymph_ENSBMLID_Counts)
-
-
 ```
 
 # Merging all count data into one object
 
-We then join all of the selected count data together into a final dataframe, which is then output as a .tsv file (1 of 3 required inputs for inferCNV), as well as a revised annotation file (takes into account only those of interest that remain after the QC step) as another .tsv file (2 of 3 required inputs from inferCNV)
+We then join all of the selected count data together into a final
+dataframe, which is then output as a .tsv file (1 of 3 required inputs
+for inferCNV), as well as a revised annotation file (takes into account
+only those of interest that remain after the QC step) as another .tsv
+file (2 of 3 required inputs from inferCNV)
 
-```{r, eval = FALSE}
+``` r
 Counts_joined <- Lymph_Joined_Counts
 
 Counts_joined <- Counts_joined %>% replace(., is.na(.), 0)
@@ -71,14 +113,17 @@ write.table(LymphFinalAnnotations, "10xLymph_Annotations.tsv",
             col.names = FALSE, 
             row.names = FALSE)
 getwd()
-
 ```
 
 # Confirming that the files are formatted correctly to create an inferCNV object
 
-This code then creates an inferCNV object from the 2 previously created files, as well as from a gene position file, which maps ENSMBLIDs to genomic loci. This file has been provided, but if you'd like to build one youself, please see [the InferCNV documentation on their wiki](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome-position-file).
+This code then creates an inferCNV object from the 2 previously created
+files, as well as from a gene position file, which maps ENSMBLIDs to
+genomic loci. This file has been provided, but if you’d like to build
+one youself, please see [the InferCNV documentation on their
+wiki](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome-position-file).
 
-```{r, eval = FALSE}
+``` r
 Lymph10X_unsupervised <- infercnv::CreateInfercnvObject(raw_counts_matrix="10xLymph_Counts.tsv", 
                                                gene_order_file="C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/InferCNV_Analyses/Unsupervised_AllCancer_10092020/Inputs/gene_position_27072020.tsv",
                                                annotations_file="10xLymph_Annotations.tsv",
@@ -89,11 +134,14 @@ Lymph10X_unsupervised <- infercnv::CreateInfercnvObject(raw_counts_matrix="10xLy
 
 # Running InferCNV (Unsupervised)
 
-If the above steps were performed correctly, then there should be no errors from the previous step.
+If the above steps were performed correctly, then there should be no
+errors from the previous step.
 
-Warning! This step is quite computationally intensive. Consider using a high performance cluster for timely analyses instead of running it on a local computer.
+Warning! This step is quite computationally intensive. Consider using a
+high performance cluster for timely analyses instead of running it on a
+local computer.
 
-```{r, eval = FALSE}
+``` r
 Lymph10X_unsupervised = infercnv::run(Lymph10X_unsupervised,
                                               cutoff=0.1,
                                             out_dir="./Outputs/", 
@@ -102,6 +150,3 @@ Lymph10X_unsupervised = infercnv::run(Lymph10X_unsupervised,
                                               denoise=TRUE,
                                               HMM=FALSE)
 ```
-
-
-
