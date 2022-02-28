@@ -12,7 +12,7 @@ library(grid)
 library(svglite)
 ```
 
-```{r, eval = FALSE}
+```{r1, eval = FALSE}
 AllBarcodes <- read.delim("./Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv", 
                           sep = "\t",
                           header = FALSE)
@@ -32,7 +32,7 @@ names(L2_Barcodes)[1] <- "Barcode"
 
 ```
 
-```{r, eval = FALSE}
+```{r2, eval = FALSE}
 CNV_Genes_Organscale <- read.delim("./17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat")
 Counted <- CNV_Genes_Organscale %>% group_by(gene) %>% tally()
 MaxLength <- as.numeric(nrow(Counted))
@@ -44,7 +44,7 @@ CNV_Genes_Filtered <- inner_join(CNV_Genes_Organscale, CountedThresholded) %>%
 
 ```
 
-```{r, eval = FALSE}
+```{r3, eval = FALSE}
 CNV_Genes_Filtered <- CNV_Genes_Filtered %>% mutate(section = substr(cell_group_name, 1, 4))
 
 H1_1_Sectionwise_CNVsGenes_Counted <- ExtractSectionWise("H1_1", CNV_Genes_Filtered, AllBarcodes, 0.45)
@@ -180,7 +180,7 @@ PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("V2_6", V2_6_Sectionwise_CNV
 Plot_PGA_Visualization_Matrix("V2_6", PGA_Matrix, MaxVal)
 ```
 
-```{r, eval = FALSE}
+```{r4, eval = FALSE}
 All_Organ35_andSectionWise45 <- rbind(H1_1_Sectionwise_CNVsGenes_Counted,
   H1_2_Sectionwise_CNVsGenes_Counted,
   H1_3_Sectionwise_CNVsGenes_Counted,
