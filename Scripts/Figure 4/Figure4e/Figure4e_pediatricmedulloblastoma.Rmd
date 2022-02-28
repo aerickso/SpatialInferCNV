@@ -1,12 +1,21 @@
+---
+title: "Figure4e"
+author: "Linda Kvastad, Andrew Erickson"
+output: md_document
+---
 # Code for generating inferCNV plot of pediatric brain tumor patient 1
 
 # Set working directory, this directory should also include a folder containing all necessary files called "InferCNV_pediatric_patient_1"
-setwd("type_in_the_path_to_your_working_directory")
+
+```{r setup, messages=FALSE}
+#setwd("type_in_the_path_to_your_working_directory")
 
 # Load R packages
 library(STutility)
 library(infercnv)
+```
 
+```{r, eval = FALSE}
 # Load infoTables: Sample from patient 3 included regions of stroma cells that will be excluded from the inferCNV analysis, which only contains spots from tumor regions.
 infoTable_pat_1_2 <- read.table("inferCNV_pediatric_patient_1/infoTable_pat_1_2.csv", sep=";", header=T, stringsAsFactors = F)
 infoTable_pat_3 <- read.table("inferCNV_pediatric_patient_1/infoTable_pat_3.csv", sep=";", header=T, stringsAsFactors = F)
@@ -24,8 +33,9 @@ se_pat_3 <- InputFromTable(infotable = infoTable_pat_3,
                      min.gene.spots = 5,
                      min.spot.count = 500,
                      platform="Visium")
+```
 
-
+```{r, eval = FALSE}
 # Add Pathology annotations to Meta.data in se_pat_3 object
 df <- read.csv(file = "inferCNV_pediatric_patient_1/pathology_patient_3.csv")
 df$Barcode <- paste0(df$Barcode, "_1")
@@ -66,6 +76,9 @@ se_sample <- cbind(Barcode = rownames(se_sample), se_sample)
 rownames(se_sample) <- NULL
 head(se_sample)
 tail(se_sample)
+```
+
+```{r, eval = FALSE}
 
 # save the data.frame
 write.table(x = se_sample, file = "inferCNV_annotions_se_pat_1_2_3.txt",sep = "\t", row.names = F, col.names = F)
@@ -73,7 +86,11 @@ write.table(x = se_sample, file = "inferCNV_annotions_se_pat_1_2_3.txt",sep = "\
 # extract 10x count data from used as input for the inferCNV run
 counts_matrix = GetAssayData(se, slot="counts")
 
+```
+
 # create the infercnv object
+
+```{r, eval = FALSE}
 infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
                                     annotations_file="inferCNV_annotions_se_pat_1_2_3.txt",
                                     delim="\t",
@@ -84,6 +101,9 @@ infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
                                     
                                     
 )
+```
+
+```{r, eval = FALSE}
 
 # perform infercnv operations to reveal cnv signal
 infercnv_obj = infercnv::run(infercnv_obj,
@@ -95,9 +115,7 @@ infercnv_obj = infercnv::run(infercnv_obj,
                             
 )
 
-
-
-
+```
 
 
 
