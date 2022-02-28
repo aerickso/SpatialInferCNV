@@ -63,11 +63,9 @@ We use the function ImportCountData(), which requires a section label,
 and a path to the corresponding .h5 file.
 
 ``` r
-setwd("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/GithubRepo_21022022/Figure4a_LN")
 download.file("https://cf.10xgenomics.com/samples/spatial-exp/1.1.0/V1_Human_Lymph_Node/V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5", "./V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5", mode = "wb")
 
-Lymph_ENSBMLID_Counts <- ImportCountData("LN10X", "C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/InferCNV_Analyses/10x_LymphNodes_29032021/Inputs/V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5")
-#Lymph_ENSBMLID_Counts <- ImportCountData("Lymph", "C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/GithubRepo_21022022/Figure4a_LN/V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5")
+Lymph_ENSBMLID_Counts <- ImportCountData("LN10X", "./V1_Human_Lymph_Node_filtered_feature_bc_matrix.h5")
 
 Lymph_Annotations <- Lymph_ENSBMLID_Counts %>%
                           select(Barcode)
@@ -82,9 +80,7 @@ thresholding step of allowing only Visium spots with 500 counts or more
 to be included in the analysis
 
 ``` r
-#H2_1_Joined_Counts <- MergingCountAndAnnotationData("H2_1",MergedAll, H2_1_ENSBMLID_Counts)
 Lymph_Joined_Counts <- MergingCountAndAnnotationData("LN10X",Lymph_Annotations, Lymph_ENSBMLID_Counts)
-
 
 rm(Lymph_ENSBMLID_Counts)
 ```
@@ -112,7 +108,6 @@ write.table(LymphFinalAnnotations, "10xLymph_Annotations.tsv",
             quote = FALSE, 
             col.names = FALSE, 
             row.names = FALSE)
-getwd()
 ```
 
 # Confirming that the files are formatted correctly to create an inferCNV object
@@ -125,7 +120,7 @@ wiki](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome
 
 ``` r
 Lymph10X_unsupervised <- infercnv::CreateInfercnvObject(raw_counts_matrix="10xLymph_Counts.tsv", 
-                                               gene_order_file="C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/InferCNV_Analyses/Unsupervised_AllCancer_10092020/Inputs/gene_position_27072020.tsv",
+                                               gene_order_file="./gene_position_27072020.tsv",
                                                annotations_file="10xLymph_Annotations.tsv",
                                                delim="\t",
                                                ref_group_names=NULL,
