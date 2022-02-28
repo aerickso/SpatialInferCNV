@@ -10,7 +10,7 @@ output:
 
 # Setup 
 
-```{r setup, echo=FALSE}
+```{r setup, message=FALSE}
 library(remotes)
 library(devtools)
 library(ape)

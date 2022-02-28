@@ -1,38 +1,13 @@
 # Setup
 
-    ## Loading required package: usethis
-
-    ## 
-    ## Attaching package: 'usethis'
-
-    ## The following object is masked from 'package:remotes':
-    ## 
-    ##     git_credentials
-
-    ## 
-    ## Attaching package: 'devtools'
-
-    ## The following objects are masked from 'package:remotes':
-    ## 
-    ##     dev_package_deps, install_bioc, install_bitbucket, install_cran,
-    ##     install_deps, install_dev, install_git, install_github,
-    ##     install_gitlab, install_local, install_svn, install_url,
-    ##     install_version, update_packages
-
-    ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
-
-    ## v ggplot2 3.3.5     v purrr   0.3.4
-    ## v tibble  3.1.1     v dplyr   1.0.6
-    ## v tidyr   1.1.3     v stringr 1.4.0
-    ## v readr   2.0.1     v forcats 0.5.1
-
-    ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-    ## x dplyr::filter() masks stats::filter()
-    ## x dplyr::lag()    masks stats::lag()
-
-    ## Registered S3 method overwritten by 'spatstat.geom':
-    ##   method     from
-    ##   print.boxx cli
+``` r
+library(remotes)
+library(devtools)
+library(ape)
+library(phylogram)
+library(tidyverse)
+library(SpatialInferCNV)
+```
 
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
