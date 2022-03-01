@@ -46,7 +46,7 @@ little-to-no inferred copy number changes, and extracts those that are
 not in the section of interest
 
 ``` r
-PurestBenigns_All <- read.csv("./Data/VisiumData/Processed/Consensus_PurestBenigns.csv")
+PurestBenigns_All <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure3/Inputs/Consensus_PurestBenigns.csv")
 
 PurestBenigns_All$section <- substr(PurestBenigns_All$Barcode, 1, 4) 
 
@@ -128,7 +128,6 @@ only those of interest that remain after the QC step) as another .tsv
 file (2 of 3 required inputs from inferCNV)
 
 ``` r
-#setwd("C:/Users/erick/Dropbox/GitHub Repo/SpatialInferCNV_17032021")
 Counts_joined <- H2_1_Joined_Counts %>% full_join(H1_5_Joined_Counts, by = "Genes")
 Counts_joined <- Counts_joined %>% full_join(H2_2_Joined_Counts, by = "Genes")
 Counts_joined <- Counts_joined %>% full_join(H1_2_Joined_Counts, by = "Genes")
@@ -147,11 +146,11 @@ rm(V1_2_Joined_Counts)
 Counts_joined <- Counts_joined %>% replace(., is.na(.), 0)
 Counts_joined <- Counts_joined %>% column_to_rownames(., var = "Genes")
 
-write.table(Counts_joined, "CorrectedBenigns_Consensus_H2_1_ForClustering_Counts_19112020.tsv", sep = "\t")
+write.table(Counts_joined, "H2_1_ForClustering_Counts.tsv", sep = "\t")
 
 Consensus_AllCancersandBenigns_ForClustering <- FinalAnnotations(MergedAll, Counts_joined)
 
-write.table(Consensus_AllCancersandBenigns_ForClustering, "CorrectedBenigns_Consensus_H2_1_ForClustering_Annotations_19112020.tsv", 
+write.table(Consensus_AllCancersandBenigns_ForClustering, "H2_1_ForClustering_Annotations.tsv", 
             sep = "\t",
             quote = FALSE, 
             col.names = FALSE, 
@@ -167,9 +166,9 @@ one youself, please see [the InferCNV documentation on their
 wiki](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome-position-file).
 
 ``` r
-H2_1_ManualNodeSelection_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Data/InferCNV Files/ExampleInputs/CorrectedBenigns_Consensus_H2_1_ForClustering_Counts_19112020.tsv", 
-                                               gene_order_file="./Data/InferCNV Files/ExampleInputs/gene_position_27072020.tsv",
-                                               annotations_file="./Data/InferCNV Files/ExampleInputs/CorrectedBenigns_Consensus_H2_1_ForClustering_Annotations_19112020.tsv",
+H2_1_ManualNodeSelection_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./H2_1_ForClustering_Counts.tsv", 
+                                               gene_order_file="./siCNV_GeneOrderFile.tsv",
+                                               annotations_file="./H2_1_ForClustering_Annotations.tsv",
                                                delim="\t",
                                                ref_group_names="Purest Benign (Non-H2_1)",
                                                chr_exclude = c("chrM"))
@@ -187,8 +186,8 @@ local computer.
 ``` r
 H2_1_ManualNodeSelection_infCNV = infercnv::run(H2_1_ManualNodeSelection_infCNV,
                                               cutoff=0.1,
-                                            out_dir="./Data/InferCNV Files/TestOutputs/Unsupervised", 
-                                              num_threads = 18,
+                                            out_dir="./Figure3_Step1/Outputs", 
+                                              num_threads = 20,
                                               cluster_by_groups=TRUE, 
                                               denoise=TRUE,
                                               HMM=TRUE)
@@ -205,9 +204,9 @@ clustering on the left hand side of the image
 Next, we want to import this dendrogram file.
 
 ``` r
-Consensus_H2_1_for_clustering <- read.dendrogram(file = "./Data/InferCNV Files/ExampleOutputs/Unsupervised/infercnv.21_denoised.observations_dendrogram.txt")
+H2_1_for_clustering <- read.dendrogram(file = "./Figure3_Step1/Outputs/infercnv.21_denoised.observations_dendrogram.txt")
 
-Consensus_H2_1_for_clustering_phylo <- as.phylo(Consensus_H2_1_for_clustering)
+H2_1_for_clustering_phylo <- as.phylo(Consensus_H2_1_for_clustering)
 ```
 
 # Visualizing dendrogram node numbers
@@ -217,11 +216,11 @@ interest (clones). We output a large image file that allows us to
 manually inspect which nodes should be selected as subclones.
 
 ``` r
-my.subtrees = subtrees(Consensus_H2_1_for_clustering_phylo)  # subtrees() to subset
+my.subtrees = subtrees(H2_1_for_clustering_phylo)  # subtrees() to subset
 
-png("Consensus_H2_1_forclustering_phylo_09032021.png",width=10000,height=2500, res = 300)
-plot(Consensus_H2_1_for_clustering_phylo,show.tip.label = FALSE)
-nodelabels(text=1:Consensus_H2_1_for_clustering_phylo$Nnode,node=1:Consensus_H2_1_for_clustering_phylo$Nnode+Ntip(Consensus_H2_1_for_clustering_phylo))
+png("H2_1_forclustering_phylo.png",width=10000,height=2500, res = 300)
+plot(H2_1_for_clustering_phylo,show.tip.label = FALSE)
+nodelabels(text=1:H2_1_for_clustering_phylo$Nnode,node=1:H2_1_for_clustering_phylo$Nnode+Ntip(H2_1_for_clustering_phylo))
 dev.off()
 ```
 
@@ -281,15 +280,15 @@ Merged$Node <- ifelse(Merged$Node == "Node_1007", "Clone_A.1",
                      ifelse(Merged$Node == "Node_134" , "Clone_E",
                      ifelse(Merged$Node == "Node_3" , "Clone_F", Merged$Node))))))))
 
-write.csv(Merged, "Nodes_Consensus_H2_1_forclustering_09032021_renamed.csv", row.names = FALSE)
+write.csv(Merged, "H2_1_forclustering.csv", row.names = FALSE)
 
 H2_1_Merged <- Merged
 H2_1_Merged <- H2_1_Merged %>% mutate(section = substr(Barcode, 1, 4))
 H2_1_Merged$Barcode <- trimws(substr(H2_1_Merged$Barcode, 6, 100))
 H2_1_Merged$Barcode <- gsub("\\.", "\\-", H2_1_Merged$Barcode)
-H2_1_Clones_ForLoupeBrowser_09032021 <- filter(H2_1_Merged, section == "H2_1") %>%
+H2_1_Clones_ForLoupeBrowser <- filter(H2_1_Merged, section == "H2_1") %>%
                                             select(Barcode, Node)
-write.csv(H2_1_Clones_ForLoupeBrowser_09032021, "H2_1_Clones_ForLoupeBrowser_09032021.csv", row.names = FALSE)
+write.csv(H2_1_Clones_ForLoupeBrowser, "H2_1_Clones_ForLoupeBrowser.csv", row.names = FALSE)
 ```
 
 # Creaing an updated InferCNV annotations file for clustering
@@ -300,9 +299,9 @@ selecting only the benign references, and joining them with the updated
 clone names.
 
 ``` r
-Nodes_Consensus_H2_1_forclustering <- read.csv("./Data/Clone Selection/Outputs/Nodes_Consensus_H2_1_forclustering_09032021_renamed.csv")
+Nodes_Consensus_H2_1_forclustering <- read.csv("./H2_1_forclustering.csv")
 
-OriginalAnnotationsFile <- read.delim("./Data/InferCNV Files/ExampleInputs/Unsupervised/CorrectedBenigns_Consensus_H2_1_ForClustering_Annotations_19112020.tsv", sep = "\t", header = FALSE)
+OriginalAnnotationsFile <- read.delim("./H2_1_ForClustering_Annotations.tsv", sep = "\t", header = FALSE)
 names(OriginalAnnotationsFile)[1] <- "Barcode"
 names(OriginalAnnotationsFile)[2] <- "Node"
 
@@ -311,7 +310,7 @@ BenignReferences <- OriginalAnnotationsFile %>%
 
 ForInferCNVClustering <- rbind(Nodes_Consensus_H2_1_forclustering, BenignReferences)
 
-write.table(ForInferCNVClustering, "CorrectedBenigns_Consensus_H2_1_Clonal_Annotations.tsv", 
+write.table(ForInferCNVClustering, "H2_1_Clonal_Annotations_ForClustering.tsv", 
             sep = "\t",
             quote = FALSE, 
             col.names = FALSE, 
@@ -321,9 +320,9 @@ write.table(ForInferCNVClustering, "CorrectedBenigns_Consensus_H2_1_Clonal_Annot
 # Confirming again that the files are formatted correctly to create an inferCNV object
 
 ``` r
-H2_1_Supervised_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Data/InferCNV Files/ExampleInputs/CorrectedBenigns_Consensus_H2_1_ForClustering_Counts_19112020.tsv", 
-                                                         gene_order_file="./Data/InferCNV Files/ExampleInputs/gene_position_27072020.tsv",
-                                                         annotations_file=".\Data\InferCNV Files\ExampleInputs\Supervised\CorrectedBenigns_Consensus_H2_1_Clonal_Annotations.tsv",
+H2_1_Supervised_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./H2_1_ForClustering_Counts.tsv", 
+                                                         gene_order_file="./siCNV_GeneOrderFile.tsv",
+                                                         annotations_file="./H2_1_Clonal_Annotations_ForClustering",
                                                          delim="\t",
                                                          ref_group_names="Purest Benign (Non-H2_1)",
                                                          chr_exclude = c("chrM"))
@@ -334,8 +333,8 @@ H2_1_Supervised_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Da
 ``` r
 H2_1_Supervised_infCNV = infercnv::run(H2_1_Supervised_infCNV,
                                               cutoff=0.1,
-                                              out_dir="./Data/InferCNV Files/TestOutputs/Supervised",
-                                              num_threads = 18,
+                                              out_dir="./Figure2_ClusteredOutputs/",
+                                              num_threads = 20,
                                               cluster_by_groups=TRUE, 
                                               denoise=TRUE,
                                               HMM=TRUE)
