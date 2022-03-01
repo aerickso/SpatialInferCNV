@@ -1,3 +1,5 @@
+\#Setup
+
     library(tidyverse)
 
     ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
@@ -36,28 +38,30 @@
 
 # Consensus Purest Benigns
 
-    PurestBenigns_All <- read.csv("./Consensus_PurestBenigns_18112020.csv")
+    PurestBenigns_All <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure2/Step1/Consensus_PurestBenigns_18112020.csv")
 
-\#Re-creating All Cancer Annotations
+# Re-creating All Cancer Annotations
 
     #28022022 - needs updating to final annotation set
 
-    H1_2_Annotations <- ImportHistologicalAnnotations("H1_2", "./H1_2_Consensus_Version_1.1_CorrectedCancerAnnotations_20112020.csv")
+    #Patient 1\Visium\H1_2\H1_2_Final_Consensus_Annotations.csv
+
+    H1_2_Annotations <- ImportHistologicalAnnotations("H1_2", "./Mendeley/Patient 1/Visium/H1_2/H1_2_Final_Consensus_Annotations.csv")
     H1_2_CancerSpots <- filter(H1_2_Annotations, Histology == "GG1")
 
-    H1_4_Annotations <- ImportHistologicalAnnotations("H1_4", "./H1_4_Consensus_Version_1.1_CorrectedCancerAnnotations_20112020.csv")
+    H1_4_Annotations <- ImportHistologicalAnnotations("H1_4", "./Mendeley/Patient 1/Visium/H1_4/H1_4_Final_Consensus_Annotations.csv")
     H1_4_CancerSpots <- filter(H1_4_Annotations, Histology == "GG2" | Histology ==  "GG4 Cribriform")
 
-    H1_5_Annotations <- ImportHistologicalAnnotations("H1_5", "./H1_5_Consensus_Version_1.1_CorrectedCancerAnnotations_20112020.csv")
+    H1_5_Annotations <- ImportHistologicalAnnotations("H1_5", "./Mendeley/Patient 1/Visium/H1_5/H1_5_Final_Consensus_Annotations.csv")
     H1_5_CancerSpots <- filter(H1_5_Annotations, Histology ==  "GG4 Cribriform")
 
-    H2_1_Annotations <- ImportHistologicalAnnotations("H2_1", "./H2_1_Consensus_Version_1.1_CorrectedCancerAnnotations_20112020.csv")
+    H2_1_Annotations <- ImportHistologicalAnnotations("H2_1", "./Mendeley/Patient 1/Visium/H2_1/H2_1_Final_Consensus_Annotations.csv")
     H2_1_CancerSpots <- filter(H2_1_Annotations, Histology == "GG2" | Histology ==  "GG4")
 
-    H2_2_Annotations <- ImportHistologicalAnnotations("H2_2", "./H2_2_Consensus_Version_1.1_CorrectedCancerAnnotations_20112020.csv")
+    H2_2_Annotations <- ImportHistologicalAnnotations("H2_2", "./Mendeley/Patient 1/Visium/H2_2/H2_2_Final_Consensus_Annotations.csv")
     H2_2_CancerSpots <- filter(H2_2_Annotations, Histology == "GG2")
 
-    H2_5_Annotations <- ImportHistologicalAnnotations("H2_5", "./H2_5_Consensus_Version_1.1_CorrectedCancerAnnotations_20112020.csv")
+    H2_5_Annotations <- ImportHistologicalAnnotations("H2_5", "./Mendeley/Patient 1/Visium/H2_5/H2_5_Final_Consensus_Annotations.csv")
     H2_5_CancerSpots <- filter(H2_5_Annotations, Histology == "GG4 Cribriform" | Histology == "Transition_State")
 
     rm(H1_2_Annotations,
@@ -89,43 +93,43 @@
 
 # Merging Cancer and Benign annotations with the ENSMBLIDs
 
-    H2_1_ENSBMLID_Counts <- ImportCountData("H2_1", "./H2.1/filtered_feature_bc_matrix.h5")
+    H2_1_ENSBMLID_Counts <- ImportCountData("H2_1", "./Mendeley/Patient 1/Visium/H2_1/filtered_feature_bc_matrix.h5")
     H2_1_Joined_Counts <- MergingCountAndAnnotationData("H2_1",MergedAll, H2_1_ENSBMLID_Counts)
     rm(H2_1_ENSBMLID_Counts)
     Counts_joined <- H2_1_Joined_Counts
     rm(H2_1_Joined_Counts)
 
-    H1_5_ENSBMLID_Counts <- ImportCountData("H1_5", "./H1.5/filtered_feature_bc_matrix.h5")
+    H1_5_ENSBMLID_Counts <- ImportCountData("H1_5", "./Mendeley/Patient 1/Visium/H1_5/filtered_feature_bc_matrix.h5")
     H1_5_Joined_Counts <- MergingCountAndAnnotationData("H1_5",MergedAll, H1_5_ENSBMLID_Counts)
     rm(H1_5_ENSBMLID_Counts)
     Counts_joined <- Counts_joined %>% full_join(H1_5_Joined_Counts, by = "Genes")
     rm(H1_5_Joined_Counts)
 
-    H2_2_ENSBMLID_Counts <- ImportCountData("H2_2", "./H2.2/filtered_feature_bc_matrix.h5")
+    H2_2_ENSBMLID_Counts <- ImportCountData("H2_2", "./Mendeley/Patient 1/Visium/H2_2/filtered_feature_bc_matrix.h5")
     H2_2_Joined_Counts <- MergingCountAndAnnotationData("H2_2",MergedAll, H2_2_ENSBMLID_Counts)
     rm(H2_2_ENSBMLID_Counts)
     Counts_joined <- Counts_joined %>% full_join(H2_2_Joined_Counts, by = "Genes")
     rm(H2_2_Joined_Counts)
 
-    H1_2_ENSBMLID_Counts <- ImportCountData("H1_2", "./H1.2/filtered_feature_bc_matrix.h5")
+    H1_2_ENSBMLID_Counts <- ImportCountData("H1_2", "./Mendeley/Patient 1/Visium/H1_2/filtered_feature_bc_matrix.h5")
     H1_2_Joined_Counts <- MergingCountAndAnnotationData("H1_2",MergedAll, H1_2_ENSBMLID_Counts)
     rm(H1_2_ENSBMLID_Counts)
     Counts_joined <- Counts_joined %>% full_join(H1_2_Joined_Counts, by = "Genes")
     rm(H1_2_Joined_Counts)
 
-    H2_5_ENSBMLID_Counts <- ImportCountData("H2_5", "./H2.5/filtered_feature_bc_matrix.h5")
+    H2_5_ENSBMLID_Counts <- ImportCountData("H2_5", "./Mendeley/Patient 1/Visium/H2_5/filtered_feature_bc_matrix.h5")
     H2_5_Joined_Counts <- MergingCountAndAnnotationData("H2_5",MergedAll, H2_5_ENSBMLID_Counts)
     rm(H2_5_ENSBMLID_Counts)
     Counts_joined <- Counts_joined %>% full_join(H2_5_Joined_Counts, by = "Genes")
     rm(H2_5_Joined_Counts)
 
-    H1_4_ENSBMLID_Counts <- ImportCountData("H1_4", "./H1.4/filtered_feature_bc_matrix.h5")
+    H1_4_ENSBMLID_Counts <- ImportCountData("H1_4", "./Mendeley/Patient 1/Visium/H1_4/filtered_feature_bc_matrix.h5")
     H1_4_Joined_Counts <- MergingCountAndAnnotationData("H1_4",MergedAll, H1_4_ENSBMLID_Counts)
     rm(H1_4_ENSBMLID_Counts)
     Counts_joined <- Counts_joined %>% full_join(H1_4_Joined_Counts, by = "Genes")
     rm(H1_4_Joined_Counts)
 
-    V1_2_ENSBMLID_Counts <- ImportCountData("V1_2", "./V1.2/filtered_feature_bc_matrix.h5")
+    V1_2_ENSBMLID_Counts <- ImportCountData("V1_2", "./Mendeley/Patient 1/Visium/V1_2/filtered_feature_bc_matrix.h5")
     V1_2_Joined_Counts <- MergingCountAndAnnotationData("V1_2",MergedAll, V1_2_ENSBMLID_Counts)
     rm(V1_2_ENSBMLID_Counts)
     Counts_joined <- Counts_joined %>% full_join(V1_2_Joined_Counts, by = "Genes")
@@ -136,11 +140,11 @@
     Counts_joined <- Counts_joined %>% replace(., is.na(.), 0)
     Counts_joined <- Counts_joined %>% column_to_rownames(., var = "Genes")
 
-    write.table(Counts_joined, "Organscale_Unsupervised_Consensus_AllCancer_Counts_21022022_rev1.tsv", sep = "\t")
+    write.table(Counts_joined, "Organscale_Unsupervised_Consensus_AllCancer_Counts.tsv", sep = "\t")
 
     MergedAll_Final <- FinalAnnotations(MergedAll, Counts_joined)
 
-    write.table(MergedAll_Final, "Organscale_Unsupervised_Consensus_AllCancer_Annotations_21022022_rev1.tsv", 
+    write.table(MergedAll_Final, "Organscale_Unsupervised_Consensus_AllCancer_Annotations.tsv", 
                 sep = "\t",
                 quote = FALSE, 
                 col.names = FALSE, 
@@ -148,9 +152,9 @@
 
 # Creating the inferCNV object (prior to run)
 
-    AllCancer_Unsupervised <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Organscale_Unsupervised_Consensus_AllCancer_Counts_21022022.tsv", 
+    AllCancer_Unsupervised <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Organscale_Unsupervised_Consensus_AllCancer_Counts.tsv", 
                                                    gene_order_file="./gene_position_27072020.tsv",
-                                                   annotations_file="./Organscale_Unsupervised_Consensus_AllCancer_Annotations_21022022.tsv",
+                                                   annotations_file="./Organscale_Unsupervised_Consensus_AllCancer_Annotations.tsv",
                                                    delim="\t",
                                                    ref_group_names="Purest Benigns",
                                                                    chr_exclude = c("chrM"))
@@ -159,7 +163,7 @@
 
     AllCancer_Unsupervised = infercnv::run(AllCancer_Unsupervised,
                                                   cutoff=0.1,
-                                                  out_dir="./Outputs", 
+                                                  out_dir="./Figure2a_Step1/Outputs", 
                                                   cluster_by_groups=FALSE,
                                                   num_threads = 20, 
                                                   denoise=TRUE,
