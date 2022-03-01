@@ -1,3 +1,5 @@
+# Setup
+
     library(tidyverse)
 
     ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
@@ -20,6 +22,11 @@
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
 
+# Downloading and formatting data, part 1
+
+Warning, this step will take 10-60 min, even with a decent internet
+connection.
+
     counturl <- "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE144236&format=file&file=GSE144236%5FcSCC%5Fcounts%2Etxt%2Egz"
     tmp <- tempfile()
     download.file(counturl,tmp)
@@ -37,6 +44,8 @@
 
     save(SCC_P6_Benigns, file = "SCC_P6_Benigns.RData")
 
+# Downloading and formatting data, part 2
+
     #Import SCC, Patient 6, scRNAseq benigns that we subset out above
     load("./SCC_P6_Benigns.RData")
 
@@ -53,8 +62,23 @@
     SCC_P6_Benigns <- SCC_P6_Benigns %>% rownames_to_column()
     names(SCC_P6_Benigns)[1] <- "Genes"
 
-    #Importing previously created file to map gene names to ENSMBLIDs
-    GeneToENSMBL <- read.csv("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/GeneNameRefFile/InferCNV_GeneName_to_ENSMBLID_14122020.csv")
+# Creating GeneToENSMBL dataframe
+
+    GeneToENSMBL <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure4/GeneToENSMBL.csv")
+
+    #library(tidyverse)
+    #library(data.table)
+    #GeneToENSMBL <- fread('https://data.broadinstitute.org/Trinity/CTAT/cnv/gencode_v19_gen_pos.complete.txt')
+    #GeneToENSMBL <- mydat %>% separate(V1, c("left","ENSMBLID"), sep = "\\|")
+
+    #names(GeneToENSMBL)[1] <- "Genes"
+    #names(GeneToENSMBL)[3] <- "chr"
+    #names(GeneToENSMBL)[4] <- "start"
+    #names(GeneToENSMBL)[5] <- "stop"
+
+    #write.csv(GeneToENSMBL, "GeneToENSMBL.csv", row.names = FALSE)
+
+# Mapping Gene Names to counts/barcodes, and then outputting the requisite files for infercnv::run
 
     Counts_joined <- SCC_P6_Benigns
     Counts_joined <- Counts_joined %>%
@@ -108,6 +132,8 @@
                 row.names = FALSE, 
                 sep = "\t")
 
+# Creating the inferCNV object (prior to run)
+
     P6_Bg_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./SCC_P6_Bg_Selected_Mapped_Counts.tsv", 
                                                    gene_order_file="./SCC_P6_Bg_MappingFileForInferCNV.tsv",
                                                    annotations_file="./SCC_P6_Bg_Selected_CorrectedBarcodes.tsv",
@@ -115,10 +141,12 @@
                                                    ref_group_names=NULL,
                                                    chr_exclude = c("chrM"))
 
+# Unsupervised Run - (Typically ran on cluster)
+
     P6_Bg_infCNV = infercnv::run(P6_Bg_infCNV,
                                                   cutoff=0.1,
-                                                  out_dir="./Outputs", 
-                                                  num_threads = 10,
+                                                  out_dir="./Figure4c_Step1/Outputs", 
+                                                  num_threads = 20,
                                                   cluster_by_groups=FALSE, 
                                                   denoise=TRUE,
                                                   HMM=FALSE)
@@ -129,7 +157,7 @@ Next, we want to import this dendrogram file.
 
     library(ape)
     library(phylogram)
-    SCC_P6_benigns_for_clustering <- read.dendrogram(file = "./Outputs/infercnv.21_denoised.observations_dendrogram.txt")
+    SCC_P6_benigns_for_clustering <- read.dendrogram(file = "./Figure4c_Step1/Outputs/infercnv.21_denoised.observations_dendrogram.txt")
 
     SCC_P6_benigns_for_clustering_phylo <- as.phylo(SCC_P6_benigns_for_clustering)
 

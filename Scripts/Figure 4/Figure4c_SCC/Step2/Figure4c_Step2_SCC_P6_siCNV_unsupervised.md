@@ -1,3 +1,5 @@
+# Setup
+
     library(tidyverse)
 
     ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
@@ -19,6 +21,8 @@
 
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
+
+# Importing Data for Benigns
 
     #Import SCC, Patient 6, scRNAseq benigns that we subset out in step 1
     load("./Figure4c - Step 1 - Downloading scRNAseq Data/SCC_P6_Benigns.RData")
@@ -42,7 +46,9 @@
     saveRDS(SCC_P6_BenignReferences_Counts, file = "SCC_P6_BenignReferences_Counts.rds")
     saveRDS(SCC_P6_BenignReferences_Barcodes, file = "SCC_P6_BenignReferences_Barcodes.rds")
 
-    t28 <- readRDS("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/InferCNV_Analyses/SCC_T28_1_28032021/Inputs/t28.Rds")
+# Importing Data for Visium Data
+
+    t28 <- readRDS("./Mendeley/SCC Patient/t28.Rds")
 
     SCC_P6_Visium_Counts <- as.data.frame(t28@assays$Spatial@counts)
     rm(t28)
@@ -77,11 +83,15 @@
 
     saveRDS(SCC_P6_Visium_Counts, file = "SCC_P6_Visium_Counts.rds")
 
+# Importing Data Visium and Benign Data
+
     SCC_P6_Visium_Annotations <- readRDS("./SCC_P6_Visium_Annotations.rds")
     SCC_P6_BenignReferences_Barcodes <- readRDS("./SCC_P6_BenignReferences_Barcodes.rds")
 
     Joined_Barcodes <- rbind(SCC_P6_Visium_Annotations, SCC_P6_BenignReferences_Barcodes)
     saveRDS(Joined_Barcodes, file = "SCC_P6_BenignRef_and_Visium_Annotations.rds")
+
+# Importing Data Visium and Benign Data
 
     SCC_P6_BenignReferences_Counts <- readRDS("./SCC_P6_BenignReferences_Counts.rds")
     SCC_P6_Visium_Counts <- readRDS("./SCC_P6_Visium_Counts.rds")
@@ -94,10 +104,25 @@
 
     saveRDS(SCC_P6_BenignRef_and_Visium_Counts, file = "SCC_P6_BenignRef_and_Visium_Counts.rds")
 
-    GeneToENSMBL <- read.csv("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/GeneNameRefFile/InferCNV_GeneName_to_ENSMBLID_14122020.csv")
+# Creating GeneToENSMBL dataframe
+
+    GeneToENSMBL <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure4/GeneToENSMBL.csv")
+
+    #library(tidyverse)
+    #library(data.table)
+    #GeneToENSMBL <- fread('https://data.broadinstitute.org/Trinity/CTAT/cnv/gencode_v19_gen_pos.complete.txt')
+    #GeneToENSMBL <- mydat %>% separate(V1, c("left","ENSMBLID"), sep = "\\|")
+
+    #names(GeneToENSMBL)[1] <- "Genes"
+    #names(GeneToENSMBL)[3] <- "chr"
+    #names(GeneToENSMBL)[4] <- "start"
+    #names(GeneToENSMBL)[5] <- "stop"
+
+    #write.csv(GeneToENSMBL, "GeneToENSMBL.csv", row.names = FALSE)
+
+# Mapping Gene Names to counts/barcodes, and then outputting the requisite files for infercnv::run, part 1
 
     #removing "."
-    #Counts_joined <- readRDS("Counts_joined_28042021.rds")
     Counts_joined <- SCC_P6_BenignRef_and_Visium_Counts
     Counts_joined <- Counts_joined %>%
                         separate(Genes, c("Genes", NA))
@@ -118,6 +143,8 @@
 
     saveRDS(MappingFileForInferCNV, file = "MappingFileForSCC_P6_Visium_and_Bg.rds")  
 
+# Outputting the requisite files for infercnv::run, part 2
+
     MappingFileForInferCNV <- readRDS("MappingFileForSCC_P6_Visium_and_Bg.rds")
     SCC_P6_BenignRef_and_Visium_Counts <- readRDS("SCC_P6_BenignRef_and_Visium_Counts.rds")
 
@@ -128,11 +155,8 @@
                         separate(Genes, c("Genes", NA))
 
     Mapped_Counts_joined <- left_join(CountmappedGenes, Counts_joined)
-    #New 27.04.2021
     Mapped_Counts_joined <- Mapped_Counts_joined[!duplicated(Mapped_Counts_joined$Genes), ]
-
     Mapped_Counts_joinedSliced <- Mapped_Counts_joined %>% slice(1L)
-
     Mapped_Counts_joinedSliced <- as.data.frame(t(Mapped_Counts_joinedSliced[, colnames(Mapped_Counts_joinedSliced)[c(1:length(Mapped_Counts_joinedSliced))]]))
     Mapped_Counts_joinedSliced <- Mapped_Counts_joinedSliced %>% rownames_to_column()
     Mapped_Counts_joinedSliced <- as.data.frame(Mapped_Counts_joinedSliced[2:(dim(Mapped_Counts_joinedSliced)[1]), 1])
@@ -162,12 +186,16 @@
                 row.names = FALSE, 
                 sep = "\t")
 
+# Creating the inferCNV object (prior to run)
+
     Visium_P6_Bg_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./SCC_P6_BenignRef_and_Visium_Mapped_Counts.tsv", 
                                                    gene_order_file="./SCC_P6_BenignRef_and_Visium_GeneOrderFile.tsv",
                                                    annotations_file="./SCC_P6_BenignRef_and_Visium_Mapped_Annotations.tsv",
                                                    delim="\t",
                                                    ref_group_names="PurestBenign_SCCPatient6",
                                                    chr_exclude = c("chrM"))
+
+# Unsupervised Run - (Typically ran on cluster)
 
     Visium_P6_Bg_infCNV = infercnv::run(Visium_P6_Bg_infCNV,
                                                   cutoff=0.1,

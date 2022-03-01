@@ -80,7 +80,7 @@ wiki](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome
 
 ``` r
 Lymph10X_unsupervised <- infercnv::CreateInfercnvObject(raw_counts_matrix="10xLymph_Counts.tsv", 
-                                               gene_order_file="./gene_position_27072020.tsv",
+                                               gene_order_file="./siCNV_GeneOrderFile.tsv",
                                                annotations_file="10xLymph_Annotations.tsv",
                                                delim="\t",
                                                ref_group_names=NULL,
@@ -99,8 +99,8 @@ local computer.
 ``` r
 Lymph10X_unsupervised = infercnv::run(Lymph10X_unsupervised,
                                               cutoff=0.1,
-                                            out_dir="./Outputs/", 
-                                              num_threads = 10,
+                                            out_dir="./Fig4_LN/Outputs/", 
+                                              num_threads = 20,
                                               cluster_by_groups=FALSE, 
                                               denoise=TRUE,
                                               HMM=FALSE)

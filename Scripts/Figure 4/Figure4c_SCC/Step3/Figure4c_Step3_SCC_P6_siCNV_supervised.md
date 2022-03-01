@@ -1,3 +1,5 @@
+# Setup
+
     library(SpatialInferCNV)
 
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
@@ -30,13 +32,13 @@
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
-\#Importing dendrogram
+# Importing dendrogram
 
-    SCC_for_clustering <- read.dendrogram(file = "./infercnv.21_denoised.observations_dendrogram.txt")
+    SCC_for_clustering <- read.dendrogram(file = "./Mendeley/ProcessedFilesForFigures/Figure4/Step3/Inputs/infercnv.21_denoised.observations_dendrogram.txt")
 
     SCC_for_clustering_phylo <- as.phylo(SCC_for_clustering)
 
-# Visualizing Tree - Option 3
+# Visualizing Tree
 
     my.subtrees = subtrees(SCC_for_clustering_phylo)  # subtrees() to subset
 
@@ -68,6 +70,8 @@
 
     write.csv(Merged, "Figure4c_SCC_P6_Clones.csv", row.names = FALSE)
 
+# Outputting the requisite files for infercnv::run
+
     library(tidyverse)
     library(SpatialInferCNV)
 
@@ -92,3 +96,22 @@
                 col.names = FALSE, 
                 row.names = FALSE, 
                 sep = "\t")
+
+# Creating the inferCNV object (prior to run)
+
+    SCC_P6_ForClusteringClones <- infercnv::CreateInfercnvObject(raw_counts_matrix="./SCC_P6_BenignRef_and_Visium_Mapped_Counts.tsv", 
+                                                                    gene_order_file="./SCC_P6_BenignRef_and_Visium_GeneOrderFile.tsv",
+                                                                    annotations_file="./Clustered_SCC_P6_BenignRef_and_Visium_Mapped_Annotations.tsv",
+                                                                    delim="\t",
+                                                                    ref_group_names="PurestBenign_SCCPatient6",
+                                                                                    chr_exclude = c("chrM"))
+
+# InferCNV Run - (Typically ran on cluster)
+
+    SCC_P6_ForClusteringClones = infercnv::run(SCC_P6_ForClusteringClones,
+                                                  cutoff=0.1,
+                                                  out_dir="./Figure4c_Step3/Outputs", 
+                                                  cluster_by_groups=TRUE,
+                                                  num_threads = 20, 
+                                                  denoise=TRUE,
+                                                  HMM=TRUE)

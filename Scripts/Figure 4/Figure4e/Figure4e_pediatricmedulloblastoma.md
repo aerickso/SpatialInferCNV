@@ -27,9 +27,11 @@
     ##   method         from 
     ##   reorder.factor gdata
 
+# Loading Data
+
     # Load infoTables: Sample from patient 3 included regions of stroma cells that will be excluded from the inferCNV analysis, which only contains spots from tumor regions.
-    infoTable_pat_1_2 <- read.table("inferCNV_pediatric_patient_1/infoTable_pat_1_2.csv", sep=";", header=T, stringsAsFactors = F)
-    infoTable_pat_3 <- read.table("inferCNV_pediatric_patient_1/infoTable_pat_3.csv", sep=";", header=T, stringsAsFactors = F)
+    infoTable_pat_1_2 <- read.table("./inferCNV_pediatric_patient_1/infoTable_pat_1_2.csv", sep=";", header=T, stringsAsFactors = F)
+    infoTable_pat_3 <- read.table("./inferCNV_pediatric_patient_1/infoTable_pat_3.csv", sep=";", header=T, stringsAsFactors = F)
 
     # Creat Seurat Objects
     se_pat_1_2 <- InputFromTable(infotable = infoTable_pat_1_2, 
@@ -45,8 +47,10 @@
                          min.spot.count = 500,
                          platform="Visium")
 
+# Further Formatting
+
     # Add Pathology annotations to Meta.data in se_pat_3 object
-    df <- read.csv(file = "inferCNV_pediatric_patient_1/pathology_patient_3.csv")
+    df <- read.csv(file = "./inferCNV_pediatric_patient_1/pathology_patient_3.csv")
     df$Barcode <- paste0(df$Barcode, "_1")
     rownames(df) <- df$Barcode
     se_pat_3$pathology <- df[rownames(se_pat_3[[]]), ]$Pathology
@@ -86,31 +90,29 @@
     head(se_sample)
     tail(se_sample)
 
+# Outputting Files
+
     # save the data.frame
-    write.table(x = se_sample, file = "inferCNV_annotions_se_pat_1_2_3.txt",sep = "\t", row.names = F, col.names = F)
+    write.table(x = se_sample, file = "./inferCNV_annotions_se_pat_1_2_3.txt",sep = "\t", row.names = F, col.names = F)
 
     # extract 10x count data from used as input for the inferCNV run
     counts_matrix = GetAssayData(se, slot="counts")
 
-# create the infercnv object
+# Create the infercnv object
 
     infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
-                                        annotations_file="inferCNV_annotions_se_pat_1_2_3.txt",
+                                        annotations_file="./inferCNV_annotions_se_pat_1_2_3.txt",
                                         delim="\t",
-                                        gene_order_file="inferCNV_pediatric_patient_1/gencode.v25.annotation_gen_pos_v3.txt",
+                                        gene_order_file="./inferCNV_pediatric_patient_1/gencode.v25.annotation_gen_pos_v3.txt",
                                         ref_group_names=c("patient_2","patient_3"),
-                                        chr_exclude=c("chrMT"),
-                                        
-                                        
-                                        
-    )
+                                        chr_exclude=c("chrMT"))
+
+# InferCNV run
 
     # perform infercnv operations to reveal cnv signal
     infercnv_obj = infercnv::run(infercnv_obj,
-                                 cutoff=0.1,  # use 1 for smart-seq, 0.1 for 10x-genomics
-                                 out_dir="inferCNV_pediatric_patient_1_output_dir",  # dir is auto-created for storing outputs
+                                 cutoff=0.1,  
+                                 out_dir="./inferCNV_pediatric_patient_1_output_dir",  # dir is auto-created for storing outputs
                                  cluster_by_groups=T,   # If observations are defined according to groups (ie. patients), each group will be clustered separately
                                  denoise=T,
-                                 HMM=T,
-                                
-    )
+                                 HMM=T)
