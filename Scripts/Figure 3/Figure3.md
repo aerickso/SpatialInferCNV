@@ -1,14 +1,11 @@
-<img src="https://www.nds.ox.ac.uk/images/logos/secondary-logo" height="75" /> <img src="https://www.nds.ox.ac.uk/images/logos/primary-logo" height="75"/> 
-
-Introduction
-============
+# Introduction
 
 In this analysis, we want to analyze all of the luminal epithelial cells
-from a given section (Section H2\_1), while using benign luminal
+from a given section (Section H2_1), while using benign luminal
 epithelial cells, with little-to-no inferred copy number variation from
-all other sections (Sections H1\_5, H2\_2, H1\_2, H2\_5, H1\_4, and
-V1\_2) from the same patient. We will write a separate tutorial of how
-to identify and generate this file, but for this walkthrough, we have
+all other sections (Sections H1_5, H2_2, H1_2, H2_5, H1_4, and V1_2)
+from the same patient. We will write a separate tutorial of how to
+identify and generate this file, but for this walkthrough, we have
 provide the file we used in these analyses. Go to
 [BenignRefs](BenignRefs.md)
 
@@ -19,26 +16,9 @@ performance cluster. In our project, such analyses were ran on the
 [BMRC](https://www.medsci.ox.ac.uk/divisional-services/support-services-1/bmrc/cluster-usage),
 with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
-<p align="center">
-  <img src="./Images/Prostate_Updated.png" style="width:75.0%" />
-</p>
-
-<img src="./Images/H2_1_HistologicalAnnotations_LoupeBrowser.png" style="width:75.0%" />
-
-<img src="./Images/infercnv.21_denoised.png" style="width:75.0%" />
-
-<img src="./Images/H2_1_Clones_LoupeBrowser.png" style="width:75.0%" />
-
-Setup
-=====
+# Setup
 
 ``` r
-#install.packages("ape")
-#install.packages("devtools")
-#install.packages("remotes")
-#install.packages("phylogram")
-#install.packages("tidyverse")
-
 library(remotes)
 #remotes::install_github(repo = 'satijalab/seurat', ref = 'develop')
 library(devtools)
@@ -48,6 +28,9 @@ library(tidyverse)
 ```
 
 ``` r
+#01032022 - This should be moved to the mainpage
+
+
 #AUTH = '87a674f0a1c03d8ccc57bf23c5303695ec30b7ee'
 
 #install_github('aerickso/SpatialInferCNV',
@@ -55,10 +38,7 @@ library(tidyverse)
 library(SpatialInferCNV)
 ```
 
-![](./Images/Workflow_Updated.png)
-
-Defining (Benign) Reference Set
-===============================
+# Defining (Benign) Reference Set
 
 This first code chunk takes “purest benigns” (see other walkthrough),
 eg, histologically benign luminal epithelial cells, which have
@@ -66,7 +46,7 @@ little-to-no inferred copy number changes, and extracts those that are
 not in the section of interest
 
 ``` r
-PurestBenigns_All <- read.csv("./Data/VisiumData/Processed/Consensus_PurestBenigns_18112020.csv")
+PurestBenigns_All <- read.csv("./Data/VisiumData/Processed/Consensus_PurestBenigns.csv")
 
 PurestBenigns_All$section <- substr(PurestBenigns_All$Barcode, 1, 4) 
 
@@ -77,29 +57,24 @@ Not_H2_1_PurestBenigns <- Not_H2_1_PurestBenigns %>% select(Barcode, Histology)
 Not_H2_1_PurestBenigns$Histology <- "Purest Benign (Non-H2_1)"
 ```
 
-Defining Observation Set
-========================
+# Defining Observation Set
 
 We then import the consensus pathology calls for the section of interest
-(H2\_1), and select only cells of interest, in this case, luminal
+(H2_1), and select only cells of interest, in this case, luminal
 epithelial cells such as benign, PIN, and prostate cancer (GG2, GG4)
 
-We then join these with the reference set “Purest Benign (Non-H2\_1)”
-for a final set of joined annotations
+We then join these with the reference set “Purest Benign (Non-H2_1)” for
+a final set of joined annotations
 
 ``` r
-Consensus_H2_1_Histology <- ImportHistologicalAnnotations("H2_1", "./Data/HistologicalAnnotations/H2_1_Consensus_Version_1.1_CorrectedCancerAnnotations_20112020.csv")
+Consensus_H2_1_Histology <- ImportHistologicalAnnotations("H2_1", "./Mendeley/Patient 1/Visium/H2_1/H2_1_Final_Consensus_Annotations.csv")
                                                           
-H2_1_Joined_Annotations_filtered <- Consensus_H2_1_Histology %>%
-                                                    filter(str_detect(Histology, "Benign|GG2|PIN|GG4"))
-
-table(H2_1_Joined_Annotations_filtered$Histology)
+H2_1_Joined_Annotations_filtered <- Consensus_H2_1_Histology %>% filter(str_detect(Histology, "Benign|GG2|PIN|GG4"))
 
 MergedAll <- rbind(H2_1_Joined_Annotations_filtered, Not_H2_1_PurestBenigns)
 ```
 
-Importing Count Data
-====================
+# Importing Count Data
 
 This code chunk imports the .h5 files a default processed output from
 [10x Genomics cell ranger pipeline
@@ -110,17 +85,16 @@ We use the function ImportCountData(), which requires a section label,
 and a path to the corresponding .h5 file.
 
 ``` r
-H2_1_ENSBMLID_Counts <- ImportCountData("H2_1", "./Data/VisiumData/Raw/H2_1/filtered_feature_bc_matrix.h5")
-H1_5_ENSBMLID_Counts <- ImportCountData("H1_5", "./Data/VisiumData/Raw/H1_5/filtered_feature_bc_matrix.h5")
-H2_2_ENSBMLID_Counts <- ImportCountData("H2_2", "./Data/VisiumData/Raw/H2_2/filtered_feature_bc_matrix.h5")
-H1_2_ENSBMLID_Counts <- ImportCountData("H1_2", "./Data/VisiumData/Raw/H1_2/filtered_feature_bc_matrix.h5")
-H2_5_ENSBMLID_Counts <- ImportCountData("H2_5", "./Data/VisiumData/Raw/H2_5/filtered_feature_bc_matrix.h5")
-H1_4_ENSBMLID_Counts <- ImportCountData("H1_4", "./Data/VisiumData/Raw/H1_4/filtered_feature_bc_matrix.h5")
-V1_2_ENSBMLID_Counts <- ImportCountData("V1_2", "./Data/VisiumData/Raw/V1_2/filtered_feature_bc_matrix.h5")
+H2_1_ENSBMLID_Counts <- ImportCountData("H2_1", "./Mendeley/Patient 1/Visium/H2_1/filtered_feature_bc_matrix.h5")
+H1_5_ENSBMLID_Counts <- ImportCountData("H1_5", "./Mendeley/Patient 1/Visium/H1_5/filtered_feature_bc_matrix.h5")
+H2_2_ENSBMLID_Counts <- ImportCountData("H2_2", "./Mendeley/Patient 1/Visium/H2_2/filtered_feature_bc_matrix.h5")
+H1_2_ENSBMLID_Counts <- ImportCountData("H1_2", "./Mendeley/Patient 1/Visium/H1_2/filtered_feature_bc_matrix.h5")
+H2_5_ENSBMLID_Counts <- ImportCountData("H2_5", "./Mendeley/Patient 1/Visium/H2_5/filtered_feature_bc_matrix.h5")
+H1_4_ENSBMLID_Counts <- ImportCountData("H1_4", "./Mendeley/Patient 1/Visium/H1_4/filtered_feature_bc_matrix.h5")
+V1_2_ENSBMLID_Counts <- ImportCountData("V1_2", "./Mendeley/Patient 1/Visium/V1_2/filtered_feature_bc_matrix.h5")
 ```
 
-QC, and Merging Count and Annotation Data
-=========================================
+# QC, and Merging Count and Annotation Data
 
 We then join the annotations with the count data, to select only spots
 that are to be analyzed. This step also includes a bare minimum QC
@@ -145,8 +119,7 @@ rm(H1_4_ENSBMLID_Counts)
 rm(V1_2_ENSBMLID_Counts)
 ```
 
-Merging all count data into one object
-======================================
+# Merging all count data into one object
 
 We then join all of the selected count data together into a final
 dataframe, which is then output as a .tsv file (1 of 3 required inputs
@@ -185,8 +158,7 @@ write.table(Consensus_AllCancersandBenigns_ForClustering, "CorrectedBenigns_Cons
             row.names = FALSE)
 ```
 
-Confirming that the files are formatted correctly to create an inferCNV object
-==============================================================================
+# Confirming that the files are formatted correctly to create an inferCNV object
 
 This code then creates an inferCNV object from the 2 previously created
 files, as well as from a gene position file, which maps ENSMBLIDs to
@@ -203,8 +175,7 @@ H2_1_ManualNodeSelection_infCNV <- infercnv::CreateInfercnvObject(raw_counts_mat
                                                chr_exclude = c("chrM"))
 ```
 
-Running InferCNV (Unsupervised)
-===============================
+# Running InferCNV (Unsupervised)
 
 If the above steps were performed correctly, then there should be no
 errors from the previous step.
@@ -218,21 +189,18 @@ H2_1_ManualNodeSelection_infCNV = infercnv::run(H2_1_ManualNodeSelection_infCNV,
                                               cutoff=0.1,
                                             out_dir="./Data/InferCNV Files/TestOutputs/Unsupervised", 
                                               num_threads = 18,
-                                              cluster_by_groups=FALSE, 
+                                              cluster_by_groups=TRUE, 
                                               denoise=TRUE,
-                                              HMM=FALSE)
+                                              HMM=TRUE)
 ```
 
-![](./Data/InferCNV%20Files/ExampleOutputs/Unsupervised/infercnv.21_denoised.png)
-
 InferCNV will output many files. We are primarily interested in the
-final “infercnv.21\_denoised.png” file, as well as the text file
+final “infercnv.21_denoised.png” file, as well as the text file
 associated with the dendrogram associated with the hierarchical
 clustering on the left hand side of the image
-(infercnv.21\_denoised.observations\_dendrogram.txt).
+(infercnv.21_denoised.observations_dendrogram.txt).
 
-Importing dendrogram
-====================
+# Importing dendrogram
 
 Next, we want to import this dendrogram file.
 
@@ -242,8 +210,7 @@ Consensus_H2_1_for_clustering <- read.dendrogram(file = "./Data/InferCNV Files/E
 Consensus_H2_1_for_clustering_phylo <- as.phylo(Consensus_H2_1_for_clustering)
 ```
 
-Visualizing dendrogram node numbers
-===================================
+# Visualizing dendrogram node numbers
 
 Next, we want to visualize the numbers associated with the nodes of
 interest (clones). We output a large image file that allows us to
@@ -258,20 +225,13 @@ nodelabels(text=1:Consensus_H2_1_for_clustering_phylo$Nnode,node=1:Consensus_H2_
 dev.off()
 ```
 
-<img src="./Images/Consensus_H2_1_forclustering_phylo_09032021.png" style="width:75.0%" />
-
-Clone (node) selection (Manual Task outside of R in an image editor)
-====================================================================
+# Clone (node) selection (Manual Task outside of R in an image editor)
 
 Next, view the output .png file, which provides a (albeit cluttered)
 labeling of the dendrogram tree nodes. Manually select individual nodes
 that correspond with a distinct subclonal grouping or signal, that will
 be taken forward for re-clustering. This can be iteratively tweaked with
 the next step + spatial visualization til optimal.
-
-<img src="./Images/NodeSelectionFromDenoised_19032021.png" style="width:75.0%" />
-
-<img src="./Images/NodeSelectionDendrogram_19032021.png" style="width:75.0%" />
 
 ``` r
 #A.2 - 915
@@ -283,8 +243,7 @@ the next step + spatial visualization til optimal.
 #F - 3
 ```
 
-Selecting clones in R
-=====================
+# Selecting clones in R
 
 Next, after identifying the numerical nodes that correspond to
 dendrogram branches that correspond with a given set of molecular
@@ -333,13 +292,7 @@ H2_1_Clones_ForLoupeBrowser_09032021 <- filter(H2_1_Merged, section == "H2_1") %
 write.csv(H2_1_Clones_ForLoupeBrowser_09032021, "H2_1_Clones_ForLoupeBrowser_09032021.csv", row.names = FALSE)
 ```
 
-Clone (node) visualization in Loupe Browser
-===========================================
-
-![](./Images/LoupeBrowser_Vis.gif)
-
-Creaing an updated InferCNV annotations file for clustering
-===========================================================
+# Creaing an updated InferCNV annotations file for clustering
 
 Next, we will re-join the labeled clones to the benign annotations, by
 reimporting the input annotations for the unsupervised InferCNV run,
@@ -363,13 +316,9 @@ write.table(ForInferCNVClustering, "CorrectedBenigns_Consensus_H2_1_Clonal_Annot
             quote = FALSE, 
             col.names = FALSE, 
             row.names = FALSE)
-
-#rm(Nodes_Consensus_H2_1_forclustering, OriginalAnnotationsFile, BenignReferences)
-getwd()
 ```
 
-Confirming again that the files are formatted correctly to create an inferCNV object
-====================================================================================
+# Confirming again that the files are formatted correctly to create an inferCNV object
 
 ``` r
 H2_1_Supervised_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Data/InferCNV Files/ExampleInputs/CorrectedBenigns_Consensus_H2_1_ForClustering_Counts_19112020.tsv", 
@@ -380,8 +329,7 @@ H2_1_Supervised_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Da
                                                          chr_exclude = c("chrM"))
 ```
 
-Finally, Running InferCNV (Supervised)
-======================================
+# Finally, Running InferCNV (Supervised)
 
 ``` r
 H2_1_Supervised_infCNV = infercnv::run(H2_1_Supervised_infCNV,
@@ -392,12 +340,3 @@ H2_1_Supervised_infCNV = infercnv::run(H2_1_Supervised_infCNV,
                                               denoise=TRUE,
                                               HMM=TRUE)
 ```
-
-![](./Data/InferCNV%20Files/ExampleOutputs/Supervised/infercnv.21_denoised.png)
-
-![](./Data/InferCNV%20Files/ExampleOutputs/Supervised/infercnv.17_HMM_predHMMi6.hmm_mode-samples.png)  
-\# Clone Tree Building
-
-<p align="center">
-  <img src="./Images/CloneTree.png" style="width:75.0%" />
-</p>

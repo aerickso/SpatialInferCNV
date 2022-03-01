@@ -38,7 +38,7 @@
 
 # Consensus Purest Benigns
 
-    PurestBenigns_All <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure2/Step1/Consensus_PurestBenigns_18112020.csv")
+    PurestBenigns_All <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure2/Step1/Consensus_PurestBenigns.csv")
 
 # Re-creating All Cancer Annotations
 
