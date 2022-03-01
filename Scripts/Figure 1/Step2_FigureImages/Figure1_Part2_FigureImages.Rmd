@@ -1,7 +1,6 @@
 ---
-title: "PGA_Alt_Test_24022021"
+title: "Figure1_Step2_FigureImages"
 author: "Andrew Erickson"
-date: "24/02/2021"
 output: md_document
 ---
 
@@ -13,7 +12,7 @@ library(svglite)
 ```
 
 ```{r1, eval = FALSE}
-AllBarcodes <- read.delim("./Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv", 
+AllBarcodes <- read.delim("./Mendeley/ProcessedFilesForFigures/Figure 1/FilesForStep2/Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv", 
                           sep = "\t",
                           header = FALSE)
 names(AllBarcodes)[1] <- "Barcode"

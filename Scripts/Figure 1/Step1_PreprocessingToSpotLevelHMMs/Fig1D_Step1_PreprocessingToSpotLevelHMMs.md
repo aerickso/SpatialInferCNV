@@ -1,4 +1,4 @@
-\#Setup
+# Setup
 
     library(tidyverse)
     library(infercnv)
@@ -10,7 +10,7 @@
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
 
-\#Importing Patient 1, 1k array counts
+# Importing Patient 1, 1k array counts
 
     Counts_H2.1 <- ImportOriginalSTCountData("H2_1", "./Patient 1/1k_arrays/H2_1/180903_L11_CN63_D1_H2.1_EB_stdata.tsv")
     Counts_H2.2 <- ImportOriginalSTCountData("H2_2", "./Patient 1/1k_arrays/H2_2/180614_L11_53_C1_H2.2_EB_stdata.tsv")
@@ -37,7 +37,7 @@
     Counts_H1.4 <- ImportOriginalSTCountData("H1_4", "./Patient 1/1k_arrays/H1_4/180903_L11_CN51_E1_H1.4_EB_stdata.tsv")
     Counts_H1.5 <- ImportOriginalSTCountData("H1_5", "./Patient 1/1k_arrays/H1_5/180903_L11_CN63_C1_H1.5_EB_stdata.tsv")
 
-\#Importing Patient 1, 1k array spot barcode files
+# Importing Patient 1, 1k array spot barcode files
 
     H2_1_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("H2_1", "./Patient 1/1k_arrays/H2_1/spot_data-selection-180903_L11_CN63_D1_P_H2.1_CY3_EB_aligned.tsv")
     H2_2_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("H2_2", "./Patient 1/1k_arrays/H2_2/spot_data-selection-180614_L11_53_C1_H2.2_Cy3_EB_aligned.tsv")
@@ -66,7 +66,7 @@
 
     save.image(file = "Counts_my_work_space.RData")
 
-\#Creating a barcode dataframe of all barcodes
+# Creating a barcode dataframe of all barcodes
 
     Barcodes_H2_1 <- H2_1_SelectedBarcodes %>% 
                       select(Barcode) %>%
@@ -182,7 +182,7 @@
 
     saveRDS(JoinedBarcodes, file = "Fig1d_Barcodes.rds")
 
-\#Selecting and QCing count files
+# Selecting and QCing count files
 
     JoinedCounts_H2.1 <- OriginalST_MergingCountAndAnnotationData(Barcodes_H2_1, Counts_H2.1)
     JoinedCounts_H2.2 <- OriginalST_MergingCountAndAnnotationData(Barcodes_H2_2, Counts_H2.2)
@@ -255,7 +255,7 @@
 
     save.image(file = "Fig1d_joined_counts_my_work_space.RData")
 
-\#Joining all of the QC’d counts
+# Joining all of the QC’d counts
 
     Counts_joined <- JoinedCounts_H2.1 %>% full_join(JoinedCounts_H2.2, by = "Genes")
     rm(JoinedCounts_H2.1, JoinedCounts_H2.2)
@@ -304,7 +304,7 @@
 
     saveRDS(Counts_joined, file = "Fig1d_Counts_joined.rds")
 
-\#For the joined counts, replacing NAs
+# For the joined counts, replacing NAs
 
     Counts_joined <- Counts_joined %>% replace(., is.na(.), 0)
 
@@ -312,8 +312,7 @@
 
     Fig1d_Counts_joined <- Counts_joined
 
-\#Mapping the gene names (from count files) to chromosome coordinates to
-prepare for the gene order file
+# Mapping the gene names (from count files) to chromosome coordinates to prepare for the gene order file
 
     #library(tidyverse)
     #library(data.table)
@@ -349,8 +348,7 @@ prepare for the gene order file
 
     saveRDS(MappingFileForInferCNV, file = "Fig1d_MappingFileForInferCNV.rds")  
 
-\#Selecting only counts from genes that are mapped in the gene order
-file, and then outputting all 3 requisite files for inferCNV::run
+# Selecting only counts from genes that are mapped in the gene order file, and then outputting all 3 requisite files for inferCNV::run
 
     CountmappedGenes <- select(MappingFileForInferCNV, Genes)
 
