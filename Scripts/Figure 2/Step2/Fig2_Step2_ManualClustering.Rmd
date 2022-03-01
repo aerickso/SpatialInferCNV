@@ -1,9 +1,10 @@
 ---
-title: "Figure 2a, Manual Clustering"
+title: "Fig2_Step2_ManualClustering"
 author: "Andrew Erickson"
-date: "Feb 21, 2022"
 output: md_document
 ---
+
+# Setup
 
 ```{r setup, messages=FALSE}
 library(SpatialInferCNV)
@@ -15,7 +16,7 @@ library(tidyverse)
 #Importing dendrogram
 
 ```{r, eval = FALSE}
-Consensus_AllCancer_for_clustering <- read.dendrogram(file = "./infercnv.observations_dendrogram.txt")
+Consensus_AllCancer_for_clustering <- read.dendrogram(file="./Mendeley/ProcessedFilesForFigures/Figure2/Step2/Inputs/infercnv.observations_dendrogram.txt")
 
 Consensus_AllCancer_for_clustering_phylo <- as.phylo(Consensus_AllCancer_for_clustering)
 ```
@@ -106,7 +107,7 @@ Merged$Node <- ifelse(Merged$Node == "Node_4617" , "Clone_J",
                      ifelse(Merged$Node == "Node_92" , "Clone_K",
                      ifelse(Merged$Node == "Node_3" , "Clone_A", Merged$Node))))))))))))))
 
-write.csv(Merged, "Fig2a_forclustering_21022022.csv", row.names = FALSE)
+write.csv(Merged, "Fig2_forclustering.csv", row.names = FALSE)
 
 H1_5_Merged <- Merged
 H1_5_Merged <- H1_5_Merged %>% mutate(section = substr(Barcode, 1, 4))

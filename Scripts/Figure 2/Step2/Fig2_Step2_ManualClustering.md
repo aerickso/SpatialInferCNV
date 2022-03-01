@@ -1,3 +1,5 @@
+# Setup
+
     library(SpatialInferCNV)
 
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
@@ -32,7 +34,7 @@
 
 \#Importing dendrogram
 
-    Consensus_AllCancer_for_clustering <- read.dendrogram(file = "./infercnv.observations_dendrogram.txt")
+    Consensus_AllCancer_for_clustering <- read.dendrogram(file="./Mendeley/ProcessedFilesForFigures/Figure2/Step2/Inputs/infercnv.observations_dendrogram.txt")
 
     Consensus_AllCancer_for_clustering_phylo <- as.phylo(Consensus_AllCancer_for_clustering)
 
@@ -121,7 +123,7 @@
                          ifelse(Merged$Node == "Node_92" , "Clone_K",
                          ifelse(Merged$Node == "Node_3" , "Clone_A", Merged$Node))))))))))))))
 
-    write.csv(Merged, "Fig2a_forclustering_21022022.csv", row.names = FALSE)
+    write.csv(Merged, "Fig2_forclustering.csv", row.names = FALSE)
 
     H1_5_Merged <- Merged
     H1_5_Merged <- H1_5_Merged %>% mutate(section = substr(Barcode, 1, 4))

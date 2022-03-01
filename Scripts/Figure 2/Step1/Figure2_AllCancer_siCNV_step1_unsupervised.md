@@ -163,7 +163,7 @@
 
     AllCancer_Unsupervised = infercnv::run(AllCancer_Unsupervised,
                                                   cutoff=0.1,
-                                                  out_dir="./Figure2a_Step1/Outputs", 
+                                                  out_dir="./Figure2_Step1/Outputs", 
                                                   cluster_by_groups=FALSE,
                                                   num_threads = 20, 
                                                   denoise=TRUE,

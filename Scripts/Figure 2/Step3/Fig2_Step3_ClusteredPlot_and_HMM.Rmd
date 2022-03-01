@@ -1,8 +1,10 @@
 ---
-title: "Fig2a_Step3_ClusteredPlot_and_HMM"
+title: "Fig2_Step3_ClusteredPlot_and_HMM"
 author: "Andrew Erickson"
 output: md_document
 ---
+
+# Setup
 
 ```{r, messages=FALSE}
 library(tidyverse)
@@ -12,39 +14,43 @@ library(hdf5r)
 library(SpatialInferCNV)
 ```
 
-#Pre-processing clustered data
+# Pre-processing clustered data
 
 Since we have already previously created the count matrices, we just need to re-label the annotations to match the clone annotations in step 2, output an updated annotation file, and then use said file as input (with the original count matrix from step 2) to generate the final runs
 
 ```{r, eval = FALSE}
-PurestBenigns_All <- read.csv("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/InferCNV_Analyses/Consensus_AllBenigns_02112020/Outputs/Consensus_PurestBenigns_18112020.csv")
+PurestBenigns_All <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure2/Step1/Inputs/Consensus_PurestBenigns_18112020.csv")
 PurestBenigns_All$Histology <- "Purest Benigns"
 
-CorrectedBenigns_Consensus_AllCancer_ManualNodes_selected <- read.csv("C:/Users/erick/Dropbox/Spatial Transcriptomics/SPACE_Data/April2019/InferCNV_R/GithubRepo_21022022/Figure2a_AllCancer_siCNV/Step 2  - ManualClustering and Fig 2e Visualization of Clones/Fig2a_forclustering_21022022.csv")
+CorrectedBenigns_Consensus_AllCancer_ManualNodes_selected <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure2/Step3/Inputs/Fig2_forclustering.csv")
 names(CorrectedBenigns_Consensus_AllCancer_ManualNodes_selected)[2] <- "Histology"
 
 Fig2a_ManualClusters <- rbind(CorrectedBenigns_Consensus_AllCancer_ManualNodes_selected, PurestBenigns_All)
 
-write.table(Fig2a_ManualClusters, "Fig2a_ManualClustersOrdered_for_ClusteredPlot_and_HMM.tsv", 
+write.table(Fig2a_ManualClusters, "Fig2_ManualClusters_for_ClusteredPlot_and_HMM.tsv", 
             sep = "\t",
             quote = FALSE, 
             col.names = FALSE, 
             row.names = FALSE)
 ```
 
-#Unsupervised Test (prior to pushing to rescomp)
+# Creating the inferCNV object (prior to run)
 
 ```{r, eval = FALSE}
-AllCancer_clustered <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Organscale_Unsupervised_Consensus_AllCancer_Counts_21022022.tsv", 
+AllCancer_clustered <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Organscale_Unsupervised_Consensus_AllCancer_Counts.tsv", 
                                                gene_order_file="./gene_position_27072020.tsv",
-                                               annotations_file="./Fig2a_ManualClustersOrdered_for_ClusteredPlot_and_HMM.tsv",
+                                               annotations_file="./Fig2_ManualClusters_for_ClusteredPlot_and_HMM.tsv",
                                                delim="\t",
                                                ref_group_names="Purest Benigns",
 								                               chr_exclude = c("chrM"))
+```
 
+# Unsupervised Run - (Typically ran on cluster)
+
+```{r, eval = FALSE}
 AllCancer_clustered = infercnv::run(AllCancer_clustered,
                                               cutoff=0.1,
-                                              out_dir="./Outputs", 
+                                              out_dir="./Figure2_Step3/Outputs", 
 					                                    num_threads = 20,
                                               cluster_by_groups=TRUE, 
                                               denoise=TRUE,
