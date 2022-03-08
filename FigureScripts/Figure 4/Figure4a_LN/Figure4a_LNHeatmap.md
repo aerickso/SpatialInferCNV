@@ -1,10 +1,6 @@
 # Setup
 
 ``` r
-library(remotes)
-library(devtools)
-library(ape)
-library(phylogram)
 library(tidyverse)
 library(SpatialInferCNV)
 ```
@@ -74,8 +70,10 @@ write.table(LymphFinalAnnotations, "10xLymph_Annotations.tsv",
 
 This code then creates an inferCNV object from the 2 previously created
 files, as well as from a gene position file, which maps ENSMBLIDs to
-genomic loci. This file has been provided, but if you’d like to build
-one youself, please see [the InferCNV documentation on their
+genomic loci. This file has been provided at
+/SpatialInferCNV_Dev/SpatialInferCNV/FigureScripts/Figure 4/Figure4a_LN,
+but if you’d like to build one youself, please see [the InferCNV
+documentation on their
 wiki](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome-position-file).
 
 ``` r
@@ -99,9 +97,15 @@ local computer.
 ``` r
 Lymph10X_unsupervised = infercnv::run(Lymph10X_unsupervised,
                                               cutoff=0.1,
-                                            out_dir="./Fig4_LN/Outputs/", 
+                                              out_dir="./Fig4_LN/Outputs/", 
                                               num_threads = 20,
                                               cluster_by_groups=FALSE, 
                                               denoise=TRUE,
                                               HMM=FALSE)
 ```
+
+# Final output
+
+The final desired output is the infercnv.21_denoised.png file
+
+<Placeholder for image>

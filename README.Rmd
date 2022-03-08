@@ -22,6 +22,7 @@ This code was tested using [R](https://www.r-project.org/) version 4.0.1 (2020-0
 
 #install_github('aerickso/SpatialInferCNV',
 #                         auth_token = AUTH)
+install.packages("devtools")
 library(devtools)
 install_github("aerickso/SpatialInferCNV")
 library(SpatialInferCNV)
