@@ -13,38 +13,26 @@
     ## x dplyr::filter() masks stats::filter()
     ## x dplyr::lag()    masks stats::lag()
 
-    library(infercnv)
-    library(Seurat)
+    library(SpatialInferCNV)
 
     ## Registered S3 method overwritten by 'spatstat.geom':
     ##   method     from
     ##   print.boxx cli
 
-    ## Attaching SeuratObject
-
-    library(hdf5r)
-
-    ## 
-    ## Attaching package: 'hdf5r'
-
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     flatten_df
-
-    library(SpatialInferCNV)
-
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
+
+We start by creating an empty working directory so that all downloaded
+files are organized in one place. Something like:
+
+    dir.create("Figure2_output")
+    setwd("Figure2_output")
 
 # Consensus Purest Benigns
 
     PurestBenigns_All <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure2/Step1/Consensus_PurestBenigns.csv")
 
 # Re-creating All Cancer Annotations
-
-    #28022022 - needs updating to final annotation set
-
-    #Patient 1\Visium\H1_2\H1_2_Final_Consensus_Annotations.csv
 
     H1_2_Annotations <- ImportHistologicalAnnotations("H1_2", "./Mendeley/Patient 1/Visium/H1_2/H1_2_Final_Consensus_Annotations.csv")
     H1_2_CancerSpots <- filter(H1_2_Annotations, Histology == "GG1")
@@ -153,7 +141,7 @@
 # Creating the inferCNV object (prior to run)
 
     AllCancer_Unsupervised <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Organscale_Unsupervised_Consensus_AllCancer_Counts.tsv", 
-                                                   gene_order_file="./gene_position_27072020.tsv",
+                                                   gene_order_file="./siCNV_GeneOrderFile.tsv",
                                                    annotations_file="./Organscale_Unsupervised_Consensus_AllCancer_Annotations.tsv",
                                                    delim="\t",
                                                    ref_group_names="Purest Benigns",

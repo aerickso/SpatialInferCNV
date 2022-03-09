@@ -60,7 +60,7 @@ need to re-label the annotations to match the clone annotations in step
 # Creating the inferCNV object (prior to run)
 
     AllCancer_clustered <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Organscale_Unsupervised_Consensus_AllCancer_Counts.tsv", 
-                                                   gene_order_file="./gene_position_27072020.tsv",
+                                                   gene_order_file="./siCNV_GeneOrderFile.tsv",
                                                    annotations_file="./Fig2_ManualClusters_for_ClusteredPlot_and_HMM.tsv",
                                                    delim="\t",
                                                    ref_group_names="Purest Benigns",
