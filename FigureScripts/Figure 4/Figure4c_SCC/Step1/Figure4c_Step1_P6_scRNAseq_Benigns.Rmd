@@ -19,8 +19,8 @@ library(SpatialInferCNV)
 # Creating a working directory
 
 ```{r, eval = FALSE}
-dir.create("Figure4_output")
-setwd("Figure4_output")
+dir.create("Figure4c_output")
+setwd("Figure4c_output")
 ```
 
 # Downloading and formatting data, part 1
@@ -75,7 +75,7 @@ The code below creates the GeneToENSMBL.csv file, but we have provided this on o
 ![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/GeneToENSMBL.csv).
 
 ```{r, eval = FALSE}
-GeneToENSMBL <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure4/GeneToENSMBL.csv")
+GeneToENSMBL <- read.csv("./GeneToENSMBL.csv")
 
 #library(tidyverse)
 #library(data.table)

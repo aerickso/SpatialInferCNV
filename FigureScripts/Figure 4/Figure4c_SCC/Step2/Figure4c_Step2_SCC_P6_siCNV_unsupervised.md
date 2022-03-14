@@ -1,4 +1,9 @@
+Having now selected a benign reference set in Step 1, we now use these
+data to perform unsupervised analysis of the SCC Visium section.
+
 # Setup
+
+Initializing libraries
 
     library(tidyverse)
 
@@ -24,8 +29,11 @@
 
 # Importing Data for Benigns
 
+We already imported the data in the previous step, lets reimport it
+again and filter only for the selected/filtered benign reference set.
+
     #Import SCC, Patient 6, scRNAseq benigns that we subset out in step 1
-    load("./Figure4c - Step 1 - Downloading scRNAseq Data/SCC_P6_Benigns.RData")
+    load("./Figure4c_output/SCC_P6_Benigns.RData")
 
     head(SCC_P6_Benigns)
 
@@ -48,7 +56,16 @@
 
 # Importing Data for Visium Data
 
-    t28 <- readRDS("./Mendeley/SCC Patient/t28.Rds")
+Download the files [from
+Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft):
+SCC\_patient/.
+
+Here, we are filtering for the section used in the Figure 4d analysis
+from a parent seurat object. We output both the counts and the barcodes
+from this Visium section. We manually apply a QC threshold to only
+include Visium spots with at least 500 counts.
+
+    t28 <- readRDS("./t28.Rds")
 
     SCC_P6_Visium_Counts <- as.data.frame(t28@assays$Spatial@counts)
     rm(t28)
@@ -85,6 +102,8 @@
 
 # Importing Data Visium and Benign Data
 
+Next, we join the benign reference and Visium barcodes.
+
     SCC_P6_Visium_Annotations <- readRDS("./SCC_P6_Visium_Annotations.rds")
     SCC_P6_BenignReferences_Barcodes <- readRDS("./SCC_P6_BenignReferences_Barcodes.rds")
 
@@ -92,6 +111,8 @@
     saveRDS(Joined_Barcodes, file = "SCC_P6_BenignRef_and_Visium_Annotations.rds")
 
 # Importing Data Visium and Benign Data
+
+Next, we join the benign reference and visium count data.
 
     SCC_P6_BenignReferences_Counts <- readRDS("./SCC_P6_BenignReferences_Counts.rds")
     SCC_P6_Visium_Counts <- readRDS("./SCC_P6_Visium_Counts.rds")
@@ -105,6 +126,11 @@
     saveRDS(SCC_P6_BenignRef_and_Visium_Counts, file = "SCC_P6_BenignRef_and_Visium_Counts.rds")
 
 # Creating GeneToENSMBL dataframe
+
+The code below creates the GeneToENSMBL.csv file, but we have provided
+this on our GitHub:
+
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/GeneToENSMBL.csv).
 
     GeneToENSMBL <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure4/GeneToENSMBL.csv")
 
@@ -121,6 +147,12 @@
     #write.csv(GeneToENSMBL, "GeneToENSMBL.csv", row.names = FALSE)
 
 # Mapping Gene Names to counts/barcodes, and then outputting the requisite files for infercnv::run, part 1
+
+We need to provide a gene ordering file to inferCNV, in the form of:
+Gene Name / Chromosome Number / Start Loci / Stop Loci. As the files
+provided by the authors are in “Gene Name”, and our chromosomal / loci
+information are mapped to ENSMBLID’s, we need to map the Gene Names to
+ENSMBLIDs.
 
     #removing "."
     Counts_joined <- SCC_P6_BenignRef_and_Visium_Counts
@@ -145,6 +177,9 @@
 
 # Outputting the requisite files for infercnv::run, part 2
 
+We then filter for only mapped genes, from counts, and then output the
+three requisite files for infercnv::run.
+
     MappingFileForInferCNV <- readRDS("MappingFileForSCC_P6_Visium_and_Bg.rds")
     SCC_P6_BenignRef_and_Visium_Counts <- readRDS("SCC_P6_BenignRef_and_Visium_Counts.rds")
 
@@ -164,7 +199,6 @@
 
     Mapped_Counts_joinedSliced$Histology <- ifelse(paste0(substr(Mapped_Counts_joinedSliced$Barcode, start = 1, stop = 4)) == "P6_N", "PurestBenign_SCCPatient6", "Visium")
 
-    #P6_Normal
     #Write GenesInSamplevsOrdering
     write.table(Mapped_Counts_joined, 
                 "SCC_P6_BenignRef_and_Visium_Mapped_Counts.tsv",
@@ -188,6 +222,8 @@
 
 # Creating the inferCNV object (prior to run)
 
+Creating the object for infercnv::run.
+
     Visium_P6_Bg_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./SCC_P6_BenignRef_and_Visium_Mapped_Counts.tsv", 
                                                    gene_order_file="./SCC_P6_BenignRef_and_Visium_GeneOrderFile.tsv",
                                                    annotations_file="./SCC_P6_BenignRef_and_Visium_Mapped_Annotations.tsv",
@@ -197,6 +233,8 @@
 
 # Unsupervised Run - (Typically ran on cluster)
 
+Running infercnv, typically ran on a server.
+
     Visium_P6_Bg_infCNV = infercnv::run(Visium_P6_Bg_infCNV,
                                                   cutoff=0.1,
                                                 out_dir="./Outputs", 
@@ -204,3 +242,11 @@
                                                   cluster_by_groups=FALSE, 
                                                   denoise=TRUE,
                                                   HMM=FALSE)
+
+InferCNV will output many files. We are primarily interested in the
+final “infercnv.21\_denoised.png” file, as well as the text file
+associated with the dendrogram associated with the hierarchical
+clustering on the left hand side of the image
+(infercnv.21\_denoised.observations\_dendrogram.txt).
+
+![](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step2/infercnv.21_denoised.png)
