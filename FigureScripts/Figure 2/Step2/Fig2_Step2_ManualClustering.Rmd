@@ -6,6 +6,8 @@ output: md_document
 
 # Setup
 
+Initializing libraries.
+
 ```{r setup, messages=FALSE}
 library(SpatialInferCNV)
 library(phylogram)
@@ -15,8 +17,10 @@ library(tidyverse)
 
 #Importing dendrogram
 
+Importing the dendogram file created in step 1.
+
 ```{r, eval = FALSE}
-Consensus_AllCancer_for_clustering <- read.dendrogram(file="./Mendeley/ProcessedFilesForFigures/Figure2/Step2/Inputs/infercnv.observations_dendrogram.txt")
+Consensus_AllCancer_for_clustering <- read.dendrogram(file="./Figure2_output/Figure2_Step1/Outputs/infercnv.observations_dendrogram.txt")
 
 Consensus_AllCancer_for_clustering_phylo <- as.phylo(Consensus_AllCancer_for_clustering)
 ```
