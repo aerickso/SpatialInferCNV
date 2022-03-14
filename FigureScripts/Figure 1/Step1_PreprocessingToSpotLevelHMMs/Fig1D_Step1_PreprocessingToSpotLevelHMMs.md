@@ -2,15 +2,27 @@
 
     library(tidyverse)
     library(infercnv)
-    library(Seurat)
-    library(hdf5r)
-    library(readxl)
+    library(data.table)
     library(SpatialInferCNV)
 
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
 
+\#Downloading data
+
+First, we need to download the data from
+[Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft). The
+files we need are located in Count\_matrices/Patient 1/1k\_arrays.
+Downloaded the Patient 1/1k\_arrays folder into our working directory.
+
+    dir.create("Fig1_Step1")
+    setwd("Fig1_Step1")
+
 # Importing Patient 1, 1k array counts
+
+We use the function ImportOriginalSTCountData(), which requires a
+section label, and a path to the corresponding .tsv file for the count
+matrices.
 
     Counts_H2.1 <- ImportOriginalSTCountData("H2_1", "./Patient 1/1k_arrays/H2_1/180903_L11_CN63_D1_H2.1_EB_stdata.tsv")
     Counts_H2.2 <- ImportOriginalSTCountData("H2_2", "./Patient 1/1k_arrays/H2_2/180614_L11_53_C1_H2.2_EB_stdata.tsv")
@@ -38,6 +50,12 @@
     Counts_H1.5 <- ImportOriginalSTCountData("H1_5", "./Patient 1/1k_arrays/H1_5/180903_L11_CN63_C1_H1.5_EB_stdata.tsv")
 
 # Importing Patient 1, 1k array spot barcode files
+
+We use the function ImportHistologicalOriginalSTSelections(), which
+requires a section label, and a path to the corresponding .tsv file for
+the spot selection files: we use this to list a series of barcoded ST
+spots from the [ST
+detector](https://github.com/SpatialTranscriptomicsResearch/st_spot_detector).
 
     H2_1_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("H2_1", "./Patient 1/1k_arrays/H2_1/spot_data-selection-180903_L11_CN63_D1_P_H2.1_CY3_EB_aligned.tsv")
     H2_2_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("H2_2", "./Patient 1/1k_arrays/H2_2/spot_data-selection-180614_L11_53_C1_H2.2_Cy3_EB_aligned.tsv")
@@ -67,6 +85,9 @@
     save.image(file = "Counts_my_work_space.RData")
 
 # Creating a barcode dataframe of all barcodes
+
+Next, after having imported all the barcodes, we then make a dataframe
+including all barcodes.
 
     Barcodes_H2_1 <- H2_1_SelectedBarcodes %>% 
                       select(Barcode) %>%
@@ -184,6 +205,11 @@
 
 # Selecting and QCing count files
 
+We then use the function OriginalST\_MergingCountAndAnnotationData(),
+which passes a barcode dataframe and a count dataframe as parameters.
+The function filters the data to only include spots with at least 500
+UMIs. The function outputs a joined and filtered count dataframe.
+
     JoinedCounts_H2.1 <- OriginalST_MergingCountAndAnnotationData(Barcodes_H2_1, Counts_H2.1)
     JoinedCounts_H2.2 <- OriginalST_MergingCountAndAnnotationData(Barcodes_H2_2, Counts_H2.2)
     JoinedCounts_H2.3 <- OriginalST_MergingCountAndAnnotationData(Barcodes_H2_3, Counts_H2.3)
@@ -257,6 +283,8 @@
 
 # Joining all of the QC’d counts
 
+Next, we join all of the filtered count dataframes together.
+
     Counts_joined <- JoinedCounts_H2.1 %>% full_join(JoinedCounts_H2.2, by = "Genes")
     rm(JoinedCounts_H2.1, JoinedCounts_H2.2)
     Counts_joined <- Counts_joined %>% full_join(JoinedCounts_H2.3, by = "Genes")
@@ -306,6 +334,9 @@
 
 # For the joined counts, replacing NAs
 
+Then, we replace any NA values in the count matrices after the joins
+with 0’s.
+
     Counts_joined <- Counts_joined %>% replace(., is.na(.), 0)
 
     saveRDS(Counts_joined, file = "Fig1d_noNA_Counts_joined.rds")
@@ -313,6 +344,13 @@
     Fig1d_Counts_joined <- Counts_joined
 
 # Mapping the gene names (from count files) to chromosome coordinates to prepare for the gene order file
+
+Next, we need a gene order file containing: the gene name, chromosome,
+and start/stop loci on said chromosome for the gene. It is ideal to do
+this with ENSMBLID mapped gene names, but for some count matrices: gene
+names (instead of ENSMBL ID’s) are available. We map the gene names to
+ENSMBLID data, and then select only a gene order file for genes that map
+to ENSMBL IDs.
 
     #library(tidyverse)
     #library(data.table)
@@ -349,6 +387,10 @@
     saveRDS(MappingFileForInferCNV, file = "Fig1d_MappingFileForInferCNV.rds")  
 
 # Selecting only counts from genes that are mapped in the gene order file, and then outputting all 3 requisite files for inferCNV::run
+
+Using the output file from the previous step, we then select for only
+genes in the count matrices that mapped to a chromsome and start/stop
+loci: inferCNV cannot run without mapped genes.
 
     CountmappedGenes <- select(MappingFileForInferCNV, Genes)
 
@@ -393,6 +435,11 @@
 
 # Creating the inferCNV object (prior to run)
 
+Using these files, we then create an inferCNV object with
+CreateInfercnvObject(). We don’t have a reference group, so we set
+ref\_group\_names=NULL, and pass chr\_exclude = c(“chrM”) to include
+chromosomes X and Y (not included by default).
+
     STOrganscale <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Fig1d_STOrganscale_Selected_Mapped_Counts.tsv", 
                                                    gene_order_file="./Fig1d_STOrganscale_GeneOrderFile.tsv",
                                                    annotations_file="./Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv",
@@ -401,6 +448,9 @@
                                                                    chr_exclude = c("chrM"))
 
 # Unsupervised Run - (Typically ran on cluster)
+
+Finally, we then perform infercnv::run. This is typically ran on a high
+performance cluster.
 
     STOrganscale = infercnv::run(STOrganscale,
                                  cutoff=0.1,
