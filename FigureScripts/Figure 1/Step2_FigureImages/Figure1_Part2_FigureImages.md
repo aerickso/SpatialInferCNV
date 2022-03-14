@@ -156,7 +156,7 @@ visualization across data within a section itself (for this dataset,
 Having obtained sectionwise dataframes, we then plot the spatial plots,
 per section.
 
-Here is an [example output for section
+Here is an ![example output for section
 H2\_5](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/H2_5_Revised_PGA_SpatialVisualization_2022-02-28.png).
 
     dir.create("./Figure1D_sectionoutputs")
@@ -228,7 +228,7 @@ H2\_5](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figur
 
 # Visualizing BarPlot (Figure 1G)
 
-Finally, we visualize the [Barplot in Figure
+Finally, we visualize the ![Barplot in Figure
 1G](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/siCNV_SectionBarPlot_Figure1G.png).
 
     All_Organ35_andSectionWise45 <- rbind(H1_1_Sectionwise_CNVsGenes_Counted,

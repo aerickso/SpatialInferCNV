@@ -142,7 +142,7 @@ MaxVal<- max(H1_1Max,
 
 Having obtained sectionwise dataframes, we then plot the spatial plots, per section.
 
-Here is an [example output for section H2_5](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/H2_5_Revised_PGA_SpatialVisualization_2022-02-28.png).
+Here is an ![example output for section H2_5](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/H2_5_Revised_PGA_SpatialVisualization_2022-02-28.png).
 
 ```{r3, eval = FALSE}
 dir.create("./Figure1D_sectionoutputs")
@@ -215,7 +215,7 @@ Plot_PGA_Visualization_Matrix("V2_6", PGA_Matrix, MaxVal)
 
 # Visualizing BarPlot (Figure 1G)
 
-Finally, we visualize the [Barplot in Figure 1G](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/siCNV_SectionBarPlot_Figure1G.png).
+Finally, we visualize the ![Barplot in Figure 1G](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/siCNV_SectionBarPlot_Figure1G.png).
 
 ```{r4, eval = FALSE}
 All_Organ35_andSectionWise45 <- rbind(H1_1_Sectionwise_CNVsGenes_Counted,
