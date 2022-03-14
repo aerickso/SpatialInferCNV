@@ -8,7 +8,7 @@
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
 
-\#Downloading data
+# Downloading data
 
 First, we need to download the data from
 [Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft). The
@@ -466,4 +466,5 @@ We then use the output file
 ./Fig1\_Step1/Outputs/17\_HMM\_predHMMi6.hmm\_mode-cells.pred\_cnv\_genes.dat
 as well as
 ./Fig1\_Step1/Fig1d\_STOrganscale\_Selected\_Mapped\_Annotations.tsv
-annotation file as input for the next step.
+annotation file as input for the [Figure 1, Step
+2](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/Figure1_Part2_FigureImages.md).

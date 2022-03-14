@@ -13,7 +13,7 @@ library(data.table)
 library(SpatialInferCNV)
 ```
 
-#Downloading data
+# Downloading data
 
 First, we need to download the data from [Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft). The files we need are located in Count_matrices/Patient 1/1k_arrays. Downloaded the Patient 1/1k_arrays folder into our working directory.
 
@@ -469,4 +469,4 @@ STOrganscale = infercnv::run(STOrganscale,
                              HMM_report_by = "cell")
 ```
 
-We then use the output file ./Fig1_Step1/Outputs/17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat as well as ./Fig1_Step1/Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv annotation file as input for the next step.
+We then use the output file ./Fig1_Step1/Outputs/17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat as well as ./Fig1_Step1/Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv annotation file as input for the [Figure 1, Step 2](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/Figure1_Part2_FigureImages.md).
