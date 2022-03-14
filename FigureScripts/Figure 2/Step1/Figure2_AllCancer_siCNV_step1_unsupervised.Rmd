@@ -10,6 +10,8 @@ library(tidyverse)
 library(SpatialInferCNV)
 ```
 
+#Creating a working directory
+
 We start by creating an empty working directory so that all downloaded files are organized in one place. Something like:
 
 ```{r, eval = FALSE}
