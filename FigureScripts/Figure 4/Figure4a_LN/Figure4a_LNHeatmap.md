@@ -10,9 +10,9 @@ library(SpatialInferCNV)
 
 # Importing Count Data
 
-Just to make things a little easier for the user, I’d start by creating
+Just to make things a little easier for the user, we start by creating
 an empty working directory so that all downloaded files are organized in
-one place. Something like:
+one place.
 
 ``` r
 dir.create("siCNV_Figure4a")
@@ -115,6 +115,6 @@ Lymph10X_unsupervised = infercnv::run(Lymph10X_unsupervised,
 
 # Final output
 
-The final desired output is the infercnv.21_denoised.png file
+The final desired output is the infercnv.21_denoised.png file.
 
 ![Output Image](infercnv.21_denoised.png)
