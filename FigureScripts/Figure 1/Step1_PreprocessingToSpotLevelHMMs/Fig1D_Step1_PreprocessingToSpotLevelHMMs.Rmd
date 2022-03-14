@@ -468,3 +468,5 @@ STOrganscale = infercnv::run(STOrganscale,
                              analysis_mode = "cells",
                              HMM_report_by = "cell")
 ```
+
+We then use the output file ./Fig1_Step1/Outputs/17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat as well as ./Fig1_Step1/Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv annotation file as input for the next step.

@@ -461,3 +461,9 @@ performance cluster.
                                  HMM=TRUE,
                                  analysis_mode = "cells",
                                  HMM_report_by = "cell")
+
+We then use the output file
+./Fig1\_Step1/Outputs/17\_HMM\_predHMMi6.hmm\_mode-cells.pred\_cnv\_genes.dat
+as well as
+./Fig1\_Step1/Fig1d\_STOrganscale\_Selected\_Mapped\_Annotations.tsv
+annotation file as input for the next step.
