@@ -210,7 +210,9 @@ nodelabels(text=1:SCC_P6_benigns_for_clustering_phylo$Nnode,node=1:SCC_P6_benign
 dev.off()
 ```
 
-![BenignPhylo](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
+We provide the image output here: 
+
+![SCC_P6_benigns_for_clustering_phylo.png](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
 
 # Clone selection 
 

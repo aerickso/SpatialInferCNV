@@ -219,7 +219,9 @@ possible.
     nodelabels(text=1:SCC_P6_benigns_for_clustering_phylo$Nnode,node=1:SCC_P6_benigns_for_clustering_phylo$Nnode+Ntip(SCC_P6_benigns_for_clustering_phylo))
     dev.off()
 
-![BenignPhylo](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
+We provide the image output here:
+
+![SCC\_P6\_benigns\_for\_clustering\_phylo.png](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
 
 # Clone selection
 
