@@ -1,4 +1,4 @@
-<img src="https://www.nds.ox.ac.uk/images/logos/secondary-logo" height="75" /> <img src="https://www.nds.ox.ac.uk/images/logos/primary-logo" height="75"/> 
+<img src="https://www.nds.ox.ac.uk/images/logos/secondary-logo" height="75" /> <img src="https://www.nds.ox.ac.uk/images/logos/primary-logo" height="75"/> <img src="https://www.scilifelab.se/wp-content/uploads/2020/09/SciLifeLab_Logotype_Green_POS_large-copy-1536x334.png" height="75" /> <img src="https://intra.kth.se/polopoly_fs/1.859833.1600722711!/image/rund_logotype.jpg" height="75" /> 
 
 # siCNV: Spatial InferCNV from Spatial Transcriptomics Data
 
