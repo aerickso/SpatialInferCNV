@@ -7,7 +7,7 @@ all other sections (Sections H1_5, H2_2, H1_2, H2_5, H1_4, and V1_2)
 from the same patient. We will write a separate tutorial of how to
 identify and generate this file, but for this walkthrough, we have
 provide the file we used in these analyses. Go to
-[BenignRefs](BenignRefs.md)
+[BenignRefs](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/BenignRefs_ForFigs2and3/BenignRefs.md)
 
 This code was tested using R version 4.0.1 (2020-06-06), a Windows 10
 Computer, 16GB RAM, and 4 CPUs (2.5 GHz). For timely data-analyses of
@@ -20,22 +20,23 @@ with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
 ``` r
 library(remotes)
-#remotes::install_github(repo = 'satijalab/seurat', ref = 'develop')
 library(devtools)
 library(ape)
 library(phylogram)
 library(tidyverse)
+library(SpatialInferCNV)
 ```
 
+# Creating a working directory
+
+We start by creating an empty working directory so that all downloaded
+files are organized in one place. Download the files [from
+Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft):
+Count_matrices/Patient 1/Visium_with_annotation.
+
 ``` r
-#01032022 - This should be moved to the mainpage
-
-
-#AUTH = '87a674f0a1c03d8ccc57bf23c5303695ec30b7ee'
-
-#install_github('aerickso/SpatialInferCNV',
-#                         auth_token = AUTH)
-library(SpatialInferCNV)
+dir.create("Figure3_output")
+setwd("Figure3_output")
 ```
 
 # Defining (Benign) Reference Set
@@ -46,7 +47,7 @@ little-to-no inferred copy number changes, and extracts those that are
 not in the section of interest
 
 ``` r
-PurestBenigns_All <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure3/Inputs/Consensus_PurestBenigns.csv")
+PurestBenigns_All <- read.csv("./Figure3_output/Patient 1/Consensus_PurestBenigns.csv")
 
 PurestBenigns_All$section <- substr(PurestBenigns_All$Barcode, 1, 4) 
 
@@ -67,7 +68,7 @@ We then join these with the reference set “Purest Benign (Non-H2_1)” for
 a final set of joined annotations
 
 ``` r
-Consensus_H2_1_Histology <- ImportHistologicalAnnotations("H2_1", "./Mendeley/Patient 1/Visium/H2_1/H2_1_Final_Consensus_Annotations.csv")
+Consensus_H2_1_Histology <- ImportHistologicalAnnotations("H2_1", "./Figure3_output/Patient 1/Visium_with_annotation/H2_1/H2_1_Final_Consensus_Annotations.csv")
                                                           
 H2_1_Joined_Annotations_filtered <- Consensus_H2_1_Histology %>% filter(str_detect(Histology, "Benign|GG2|PIN|GG4"))
 
@@ -85,13 +86,13 @@ We use the function ImportCountData(), which requires a section label,
 and a path to the corresponding .h5 file.
 
 ``` r
-H2_1_ENSBMLID_Counts <- ImportCountData("H2_1", "./Mendeley/Patient 1/Visium/H2_1/filtered_feature_bc_matrix.h5")
-H1_5_ENSBMLID_Counts <- ImportCountData("H1_5", "./Mendeley/Patient 1/Visium/H1_5/filtered_feature_bc_matrix.h5")
-H2_2_ENSBMLID_Counts <- ImportCountData("H2_2", "./Mendeley/Patient 1/Visium/H2_2/filtered_feature_bc_matrix.h5")
-H1_2_ENSBMLID_Counts <- ImportCountData("H1_2", "./Mendeley/Patient 1/Visium/H1_2/filtered_feature_bc_matrix.h5")
-H2_5_ENSBMLID_Counts <- ImportCountData("H2_5", "./Mendeley/Patient 1/Visium/H2_5/filtered_feature_bc_matrix.h5")
-H1_4_ENSBMLID_Counts <- ImportCountData("H1_4", "./Mendeley/Patient 1/Visium/H1_4/filtered_feature_bc_matrix.h5")
-V1_2_ENSBMLID_Counts <- ImportCountData("V1_2", "./Mendeley/Patient 1/Visium/V1_2/filtered_feature_bc_matrix.h5")
+H2_1_ENSBMLID_Counts <- ImportCountData("H2_1", "./Figure3_output/Patient 1/Visium_with_annotation/H2_1/filtered_feature_bc_matrix.h5")
+H1_5_ENSBMLID_Counts <- ImportCountData("H1_5", "./Figure3_output/Patient 1/Visium_with_annotation/H2_1/H1_5/filtered_feature_bc_matrix.h5")
+H2_2_ENSBMLID_Counts <- ImportCountData("H2_2", "./Figure3_output/Patient 1/Visium_with_annotation/H2_1/H2_2/filtered_feature_bc_matrix.h5")
+H1_2_ENSBMLID_Counts <- ImportCountData("H1_2", "./Figure3_output/Patient 1/Visium_with_annotation/H2_1/H1_2/filtered_feature_bc_matrix.h5")
+H2_5_ENSBMLID_Counts <- ImportCountData("H2_5", "./Figure3_output/Patient 1/Visium_with_annotation/H2_1/H2_5/filtered_feature_bc_matrix.h5")
+H1_4_ENSBMLID_Counts <- ImportCountData("H1_4", "./Figure3_output/Patient 1/Visium_with_annotation/H2_1/H1_4/filtered_feature_bc_matrix.h5")
+V1_2_ENSBMLID_Counts <- ImportCountData("V1_2", "./Figure3_output/Patient 1/Visium_with_annotation/H2_1/V1_2/filtered_feature_bc_matrix.h5")
 ```
 
 # QC, and Merging Count and Annotation Data
@@ -199,9 +200,13 @@ associated with the dendrogram associated with the hierarchical
 clustering on the left hand side of the image
 (infercnv.21_denoised.observations_dendrogram.txt).
 
+![infercnv.21_denoised.png
+output](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%203/infercnv.21_denoised_unsupervised.png)
+
 # Importing dendrogram
 
-Next, we want to import this dendrogram file.
+Next, we want to import this dendrogram file. This was just created
+above.
 
 ``` r
 H2_1_for_clustering <- read.dendrogram(file = "./Figure3_Step1/Outputs/infercnv.21_denoised.observations_dendrogram.txt")
@@ -224,6 +229,9 @@ nodelabels(text=1:H2_1_for_clustering_phylo$Nnode,node=1:H2_1_for_clustering_phy
 dev.off()
 ```
 
+![infercnv.21_denoised.png
+output](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%203/Consensus_H2_1_forclustering_phylo.png)
+
 # Clone (node) selection (Manual Task outside of R in an image editor)
 
 Next, view the output .png file, which provides a (albeit cluttered)
@@ -231,6 +239,12 @@ labeling of the dendrogram tree nodes. Manually select individual nodes
 that correspond with a distinct subclonal grouping or signal, that will
 be taken forward for re-clustering. This can be iteratively tweaked with
 the next step + spatial visualization til optimal.
+
+![infercnv.21_denoised.png
+output](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%203/NodeSelectionFromDenoised.png)
+
+![infercnv.21_denoised.png
+output](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%203/NodeSelectionDendrogram.png)
 
 ``` r
 #A.2 - 915
@@ -291,7 +305,20 @@ H2_1_Clones_ForLoupeBrowser <- filter(H2_1_Merged, section == "H2_1") %>%
 write.csv(H2_1_Clones_ForLoupeBrowser, "H2_1_Clones_ForLoupeBrowser.csv", row.names = FALSE)
 ```
 
-# Creaing an updated InferCNV annotations file for clustering
+# Clone visualization in Loupe Browser
+
+LoupeBrowser files are available from the authors upon request:
+<andrew.erickson@nds.ox.ac.uk>, or <joakim.lundenberg@scilifelab.se>.
+However, we provide the high resolution input files:
+<https://data.mendeley.com/v1/datasets/svw96g68dv/draft> :
+Histological_images/Patient 1/Visium and FASTQ files (EGA link pending)
+to run
+[SpaceRanger](https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/output/overview)
+to output the LoupeBrowser files.
+
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%203/LoupeBrowser_Vis.gif)
+
+# Creating an updated InferCNV annotations file for clustering
 
 Next, we will re-join the labeled clones to the benign annotations, by
 reimporting the input annotations for the unsupervised InferCNV run,
@@ -317,7 +344,9 @@ write.table(ForInferCNVClustering, "H2_1_Clonal_Annotations_ForClustering.tsv",
             row.names = FALSE)
 ```
 
-# Confirming again that the files are formatted correctly to create an inferCNV object
+# Creating the inferCNV object
+
+Creating the inferCNV object with updated clone annotations.
 
 ``` r
 H2_1_Supervised_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./H2_1_ForClustering_Counts.tsv", 
@@ -330,12 +359,20 @@ H2_1_Supervised_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./H2
 
 # Finally, Running InferCNV (Supervised)
 
+Creating the inferCNV object with updated clone annotations, again, this
+is typically ran on a high performance cluster.
+
 ``` r
 H2_1_Supervised_infCNV = infercnv::run(H2_1_Supervised_infCNV,
                                               cutoff=0.1,
-                                              out_dir="./Figure2_ClusteredOutputs/",
+                                              out_dir="./Figure3_ClusteredOutputs/",
                                               num_threads = 20,
                                               cluster_by_groups=TRUE, 
                                               denoise=TRUE,
                                               HMM=TRUE)
 ```
+
+Here is the final output (clone names edited in the final manuscript
+figure).
+
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%203/infercnv.21_denoised_supervised.png)
