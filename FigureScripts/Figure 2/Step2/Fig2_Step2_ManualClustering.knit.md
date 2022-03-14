@@ -8,18 +8,65 @@ output: md_document
 
 Initializing libraries.
 
-```{r setup, messages=FALSE}
+
+```r
 library(SpatialInferCNV)
+```
+
+```
+## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
+## loading 'SpatialInferCNV'
+```
+
+```r
 library(phylogram)
 library(ape)
+```
+
+```
+## 
+## Attaching package: 'ape'
+```
+
+```
+## The following object is masked from 'package:phylogram':
+## 
+##     as.phylo
+```
+
+```r
 library(tidyverse)
+```
+
+```
+## Registered S3 method overwritten by 'cli':
+##   method     from         
+##   print.boxx spatstat.geom
+```
+
+```
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+```
+
+```
+## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.1     v dplyr   1.0.6
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   2.0.1     v forcats 0.5.1
+```
+
+```
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
 ```
 
 #Importing dendrogram
 
 Importing the dendogram file created in step 1.
 
-```{r, eval = FALSE}
+
+```r
 Consensus_AllCancer_for_clustering <- read.dendrogram(file="./Figure2_output/Figure2_Step1/Outputs/infercnv.observations_dendrogram.txt")
 
 Consensus_AllCancer_for_clustering_phylo <- as.phylo(Consensus_AllCancer_for_clustering)
@@ -29,7 +76,8 @@ Consensus_AllCancer_for_clustering_phylo <- as.phylo(Consensus_AllCancer_for_clu
 
 Next, we use the dendrogram file to visualize the dendrogram itself.
 
-```{r, eval = FALSE}
+
+```r
 my.subtrees = subtrees(Consensus_AllCancer_for_clustering_phylo)  # subtrees() to subset
 
 png("Consensus_AllCancer_forclustering_phylo.png",width=10000,height=2500, res = 300)
@@ -46,7 +94,8 @@ Here is the output image:
 
 Comparison of the output image and the denoised image (through use of an image viewer), allows for selection of groups of spots with shared CNVs. Note the "nodes" from the visualized dendrogram, allowing for supervised selection of clones.
 
-```{r, eval = FALSE}
+
+```r
 #Clone J - Node 4617
 #Clone I - Node 4446
 #Clone I - Node 3617
@@ -117,7 +166,8 @@ This Fig2_forclustering.csv file is used in [Step 3(https://github.com/aerickso/
 
 LoupeBrowser files are available from the authors upon request: andrew.erickson@nds.ox.ac.uk, or joakim.lundenberg@scilifelab.se. However, we provide the high resolution input files: https://data.mendeley.com/v1/datasets/svw96g68dv/draft : Histological_images/Patient 1/Visium and FASTQ files (EGA link pending) to run [SpaceRanger](https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/output/overview) to output the LoupeBrowser files.
 
-```{r, eval = FALSE}
+
+```r
 H1_5_Merged <- Merged
 H1_5_Merged <- H1_5_Merged %>% mutate(section = substr(Barcode, 1, 4))
 H1_5_Merged$Barcode <- trimws(substr(H1_5_Merged$Barcode, 6, 100))
