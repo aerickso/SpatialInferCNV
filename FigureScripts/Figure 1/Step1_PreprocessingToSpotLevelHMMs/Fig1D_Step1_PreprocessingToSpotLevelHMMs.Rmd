@@ -455,7 +455,7 @@ STOrganscale <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Fig1d_STOrga
 
 # Unsupervised Run - (Typically ran on cluster)
 
-Finally, we then perform infercnv::run. This is typically ran on a high performance cluster. 
+Finally, we then perform infercnv::run. This is ran on a per-spot level, and is extremely time consuming. This is typically ran on a high performance cluster. 
 
 ```{r10, eval = FALSE}
 STOrganscale = infercnv::run(STOrganscale,

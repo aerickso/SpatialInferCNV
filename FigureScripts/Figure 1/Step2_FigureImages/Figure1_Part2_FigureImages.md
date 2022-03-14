@@ -1,3 +1,5 @@
+# Setup
+
     library(tidyverse)
 
     ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
@@ -23,7 +25,19 @@
     library(grid)
     library(svglite)
 
-    AllBarcodes <- read.delim("./Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv", 
+# Creating Working Directory for Step 2
+
+    dir.create("Fig1_Step2")
+    setwd("Fig1_Step2")
+
+# Importing Data - Part 1
+
+Note that Fig1d\_STOrganscale\_Selected\_Mapped\_Annotations.tsv was
+generated in [Step
+1](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step1_PreprocessingToSpotLevelHMMs/Fig1D_Step1_PreprocessingToSpotLevelHMMs.md).
+This also imports the barcode files for the original 1k array data.
+
+    AllBarcodes <- read.delim("./Fig1_Step1/Fig1d_STOrganscale_Selected_Mapped_Annotations.tsv", 
                               sep = "\t",
                               header = FALSE)
     names(AllBarcodes)[1] <- "Barcode"
@@ -40,7 +54,17 @@
           select(ModfiedBarcode)
     names(L2_Barcodes)[1] <- "Barcode"
 
-    CNV_Genes_Organscale <- read.delim("./17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat")
+# Importing Data and formatting - Part 2
+
+Note that 17\_HMM\_predHMMi6.hmm\_mode-cells.pred\_cnv\_genes.dat was
+generated in [Step
+1](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step1_PreprocessingToSpotLevelHMMs/Fig1D_Step1_PreprocessingToSpotLevelHMMs.md).
+
+We then use the first threshold to optimize signal-to-noise for spatial
+visualization across all genes with an inferred CNV, all genes genes
+with an inferred CNV (for this dataset, 35%).
+
+    CNV_Genes_Organscale <- read.delim("./Fig1_Step1/Outputs/17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat")
     Counted <- CNV_Genes_Organscale %>% group_by(gene) %>% tally()
     MaxLength <- as.numeric(nrow(Counted))
     CountPercentageThreshold_35Perc <- round(.35 * MaxLength,0)
@@ -48,6 +72,16 @@
                             filter(n > CountPercentageThreshold_35Perc)
     CNV_Genes_Filtered <- inner_join(CNV_Genes_Organscale, CountedThresholded) %>%
                             select(-n)
+
+# Extracting Sectionwise Data
+
+Note that 17\_HMM\_predHMMi6.hmm\_mode-cells.pred\_cnv\_genes.dat was
+generated in [Step
+1](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step1_PreprocessingToSpotLevelHMMs/Fig1D_Step1_PreprocessingToSpotLevelHMMs.md).
+
+We then use the second threshold to optimize signal-to-noise for spatial
+visualization across data within a section itself (for this dataset,
+45%).
 
     CNV_Genes_Filtered <- CNV_Genes_Filtered %>% mutate(section = substr(cell_group_name, 1, 4))
 
@@ -117,6 +151,14 @@
                  V2_5Max,
                  V2_6Max)
 
+# Visualizing Spatial Outputs (Figure 1d)
+
+Having obtained sectionwise dataframes, we then plot the spatial plots,
+per section.
+
+Here is an [example output for section
+H2\_5](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/H2_5_Revised_PGA_SpatialVisualization_2022-02-28.png).
+
     dir.create("./Figure1D_sectionoutputs")
     setwd("./Figure1D_sectionoutputs")
 
@@ -147,6 +189,7 @@
     PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("H2_4", H2_4_Sectionwise_CNVsGenes_Counted, L2_Barcodes)
     Plot_PGA_Visualization_Matrix("H2_4", PGA_Matrix, MaxVal)
 
+    #Note: this is also used for the Figure 1G "Zoom in"
     PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("H2_5", H2_5_Sectionwise_CNVsGenes_Counted, L2_Barcodes)
     Plot_PGA_Visualization_Matrix("H2_5", PGA_Matrix, MaxVal)
 
@@ -182,6 +225,11 @@
 
     PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("V2_6", V2_6_Sectionwise_CNVsGenes_Counted, L2_Barcodes)
     Plot_PGA_Visualization_Matrix("V2_6", PGA_Matrix, MaxVal)
+
+# Visualizing BarPlot (Figure 1G)
+
+Finally, we visualize the [Barplot in Figure
+1G](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%201/Step2_FigureImages/siCNV_SectionBarPlot_Figure1G.png).
 
     All_Organ35_andSectionWise45 <- rbind(H1_1_Sectionwise_CNVsGenes_Counted,
       H1_2_Sectionwise_CNVsGenes_Counted,
