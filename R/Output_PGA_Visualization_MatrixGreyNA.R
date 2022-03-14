@@ -16,6 +16,3 @@ Output_PGA_Visualization_MatrixGreyNA <- function(SectionName, InputCNVs, Barcod
     arrange(x, y)
   return(PGA_Visualization_Matrix)
 }
-
-
-setwd("C:/Users/erick/Dropbox/SpatialInferCNV_Dev/SpatialInferCNV/R")
