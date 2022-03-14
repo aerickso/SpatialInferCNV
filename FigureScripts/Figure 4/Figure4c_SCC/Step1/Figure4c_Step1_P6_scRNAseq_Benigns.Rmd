@@ -183,8 +183,7 @@ P6_Bg_infCNV = infercnv::run(P6_Bg_infCNV,
 
 InferCNV will output many files. We are primarily interested in the final "infercnv.21_denoised.png" file, as well as the text file associated with the dendrogram associated with the hierarchical clustering on the left hand side of the image (infercnv.21_denoised.observations_dendrogram.txt).
 
-![infercnv.21_denoised.png](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/infercnv.21_denoised.png)
-
+![infercnv.21_denoised.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step2/infercnv.21_denoised.png)
 
 # Importing dendrogram
 
