@@ -157,6 +157,6 @@ Running infercnv.
 
 InferCNV will output many files. We are primarily interested in the
 final “infercnv.21\_denoised.png” file, corresponding to the one
-provided in Figure 4c.
+provided in Figure 4c. These are reordered in the final figure.
 
 ![infercnv.21\_denoised.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step3/infercnv.21_denoised.png)
