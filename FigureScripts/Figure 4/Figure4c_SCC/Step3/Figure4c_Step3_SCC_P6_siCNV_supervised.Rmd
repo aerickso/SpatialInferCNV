@@ -4,7 +4,11 @@ author: "Andrew Erickson"
 output: md_document
 ---
 
+Now that we ran the previous unsupervised step, we next will identified clones and run the final clustered inferCNVs to generate the clustered figure panel image in 4c.
+
 # Setup
+
+Initializing libraries.
 
 ```{r, messages=FALSE}
 library(SpatialInferCNV)
@@ -15,13 +19,17 @@ library(tidyverse)
 
 # Importing dendrogram
 
+Next, we want to import this dendrogram file, this was created  in the previous step.
+
 ```{r, eval = FALSE}
-SCC_for_clustering <- read.dendrogram(file = "./Mendeley/ProcessedFilesForFigures/Figure4/Step3/Inputs/infercnv.21_denoised.observations_dendrogram.txt")
+SCC_for_clustering <- read.dendrogram(file = "./Figure4c_Step2/Outputs/infercnv.21_denoised.observations_dendrogram.txt")
 
 SCC_for_clustering_phylo <- as.phylo(SCC_for_clustering)
 ```
 
 # Visualizing Tree
+
+Next, we want to visualize the numbers associated with the nodes of interest (clones). We output a large image file that allows us to manually inspect which nodes (corresponding to clones) should be selected.
 
 ```{r, eval = FALSE}
 my.subtrees = subtrees(SCC_for_clustering_phylo)  # subtrees() to subset
@@ -30,7 +38,20 @@ png("SCC_for_clustering_phylo.png",width=10000,height=2500, res = 300)
 plot(SCC_for_clustering_phylo,show.tip.label = FALSE)
 nodelabels(text=1:SCC_for_clustering_phylo$Nnode,node=1:SCC_for_clustering_phylo$Nnode+Ntip(SCC_for_clustering_phylo))
 dev.off()
+```
 
+We provide the following output image.
+
+![infercnv.21_denoised.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step3/SCC_for_clustering_phylo.png)
+
+
+# Clone selection 
+
+Next, view the output .png file, which provides a (albeit cluttered) labeling of the dendrogram tree nodes. Manually select individual nodes that correspond with a distinct subclonal grouping or signal, that will be taken forward for re-clustering. This can be iteratively tweaked with the next step + spatial visualization til optimal. We provide more details [here](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%203/Figure3.md), and provide the finalized selected clone nodes here.
+
+We output a Figure4c_SCC_P6_Clones.csv file, identifying the barcodes and annotations for each clone for the next steps.
+
+```{r, eval = FALSE}
 #A - 1656 -  spots
 #B - 1322 -  spots
 #C - 1183 -  spots
@@ -56,6 +77,8 @@ write.csv(Merged, "Figure4c_SCC_P6_Clones.csv", row.names = FALSE)
 ```
 
 # Outputting the requisite files for infercnv::run
+
+We import the files generated in step 2, with the updated clone barcodes, and generate a new annotation file for input to infercnv::run.
 
 ```{r, eval = FALSE}
 library(tidyverse)
@@ -87,6 +110,8 @@ write.table(UpdatedBarcodes,
 
 # Creating the inferCNV object (prior to run)
 
+We generate the infercnv object.
+
 ```{r, eval = FALSE}
 SCC_P6_ForClusteringClones <- infercnv::CreateInfercnvObject(raw_counts_matrix="./SCC_P6_BenignRef_and_Visium_Mapped_Counts.tsv", 
                                                                 gene_order_file="./SCC_P6_BenignRef_and_Visium_GeneOrderFile.tsv",
@@ -98,6 +123,8 @@ SCC_P6_ForClusteringClones <- infercnv::CreateInfercnvObject(raw_counts_matrix="
 
 # InferCNV Run - (Typically ran on cluster)
 
+Running infercnv.
+
 ```{r, eval = FALSE}
 SCC_P6_ForClusteringClones = infercnv::run(SCC_P6_ForClusteringClones,
                                               cutoff=0.1,
@@ -107,3 +134,7 @@ SCC_P6_ForClusteringClones = infercnv::run(SCC_P6_ForClusteringClones,
                                               denoise=TRUE,
                                               HMM=TRUE)
 ```
+
+InferCNV will output many files. We are primarily interested in the final "infercnv.21_denoised.png" file, corresponding to the one provided in Figure 4c.
+
+![infercnv.21_denoised.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step3/infercnv.21_denoised.png)

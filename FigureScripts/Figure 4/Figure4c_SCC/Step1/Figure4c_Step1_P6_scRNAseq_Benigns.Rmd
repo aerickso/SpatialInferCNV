@@ -214,7 +214,7 @@ We provide the image output here:
 
 ![SCC_P6_benigns_for_clustering_phylo.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
 
-# Clone selection 
+# Purest Benign selection 
 
 Next, view the output .png file, which provides a (albeit cluttered) labeling of the dendrogram tree nodes. Manually select individual nodes that correspond with a distinct subclonal grouping or signal, that will be taken forward for re-clustering. This can be iteratively tweaked with the next step + spatial visualization til optimal. We provide more details [here](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/BenignRefs_ForFigs2and3/BenignRefs.md), and provide the finalized selected SCC purest benign nodes here.
 

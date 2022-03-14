@@ -232,7 +232,7 @@ Running infercnv, typically ran on a server.
 ```{r, eval = FALSE}
 Visium_P6_Bg_infCNV = infercnv::run(Visium_P6_Bg_infCNV,
                                               cutoff=0.1,
-                                            out_dir="./Outputs", 
+                                            out_dir="./Figure4c_Step2/Outputs", 
                                               num_threads = 10,
                                               cluster_by_groups=FALSE, 
                                               denoise=TRUE,

@@ -223,7 +223,7 @@ We provide the image output here:
 
 ![SCC\_P6\_benigns\_for\_clustering\_phylo.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
 
-# Clone selection
+# Purest Benign selection
 
 Next, view the output .png file, which provides a (albeit cluttered)
 labeling of the dendrogram tree nodes. Manually select individual nodes
