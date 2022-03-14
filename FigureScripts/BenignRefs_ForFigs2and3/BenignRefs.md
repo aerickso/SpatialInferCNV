@@ -167,7 +167,7 @@ AllBenigns_Consensus_Test_infCNV = infercnv::run(AllBenigns_Consensus_Test_infCN
                                               HMM=FALSE)
 ```
 
-![](./Data/InferCNV%20Files/ExampleOutputs/BenignRefs/infercnv.21_denoised.png)
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/BenignRefs_ForFigs2and3/infercnv.21_denoised.png)
 
 InferCNV will output many files. We are primarily interested in the
 final “infercnv.21_denoised.png” file, as well as the text file
@@ -196,11 +196,11 @@ nodelabels(text=1:Consensus_AllBenigns_phylo$Nnode,node=1:Consensus_AllBenigns_p
 dev.off()
 ```
 
-![](./Images/PurestBenigns.png)
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/BenignRefs_ForFigs2and3/PurestBenigns.png)
 
-![](./Data/Clone%20Selection/BenignRefs/Consensus_AllBenigns_phylo_Nodes_18112020.png)
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/BenignRefs_ForFigs2and3/Consensus_AllBenigns_phylo_Nodes.png)
 
-![](./Images/NodeSelection_BenignRefs_Dendrogram_19032021.png)
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/BenignRefs_ForFigs2and3/NodeSelection_BenignRefs_Dendrogram.png)
 
 # Node selection (Manual Task outside of R in an image editor)
 
