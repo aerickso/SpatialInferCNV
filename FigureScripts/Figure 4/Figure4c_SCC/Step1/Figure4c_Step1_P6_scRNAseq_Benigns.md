@@ -220,7 +220,8 @@ possible.
     dev.off()
 
 ![](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
-\# Clone (node) selection (Manual Task outside of R in an image editor)
+
+# Clone selection
 
 Next, view the output .png file, which provides a (albeit cluttered)
 labeling of the dendrogram tree nodes. Manually select individual nodes
@@ -238,7 +239,7 @@ and provide the finalized selected SCC purest benign nodes here.
     #B - 724
     #C - 2
 
-# Selecting clones in R
+# Selecting purest benigns
 
 Next, after identifying the numerical nodes that correspond to
 dendrogram branches that correspond with a given set of molecular
