@@ -1,4 +1,13 @@
+# Figure 4c - Step 1 - Selectiong of Benign references (from paired scRNAseq data)
+
+In order to run the SCC Visium data with siCNV, we need a reference set.
+We identifed a set of paired scRNA sequencing data, from benign skin
+cells (from the same exact patient), provided by the authors as listed
+below.
+
 # Setup
+
+Initializing packages.
 
     library(tidyverse)
 
@@ -21,6 +30,11 @@
 
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
+
+# Creating a working directory
+
+    dir.create("Figure4_output")
+    setwd("Figure4_output")
 
 # Downloading and formatting data, part 1
 
@@ -46,6 +60,9 @@ connection.
 
 # Downloading and formatting data, part 2
 
+We then select only patient 6 data (corresponds to the specific patient
+in our analyses).
+
     #Import SCC, Patient 6, scRNAseq benigns that we subset out above
     load("./SCC_P6_Benigns.RData")
 
@@ -64,6 +81,11 @@ connection.
 
 # Creating GeneToENSMBL dataframe
 
+The code below creates the GeneToENSMBL.csv file, but we have provided
+this on our GitHub:
+
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/GeneToENSMBL.csv).
+
     GeneToENSMBL <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure4/GeneToENSMBL.csv")
 
     #library(tidyverse)
@@ -79,6 +101,12 @@ connection.
     #write.csv(GeneToENSMBL, "GeneToENSMBL.csv", row.names = FALSE)
 
 # Mapping Gene Names to counts/barcodes, and then outputting the requisite files for infercnv::run
+
+We need to provide a gene ordering file to inferCNV, in the form of:
+Gene Name / Chromosome Number / Start Loci / Stop Loci. As the files
+provided by the authors are in “Gene Name”, and our chromosomal / loci
+information are mapped to ENSMBLID’s, we need to map the Gene Names to
+ENSMBLIDs.
 
     Counts_joined <- SCC_P6_Benigns
     Counts_joined <- Counts_joined %>%
@@ -112,6 +140,8 @@ connection.
     #Removing duplicates
     Mapped_Counts_joined <- Mapped_Counts_joined[!duplicated(Mapped_Counts_joined$Genes), ]
 
+# Outputting all files for inferCNV::run
+
     #Write GenesInSamplevsOrdering
     write.table(Mapped_Counts_joined, 
                 "SCC_P6_Bg_Selected_Mapped_Counts.tsv",
@@ -134,6 +164,8 @@ connection.
 
 # Creating the inferCNV object (prior to run)
 
+Creating the object for infercnv::run.
+
     P6_Bg_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./SCC_P6_Bg_Selected_Mapped_Counts.tsv", 
                                                    gene_order_file="./SCC_P6_Bg_MappingFileForInferCNV.tsv",
                                                    annotations_file="./SCC_P6_Bg_Selected_CorrectedBarcodes.tsv",
@@ -143,6 +175,8 @@ connection.
 
 # Unsupervised Run - (Typically ran on cluster)
 
+Running infercnv.
+
     P6_Bg_infCNV = infercnv::run(P6_Bg_infCNV,
                                                   cutoff=0.1,
                                                   out_dir="./Figure4c_Step1/Outputs", 
@@ -151,9 +185,18 @@ connection.
                                                   denoise=TRUE,
                                                   HMM=FALSE)
 
+InferCNV will output many files. We are primarily interested in the
+final “infercnv.21\_denoised.png” file, as well as the text file
+associated with the dendrogram associated with the hierarchical
+clustering on the left hand side of the image
+(infercnv.21\_denoised.observations\_dendrogram.txt).
+
+![](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/infercnv.21_denoised.png)
+
 # Importing dendrogram
 
-Next, we want to import this dendrogram file.
+Next, we want to import this dendrogram file, this was created just
+above.
 
     library(ape)
     library(phylogram)
@@ -165,7 +208,9 @@ Next, we want to import this dendrogram file.
 
 Next, we want to visualize the numbers associated with the nodes of
 interest (clones). We output a large image file that allows us to
-manually inspect which nodes should be selected as subclones.
+manually inspect which nodes (cells) should be selected the purest
+benign references. Here, we want the cells with the least signal
+possible.
 
     my.subtrees = subtrees(SCC_P6_benigns_for_clustering_phylo)  # subtrees() to subset
 
@@ -173,6 +218,18 @@ manually inspect which nodes should be selected as subclones.
     plot(SCC_P6_benigns_for_clustering_phylo,show.tip.label = FALSE)
     nodelabels(text=1:SCC_P6_benigns_for_clustering_phylo$Nnode,node=1:SCC_P6_benigns_for_clustering_phylo$Nnode+Ntip(SCC_P6_benigns_for_clustering_phylo))
     dev.off()
+
+![](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
+\# Clone (node) selection (Manual Task outside of R in an image editor)
+
+Next, view the output .png file, which provides a (albeit cluttered)
+labeling of the dendrogram tree nodes. Manually select individual nodes
+that correspond with a distinct subclonal grouping or signal, that will
+be taken forward for re-clustering. This can be iteratively tweaked with
+the next step + spatial visualization til optimal. We provide more
+details
+[here](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/BenignRefs_ForFigs2and3/BenignRefs.md),
+and provide the finalized selected SCC purest benign nodes here.
 
     #A - 4034
     #B - 3605   
@@ -185,10 +242,8 @@ manually inspect which nodes should be selected as subclones.
 
 Next, after identifying the numerical nodes that correspond to
 dendrogram branches that correspond with a given set of molecular
-signals (aka, clones), we then manually select these nodes in R, apply a
-label, then join them all together and output for visualization in Loupe
-Browswer, as well as to take forward into supervised clustering (Hidden
-Markov Models).
+signals, we then manually select these nodes in R, apply a label, then
+join them all together for use in the next step.
 
     library(SpatialInferCNV)
     library(tidyverse)
