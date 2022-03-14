@@ -1,5 +1,7 @@
 # Setup
 
+Initializing libraries.
+
     library(SpatialInferCNV)
 
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
@@ -34,11 +36,15 @@
 
 \#Importing dendrogram
 
-    Consensus_AllCancer_for_clustering <- read.dendrogram(file="./Mendeley/ProcessedFilesForFigures/Figure2/Step2/Inputs/infercnv.observations_dendrogram.txt")
+Importing the dendogram file created in step 1.
+
+    Consensus_AllCancer_for_clustering <- read.dendrogram(file="./Figure2_output/Figure2_Step1/Outputs/infercnv.observations_dendrogram.txt")
 
     Consensus_AllCancer_for_clustering_phylo <- as.phylo(Consensus_AllCancer_for_clustering)
 
 # Visualizing Tree
+
+Next, we use the dendrogram file to visualize the dendrogram itself.
 
     my.subtrees = subtrees(Consensus_AllCancer_for_clustering_phylo)  # subtrees() to subset
 
@@ -47,20 +53,17 @@
     nodelabels(text=1:Consensus_AllCancer_for_clustering_phylo$Nnode,node=1:Consensus_AllCancer_for_clustering_phylo$Nnode+Ntip(Consensus_AllCancer_for_clustering_phylo))
     dev.off()
 
-    Merged$Node <- ifelse(Merged$Node == "Node_4617" , "Clone_J",
-                         ifelse(Merged$Node == "Node_4446" , "Clone_I",
-                         ifelse(Merged$Node == "Node_3617" , "Clone_I",
-                         ifelse(Merged$Node == "Node_2934" , "Clone_F",
-                         ifelse(Merged$Node == "Node_2893" , "Clone_E",
-                         ifelse(Merged$Node == "Node_2832" , "Clone_E",
-                         ifelse(Merged$Node == "Node_2769" , "Clone_E",
-                         ifelse(Merged$Node == "Node_3114" , "Clone_H",
-                         ifelse(Merged$Node == "Node_2991" , "Clone_B",
-                         ifelse(Merged$Node == "Node_2525" , "Clone_G",
-                         ifelse(Merged$Node == "Node_2284" , "Clone_C",
-                         ifelse(Merged$Node == "Node_2078" , "Clone_D",
-                         ifelse(Merged$Node == "Node_92" , "Clone_K",
-                         ifelse(Merged$Node == "Node_3" , "Clone_A", Merged$Node))))))))))))))
+Here is the output image:
+
+![example Consensus\_AllCancer\_forclustering\_phylo.png for section
+H2\_5](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%202/Step2/Consensus_AllCancer_forclustering_phylo.png).
+
+# Manual Clone Selection
+
+Comparison of the output image and the denoised image (through use of an
+image viewer), allows for selection of groups of spots with shared CNVs.
+Note the “nodes” from the visualized dendrogram, allowing for supervised
+selection of clones.
 
     #Clone J - Node 4617
     #Clone I - Node 4446
@@ -124,6 +127,17 @@
                          ifelse(Merged$Node == "Node_3" , "Clone_A", Merged$Node))))))))))))))
 
     write.csv(Merged, "Fig2_forclustering.csv", row.names = FALSE)
+
+# Outputting .CSV files for LoupeBrowser visualization.
+
+LoupeBrowser files are available from the authors upon request:
+<andrew.erickson@nds.ox.ac.uk>, or <joakim.lundenberg@scilifelab.se>.
+However, we provide the high resolution input files:
+<https://data.mendeley.com/v1/datasets/svw96g68dv/draft> :
+Histological\_images/Patient 1/Visium and FASTQ files (EGA link pending)
+to run
+[SpaceRanger](https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/output/overview)
+to output the LoupeBrowser files.
 
     H1_5_Merged <- Merged
     H1_5_Merged <- H1_5_Merged %>% mutate(section = substr(Barcode, 1, 4))
