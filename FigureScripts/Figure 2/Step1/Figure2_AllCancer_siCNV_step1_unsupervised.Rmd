@@ -3,14 +3,14 @@ title: "Figure2_Step1_unsupervised_allcancer"
 author: "Andrew Erickson"
 output: md_document
 ---
-#Setup
+# Setup
 
 ```{r setup, messages=FALSE}
 library(tidyverse)
 library(SpatialInferCNV)
 ```
 
-#Creating a working directory
+# Creating a working directory
 
 We start by creating an empty working directory so that all downloaded files are organized in one place. Download the files [from Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft): Count_matrices/Patient 1/Visium_with_annotation.
 

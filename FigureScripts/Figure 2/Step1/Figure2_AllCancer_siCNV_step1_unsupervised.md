@@ -1,4 +1,4 @@
-\#Setup
+# Setup
 
     library(tidyverse)
 
@@ -22,7 +22,7 @@
     ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
     ## loading 'SpatialInferCNV'
 
-\#Creating a working directory
+# Creating a working directory
 
 We start by creating an empty working directory so that all downloaded
 files are organized in one place. Download the files [from
