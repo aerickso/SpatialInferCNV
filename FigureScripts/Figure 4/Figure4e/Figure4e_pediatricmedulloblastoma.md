@@ -29,6 +29,11 @@
 
 # Loading Data
 
+We start by creating an empty working directory so that all downloaded
+files are organized in one place. Download the files [from
+Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft):
+inferCNV\_pediatric\_patient\_1/
+
     # Load infoTables: Sample from patient 3 included regions of stroma cells that will be excluded from the inferCNV analysis, which only contains spots from tumor regions.
     infoTable_pat_1_2 <- read.table("./inferCNV_pediatric_patient_1/infoTable_pat_1_2.csv", sep=";", header=T, stringsAsFactors = F)
     infoTable_pat_3 <- read.table("./inferCNV_pediatric_patient_1/infoTable_pat_3.csv", sep=";", header=T, stringsAsFactors = F)
@@ -48,6 +53,9 @@
                          platform="Visium")
 
 # Further Formatting
+
+Creating and formating the dataframes before outputting the requisite
+input files for infercnv::run.
 
     # Add Pathology annotations to Meta.data in se_pat_3 object
     df <- read.csv(file = "./inferCNV_pediatric_patient_1/pathology_patient_3.csv")
@@ -90,7 +98,9 @@
     head(se_sample)
     tail(se_sample)
 
-# Outputting Files
+# Outputting Files for infercnv::run
+
+Creating the files for the next step.
 
     # save the data.frame
     write.table(x = se_sample, file = "./inferCNV_annotions_se_pat_1_2_3.txt",sep = "\t", row.names = F, col.names = F)
@@ -99,6 +109,8 @@
     counts_matrix = GetAssayData(se, slot="counts")
 
 # Create the infercnv object
+
+Creating the inferCNV object for the inferCNV run.
 
     infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
                                         annotations_file="./inferCNV_annotions_se_pat_1_2_3.txt",
@@ -109,6 +121,9 @@
 
 # InferCNV run
 
+Running the infercnv::run. This is typically ran on a high performance
+cluster.
+
     # perform infercnv operations to reveal cnv signal
     infercnv_obj = infercnv::run(infercnv_obj,
                                  cutoff=0.1,  
@@ -116,3 +131,7 @@
                                  cluster_by_groups=T,   # If observations are defined according to groups (ie. patients), each group will be clustered separately
                                  denoise=T,
                                  HMM=T)
+
+The output infercnv.21\_denoised.png was used in Figure 4e:
+
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4e/infercnv.21_denoised.png).

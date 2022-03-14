@@ -17,6 +17,7 @@ library(infercnv)
 
 # Loading Data
 
+We start by creating an empty working directory so that all downloaded files are organized in one place. Download the files [from Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft): inferCNV_pediatric_patient_1/
 
 ```{r, eval = FALSE}
 # Load infoTables: Sample from patient 3 included regions of stroma cells that will be excluded from the inferCNV analysis, which only contains spots from tumor regions.
@@ -38,7 +39,9 @@ se_pat_3 <- InputFromTable(infotable = infoTable_pat_3,
                      platform="Visium")
 ```
 
-# Further Formatting
+# Further Formatting 
+
+Creating and formating the dataframes before outputting the requisite input files for infercnv::run.
 
 ```{r, eval = FALSE}
 # Add Pathology annotations to Meta.data in se_pat_3 object
@@ -83,7 +86,9 @@ head(se_sample)
 tail(se_sample)
 ```
 
-# Outputting Files
+# Outputting Files for infercnv::run 
+
+Creating the files for the next step.
 
 ```{r, eval = FALSE}
 
@@ -97,6 +102,8 @@ counts_matrix = GetAssayData(se, slot="counts")
 
 # Create the infercnv object
 
+Creating the inferCNV object for the inferCNV run.
+
 ```{r, eval = FALSE}
 infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
                                     annotations_file="./inferCNV_annotions_se_pat_1_2_3.txt",
@@ -107,6 +114,8 @@ infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
 ```
 
 # InferCNV run
+
+Running the infercnv::run. This is typically ran on a high performance cluster.
 
 ```{r, eval = FALSE}
 
@@ -120,5 +129,7 @@ infercnv_obj = infercnv::run(infercnv_obj,
 
 ```
 
+The output infercnv.21_denoised.png was used in Figure 4e:
 
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4e/infercnv.21_denoised.png).
 
