@@ -33,8 +33,8 @@ Initializing packages.
 
 # Creating a working directory
 
-    dir.create("Figure4_output")
-    setwd("Figure4_output")
+    dir.create("Figure4c_output")
+    setwd("Figure4c_output")
 
 # Downloading and formatting data, part 1
 
@@ -86,7 +86,7 @@ this on our GitHub:
 
 ![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/GeneToENSMBL.csv).
 
-    GeneToENSMBL <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure4/GeneToENSMBL.csv")
+    GeneToENSMBL <- read.csv("./GeneToENSMBL.csv")
 
     #library(tidyverse)
     #library(data.table)
@@ -191,7 +191,7 @@ associated with the dendrogram associated with the hierarchical
 clustering on the left hand side of the image
 (infercnv.21\_denoised.observations\_dendrogram.txt).
 
-![](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/infercnv.21_denoised.png)
+![infercnv.21\_denoised.png](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/infercnv.21_denoised.png)
 
 # Importing dendrogram
 
@@ -219,7 +219,7 @@ possible.
     nodelabels(text=1:SCC_P6_benigns_for_clustering_phylo$Nnode,node=1:SCC_P6_benigns_for_clustering_phylo$Nnode+Ntip(SCC_P6_benigns_for_clustering_phylo))
     dev.off()
 
-![](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
+![BenignPhylo](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
 
 # Clone selection
 
