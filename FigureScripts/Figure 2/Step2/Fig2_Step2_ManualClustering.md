@@ -128,8 +128,8 @@ selection of clones.
 
     write.csv(Merged, "Fig2_forclustering.csv", row.names = FALSE)
 
-This Fig2\_forclustering.csv file is used in \[Step
-3(<https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%202/Step3>).
+This Fig2\_forclustering.csv file is used in [Step
+3](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%202/Step3).
 
 # Outputting .CSV files for LoupeBrowser visualization.
 

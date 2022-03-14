@@ -111,7 +111,7 @@ Merged$Node <- ifelse(Merged$Node == "Node_4617" , "Clone_J",
 write.csv(Merged, "Fig2_forclustering.csv", row.names = FALSE)
 ```
 
-This Fig2_forclustering.csv file is used in [Step 3(https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%202/Step3).
+This Fig2_forclustering.csv file is used in [Step 3](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%202/Step3).
 
 # Outputting .CSV files for LoupeBrowser visualization.
 
