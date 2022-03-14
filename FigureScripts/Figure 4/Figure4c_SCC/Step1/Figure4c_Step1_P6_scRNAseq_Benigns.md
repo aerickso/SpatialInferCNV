@@ -191,7 +191,7 @@ associated with the dendrogram associated with the hierarchical
 clustering on the left hand side of the image
 (infercnv.21\_denoised.observations\_dendrogram.txt).
 
-![infercnv.21\_denoised.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step2/infercnv.21_denoised.png)
+![infercnv.21\_denoised.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/infercnv.21_denoised.png)
 
 # Importing dendrogram
 
@@ -221,7 +221,7 @@ possible.
 
 We provide the image output here:
 
-![SCC\_P6\_benigns\_for\_clustering\_phylo.png](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
+![SCC\_P6\_benigns\_for\_clustering\_phylo.png](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4c_SCC/Step1/SCC_P6_benigns_for_clustering_phylo.png)
 
 # Clone selection
 
