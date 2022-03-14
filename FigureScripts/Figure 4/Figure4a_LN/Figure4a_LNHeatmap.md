@@ -10,6 +10,15 @@ library(SpatialInferCNV)
 
 # Importing Count Data
 
+Just to make things a little easier for the user, I’d start by creating
+an empty working directory so that all downloaded files are organized in
+one place. Something like:
+
+``` r
+dir.create("siCNV_Figure4a")
+setwd("siCNV_Figure4a")
+```
+
 This code chunk imports the .h5 files a default processed output from
 [10x Genomics cell ranger pipeline
 documentation](https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/output/molecule_info),
@@ -108,4 +117,5 @@ Lymph10X_unsupervised = infercnv::run(Lymph10X_unsupervised,
 
 The final desired output is the infercnv.21_denoised.png file
 
-<Placeholder for image>
+![./SpatialInferCNV/FigureScripts/Figure
+4/Figure4a_LN/infercnv.21_denoised.png](path-to-image-here)
