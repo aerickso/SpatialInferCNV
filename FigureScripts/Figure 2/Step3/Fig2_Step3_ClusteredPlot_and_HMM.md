@@ -38,12 +38,11 @@
 
 # Pre-processing clustered data
 
-Since we have already previously created the count matrices, we just
-need to re-label the annotations to match the clone annotations in step
-2, output an updated annotation file, and then use said file as input
-(with the original count matrix from step 2) to generate the final runs
+Importing previously downloaded Consensus\_PurestBenigns.csv (step 1),
+and the Fig2\_forclustering.csv file created in step 2. We use this to
+create an updated annotation file for infercnv::run.
 
-    PurestBenigns_All <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure2/Step1/Inputs/Consensus_PurestBenigns_18112020.csv")
+    PurestBenigns_All <- read.csv("./Figure2_output/Patient 1/Consensus_PurestBenigns.csv")
     PurestBenigns_All$Histology <- "Purest Benigns"
 
     CorrectedBenigns_Consensus_AllCancer_ManualNodes_selected <- read.csv("./Mendeley/ProcessedFilesForFigures/Figure2/Step3/Inputs/Fig2_forclustering.csv")
@@ -59,6 +58,8 @@ need to re-label the annotations to match the clone annotations in step
 
 # Creating the inferCNV object (prior to run)
 
+Now creating the object for the supervised clustered run.
+
     AllCancer_clustered <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Organscale_Unsupervised_Consensus_AllCancer_Counts.tsv", 
                                                    gene_order_file="./siCNV_GeneOrderFile.tsv",
                                                    annotations_file="./Fig2_ManualClusters_for_ClusteredPlot_and_HMM.tsv",
@@ -68,10 +69,19 @@ need to re-label the annotations to match the clone annotations in step
 
 # Unsupervised Run - (Typically ran on cluster)
 
+Now creating the object for the supervised clustered run. Note: this is
+typically run
+
     AllCancer_clustered = infercnv::run(AllCancer_clustered,
                                                   cutoff=0.1,
-                                                  out_dir="./Figure2_Step3/Outputs", 
+                                                  out_dir="./Figure2_output/Figure2_step3/Outputs", 
                                                             num_threads = 20,
                                                   cluster_by_groups=TRUE, 
                                                   denoise=TRUE,
                                                   HMM=TRUE)
+
+And here is the final output file infercnv.21\_denoised.png (order
+rearranged in the manuscript figure 2).
+
+![infercnv.21\_denoised.png
+output](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%202/Step3/infercnv.21_denoised.png)
