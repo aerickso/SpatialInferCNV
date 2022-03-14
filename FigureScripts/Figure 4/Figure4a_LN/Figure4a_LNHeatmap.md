@@ -117,5 +117,4 @@ Lymph10X_unsupervised = infercnv::run(Lymph10X_unsupervised,
 
 The final desired output is the infercnv.21_denoised.png file
 
-![./SpatialInferCNV/FigureScripts/Figure
-4/Figure4a_LN/infercnv.21_denoised.png](path-to-image-here)
+![Output Image](infercnv.21_denoised.png)
