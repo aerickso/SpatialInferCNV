@@ -134,4 +134,4 @@ cluster.
 
 The output infercnv.21\_denoised.png was used in Figure 4e:
 
-![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4e/infercnv.21_denoised.png).
+![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4e/infercnv.png).
