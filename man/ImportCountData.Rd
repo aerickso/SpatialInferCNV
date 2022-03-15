@@ -2,10 +2,21 @@
 % Please edit documentation in R/ImportCountData.R
 \name{ImportCountData}
 \alias{ImportCountData}
-\title{Importing Histological Annotations}
+\title{Importing Visium spatial transcriptomics count data from filtered_feature_bc_matrix.h5 file (output from SpaceRanger pipeline) and appending section name to barcodes}
 \usage{
 ImportCountData(SectionName, InputCountFile)
 }
+\arguments{
+\item{SectionName}{A character string for section name.}
+
+\item{InputCountFile}{A file path to a filtered_feature_bc_matrix.h5 file (output from 10X Genomics SpaceRanger pipeline)}
+}
+\value{
+A dataframe of barcodes with appended section names
+}
 \description{
-ImportHistologicalAnnotations()
+ImportCountData()
+}
+\examples{
+ImportCountData("H2_1", "./filtered_feature_bc_matrix.h5")
 }
