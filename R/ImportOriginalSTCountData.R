@@ -1,6 +1,6 @@
 #' Importing spatial transcriptomics, 1k array count data and append section names to the barcodes.
 #'
-#' ImportHistologicalAnnotations()
+#' ImportOriginalSTCountData()
 #'
 #' @param SectionName A character string for section name.
 #' @param InputCountFile A file path to a .tsv file

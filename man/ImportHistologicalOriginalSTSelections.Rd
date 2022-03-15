@@ -2,10 +2,21 @@
 % Please edit documentation in R/ImportHistologicalOriginalSTSelections.R
 \name{ImportHistologicalOriginalSTSelections}
 \alias{ImportHistologicalOriginalSTSelections}
-\title{ImportHistologicalOriginalSTSelections}
+\title{Importing spatial transcriptomics, 1k array selected spot file data and append section names to the barcodes.}
 \usage{
 ImportHistologicalOriginalSTSelections(SectionName, InputAnnotationFile)
 }
+\arguments{
+\item{SectionName}{A character string for section name.}
+
+\item{InputAnnotationFile}{A file path to a .tsv file}
+}
+\value{
+A dataframe of barcodes with appended section names
+}
 \description{
 ImportHistologicalOriginalSTSelections()
+}
+\examples{
+ImportHistologicalOriginalSTSelections("H2_1", "./Patient 1/1k_arrays/H2_1/spot_data-selection-180903_L11_CN63_D1_P_H2.1_CY3_EB_aligned.tsv")
 }

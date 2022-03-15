@@ -15,7 +15,7 @@ ImportOriginalSTCountData(SectionName, InputCountFile)
 A dataframe of count data, having barcodes with appended section names
 }
 \description{
-ImportHistologicalAnnotations()
+ImportOriginalSTCountData()
 }
 \examples{
 ImportOriginalSTCountData("H2_1", "./Patient 1/1k_arrays/H2_1/180903_L11_CN63_D1_H2.1_EB_stdata.tsv")
