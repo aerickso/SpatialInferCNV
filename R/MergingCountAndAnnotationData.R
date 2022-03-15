@@ -5,7 +5,7 @@
 #' @param SectionName A character string for section name.
 #' @param InputAnnotationFile An annotation file containing all barcodes to be used in the analysis (bound dataframe of one or more outputs from ImportHistologicalAnnotations())
 #' @param InputCountFile A dataframe of Visium count data (output from ImportCountData())
-#' @return A dataframe of barcodes with appended section names
+#' @return A dataframe of barcodes with appended section names that have passed QC
 #' @examples
 #' MergingCountAndAnnotationData("H2_1",MergedAll, H2_1_ENSBMLID_Counts)
 

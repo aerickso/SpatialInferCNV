@@ -4,7 +4,7 @@
 #' 
 #' @param SectionName A character string for section name.
 #' @param InputCountFile A file path to a filtered_feature_bc_matrix.h5 file (output from 10X Genomics SpaceRanger pipeline)
-#' @return A dataframe of barcodes with appended section names
+#' @return A dataframe of counts with appended section names
 #' @examples
 #' ImportCountData("H2_1", "./filtered_feature_bc_matrix.h5")
 

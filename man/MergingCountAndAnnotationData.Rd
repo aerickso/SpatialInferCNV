@@ -14,7 +14,7 @@ MergingCountAndAnnotationData(SectionName, InputAnnotationFile, InputCountFile)
 \item{InputCountFile}{A dataframe of Visium count data (output from ImportCountData())}
 }
 \value{
-A dataframe of barcodes with appended section names
+A dataframe of barcodes with appended section names that have passed QC
 }
 \description{
 MergingCountAndAnnotationData()

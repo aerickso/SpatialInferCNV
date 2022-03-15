@@ -2,10 +2,21 @@
 % Please edit documentation in R/SelectingSubTreeData.R
 \name{SelectingSubTreeData}
 \alias{SelectingSubTreeData}
-\title{Selecting Subtree Data for Node Selection}
+\title{Selecting Subtree Data for Node Selection: this selects a number of barcoded spots from a inferCNV dendrogram object for further analysis.}
 \usage{
 SelectingSubTreeData(SubtreeObject, NodeOfInterest)
 }
+\arguments{
+\item{SubtreeObject}{A dendrogram, phylo object created by subtrees(as.phylo([dendogram.txt]))}
+
+\item{NodeOfInterest}{A numerical integer corresponding to a phylogram/dendogram node of interest}
+}
+\value{
+A specific subtree node
+}
 \description{
 SelectingSubTreeData()
+}
+\examples{
+SelectingSubTreeData(my.subtrees, 4617)
 }

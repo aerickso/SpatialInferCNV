@@ -12,7 +12,7 @@ ImportCountData(SectionName, InputCountFile)
 \item{InputCountFile}{A file path to a filtered_feature_bc_matrix.h5 file (output from 10X Genomics SpaceRanger pipeline)}
 }
 \value{
-A dataframe of barcodes with appended section names
+A dataframe of counts with appended section names
 }
 \description{
 ImportCountData()
