@@ -9,8 +9,10 @@ single cells, successfully identifying regions of chromosomal gain and
 loss. Here we expand into a spatial modality, generating CNV calls in
 each spatial region represented by barcoded spots.
 
-We provide a R package via this github page, as well as scripts to
-reproduce the main figures in the manuscript.
+We provide a R package via this github page, as well as [scripts to
+reproduce the main
+figures](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts)
+in the manuscript.
 
 This code was tested using [R](https://www.r-project.org/) version 4.0.1
 (2020-06-06), a Windows 10 Computer, 16GB RAM, and 4 CPUs (2.5 GHz). For
