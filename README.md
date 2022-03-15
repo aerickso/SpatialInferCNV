@@ -1,5 +1,3 @@
-<img src="https://www.nds.ox.ac.uk/images/logos/secondary-logo" height="75" /> <img src="https://www.nds.ox.ac.uk/images/logos/primary-logo" height="75"/> <img src="https://www.scilifelab.se/wp-content/uploads/2020/09/SciLifeLab_Logotype_Green_POS_large-copy-1536x334.png" height="75" /> <img src="https://intra.kth.se/polopoly_fs/1.859833.1600722711!/image/rund_logotype.jpg" height="75" /> 
-
 # siCNV: Spatial InferCNV from Spatial Transcriptomics Data
 
 Spatially resolved transcriptomics has emerged as a genome-wide analysis
@@ -29,10 +27,17 @@ with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
 #install_github('aerickso/SpatialInferCNV',
 #                         auth_token = AUTH)
+install.packages("devtools")
 library(devtools)
 install_github("aerickso/SpatialInferCNV")
 library(SpatialInferCNV)
 ```
+
+# Package Functions
+
+The package provides a number of functions, please read the function
+documentation in each function located
+[here](https://github.com/aerickso/SpatialInferCNV/tree/main/R).
 
 # Study Data
 

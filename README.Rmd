@@ -28,13 +28,14 @@ install_github("aerickso/SpatialInferCNV")
 library(SpatialInferCNV)
 ```
 
+# Package Functions
+
+The package provides a number of functions, please read the function documentation in each function located [here](https://github.com/aerickso/SpatialInferCNV/tree/main/R).
+
 # Study Data
 
 We provide data used in this study at the following [Mendeley Repository](https://data.mendeley.com/v1/datasets/svw96g68dv/draft).
 
-```{r, eval = FALSE}
-
-```
 
 
 
