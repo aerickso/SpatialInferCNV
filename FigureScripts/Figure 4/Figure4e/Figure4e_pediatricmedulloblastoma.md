@@ -132,6 +132,6 @@ cluster.
                                  denoise=T,
                                  HMM=T)
 
-The output infercnv.21\_denoised.png was used in Figure 4e:
+The output infercnv.png was used in Figure 4e:
 
 ![](https://github.com/aerickso/SpatialInferCNV/blob/main/FigureScripts/Figure%204/Figure4e/infercnv.png).
