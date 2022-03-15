@@ -2,10 +2,21 @@
 % Please edit documentation in R/ImportOriginalSTCountData.R
 \name{ImportOriginalSTCountData}
 \alias{ImportOriginalSTCountData}
-\title{Importing Histological Annotations}
+\title{Importing spatial transcriptomics, 1k array count data and append section names to the barcodes.}
 \usage{
 ImportOriginalSTCountData(SectionName, InputCountFile)
 }
+\arguments{
+\item{SectionName}{A character string for section name.}
+
+\item{InputCountFile}{A file path to a .tsv file}
+}
+\value{
+A dataframe of count data, having barcodes with appended section names
+}
 \description{
 ImportHistologicalAnnotations()
+}
+\examples{
+ImportOriginalSTCountData("H2_1", "./Patient 1/1k_arrays/H2_1/180903_L11_CN63_D1_H2.1_EB_stdata.tsv")
 }
