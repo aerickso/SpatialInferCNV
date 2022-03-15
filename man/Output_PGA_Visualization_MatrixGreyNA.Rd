@@ -2,10 +2,23 @@
 % Please edit documentation in R/Output_PGA_Visualization_MatrixGreyNA.R
 \name{Output_PGA_Visualization_MatrixGreyNA}
 \alias{Output_PGA_Visualization_MatrixGreyNA}
-\title{Output_PGA_Visualization_MatrixGreyNA}
+\title{Preparing a matrix for spatial visualization of number of genes with an inferred CNV, derived from spatial transriptomics data.}
 \usage{
 Output_PGA_Visualization_MatrixGreyNA(SectionName, InputCNVs, BarcodesFile)
 }
+\arguments{
+\item{SectionName}{A character string for section name.}
+
+\item{InputCNVs}{An input dataframe created by the function ExtractSectionWise()}
+
+\item{BarcodesFile}{A single column dataframe comprised of a list of barcode coordinates in the form AxB, where A = the X coordinate, and B = the Y coordinate.}
+}
+\value{
+A dataframe for spatial visualization by Plot_PGA_Visualization_Matrix()
+}
 \description{
 Output_PGA_Visualization_MatrixGreyNA()
+}
+\examples{
+Output_PGA_Visualization_MatrixGreyNA("H2_1", H2_1_Sectionwise_CNVsGenes_Counted, L2_Barcodes)
 }
