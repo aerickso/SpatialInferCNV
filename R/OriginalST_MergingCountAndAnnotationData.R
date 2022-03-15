@@ -1,6 +1,13 @@
-#' Importing Histological Annotations
+#' Merging spatial transcriptomics, 1k array count files and barcodes, an apply a QC metric to only select
+#' ST spots with >=500 total unique molecular identifiers.
 #'
-#' ImportHistologicalAnnotations()
+#' OriginalST_MergingCountAndAnnotationData()
+#' 
+#' @param InputAnnotationFile An annotation file created by ImportHistologicalOriginalSTSelections()
+#' @param InputCountFile A ST count file created by ImportOriginalSTCountData()
+#' @return A dataframe of ST counts, that have passed QC and are selected.
+#' @examples
+#' OriginalST_MergingCountAndAnnotationData(Barcodes_H2_1, Counts_H2.1)
 
 OriginalST_MergingCountAndAnnotationData <- function(InputAnnotationFile, InputCountFile) {
   formerge <- select(InputAnnotationFile, -Histology)

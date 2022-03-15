@@ -2,10 +2,22 @@
 % Please edit documentation in R/OriginalST_MergingCountAndAnnotationData.R
 \name{OriginalST_MergingCountAndAnnotationData}
 \alias{OriginalST_MergingCountAndAnnotationData}
-\title{Importing Histological Annotations}
+\title{Merging spatial transcriptomics, 1k array count files and barcodes, an apply a QC metric to only select
+ST spots with >=500 total unique molecular identifiers.}
 \usage{
 OriginalST_MergingCountAndAnnotationData(InputAnnotationFile, InputCountFile)
 }
+\arguments{
+\item{InputAnnotationFile}{An annotation file created by ImportHistologicalOriginalSTSelections()}
+
+\item{InputCountFile}{A ST count file created by ImportOriginalSTCountData()}
+}
+\value{
+A dataframe of ST counts, that have passed QC and are selected.
+}
 \description{
-ImportHistologicalAnnotations()
+OriginalST_MergingCountAndAnnotationData()
+}
+\examples{
+OriginalST_MergingCountAndAnnotationData(Barcodes_H2_1, Counts_H2.1)
 }
