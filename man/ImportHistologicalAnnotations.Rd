@@ -2,10 +2,21 @@
 % Please edit documentation in R/ImportHistologicalAnnotations.R
 \name{ImportHistologicalAnnotations}
 \alias{ImportHistologicalAnnotations}
-\title{Importing Histological Annotations}
+\title{Importing histological annotations of Visium barcodes and appending a section name to the barcodes.}
 \usage{
 ImportHistologicalAnnotations(SectionName, InputAnnotationFile)
 }
+\arguments{
+\item{SectionName}{A character string for section name.}
+
+\item{InputAnnotationFile}{A file path to a .tsv file}
+}
+\value{
+A dataframe of barcodes with appended section names
+}
 \description{
 ImportHistologicalAnnotations()
+}
+\examples{
+ImportHistologicalAnnotations("H1_2", "./H1_2_Final_Consensus_Annotations.csv")
 }
