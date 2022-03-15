@@ -9,12 +9,13 @@ ImportHistologicalAnnotations(SectionName, InputAnnotationFile)
 \arguments{
 \item{SectionName}{A character string for section name.}
 
-\item{InputAnnotationFile}{A file path to a .tsv file}
+\item{InputAnnotationFile}{A file path to a .csv file, with annotations (for example, output from LoupeBrowser after manual annotations)}
 }
 \value{
 A dataframe of barcodes with appended section names
 }
 \description{
+the LoupeBrower.
 ImportHistologicalAnnotations()
 }
 \examples{

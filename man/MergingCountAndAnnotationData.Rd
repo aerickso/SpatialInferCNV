@@ -2,10 +2,23 @@
 % Please edit documentation in R/MergingCountAndAnnotationData.R
 \name{MergingCountAndAnnotationData}
 \alias{MergingCountAndAnnotationData}
-\title{Importing Histological Annotations}
+\title{Merging Visium spatial transciptomics count and annotation data, as well as applying a QC filter to only include spots with >= 500 counts}
 \usage{
 MergingCountAndAnnotationData(SectionName, InputAnnotationFile, InputCountFile)
 }
+\arguments{
+\item{SectionName}{A character string for section name.}
+
+\item{InputAnnotationFile}{An annotation file containing all barcodes to be used in the analysis (bound dataframe of one or more outputs from ImportHistologicalAnnotations())}
+
+\item{InputCountFile}{A dataframe of Visium count data (output from ImportCountData())}
+}
+\value{
+A dataframe of barcodes with appended section names
+}
 \description{
-ImportHistologicalAnnotations()
+MergingCountAndAnnotationData()
+}
+\examples{
+MergingCountAndAnnotationData("H2_1",MergedAll, H2_1_ENSBMLID_Counts)
 }

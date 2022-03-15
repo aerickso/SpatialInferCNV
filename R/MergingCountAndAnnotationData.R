@@ -1,6 +1,13 @@
-#' Importing Histological Annotations
+#' Merging Visium spatial transciptomics count and annotation data, as well as applying a QC filter to only include spots with >= 500 counts
 #'
-#' ImportHistologicalAnnotations()
+#' MergingCountAndAnnotationData()
+#' 
+#' @param SectionName A character string for section name.
+#' @param InputAnnotationFile An annotation file containing all barcodes to be used in the analysis (bound dataframe of one or more outputs from ImportHistologicalAnnotations())
+#' @param InputCountFile A dataframe of Visium count data (output from ImportCountData())
+#' @return A dataframe of barcodes with appended section names
+#' @examples
+#' MergingCountAndAnnotationData("H2_1",MergedAll, H2_1_ENSBMLID_Counts)
 
 MergingCountAndAnnotationData <- function(SectionName, InputAnnotationFile, InputCountFile) {
   formerge <- select(InputAnnotationFile, -Histology)
