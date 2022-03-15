@@ -2,7 +2,7 @@
 % Please edit documentation in R/ExtractSectionWise.R
 \name{ExtractSectionWise}
 \alias{ExtractSectionWise}
-\title{ExtractSectionWise}
+\title{Obtaining a thresholded dataframe as part of spatial visualization of spatial transcriptomics data.}
 \usage{
 ExtractSectionWise(
   SectionName,
@@ -11,6 +11,21 @@ ExtractSectionWise(
   Threshold
 )
 }
+\arguments{
+\item{SectionName}{A character string for section name.}
+
+\item{CNV_Genes_Organscale_Input}{A dataframe, mirroring the structure of infercnv::run output file 17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat}
+
+\item{AllBarcodes}{A dataframe of barcodes and annotations.}
+
+\item{Threshold}{A numerical value for sectionwise thresholding of the number of genes to pass: integer values from 0-100.}
+}
+\value{
+A dataframe of ST counts, that have passed QC and are selected.
+}
 \description{
 ExtractSectionWise()
+}
+\examples{
+ExtractSectionWise("H2_1", CNV_Genes_Filtered, AllBarcodes, 0.45)
 }
