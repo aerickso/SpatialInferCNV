@@ -1,6 +1,13 @@
-#' Importing Histological Annotations
+#' Creating A finalized annotation dataframe containing only barcodes in the count file.  
 #'
-#' ImportHistologicalAnnotations()
+#' FinalAnnotations()
+#' 
+#' @param InputOriginalAnnotationFile A dataframe of barcodes selected for analysis
+#' @param InputCounts A joined count dataframe, of barcodes selected for analysis AND has passed QC (counts per spot >= 500 counts)
+#' @return A finalized annotation dataframe containing only barcodes in the count file.
+#' @examples
+#' SelectingSubTreeData(my.subtrees, 4617)
+#' FinalAnnotations(MergedAll, Counts_joined)
 
 FinalAnnotations <- function(InputOriginalAnnotationFile, InputCounts) {
   input <- InputCounts

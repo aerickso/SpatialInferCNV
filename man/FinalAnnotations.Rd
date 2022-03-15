@@ -2,10 +2,22 @@
 % Please edit documentation in R/FinalAnnotations.R
 \name{FinalAnnotations}
 \alias{FinalAnnotations}
-\title{Importing Histological Annotations}
+\title{Creating A finalized annotation dataframe containing only barcodes in the count file.}
 \usage{
 FinalAnnotations(InputOriginalAnnotationFile, InputCounts)
 }
+\arguments{
+\item{InputOriginalAnnotationFile}{A dataframe of barcodes selected for analysis}
+
+\item{InputCounts}{A joined count dataframe, of barcodes selected for analysis AND has passed QC (counts per spot >= 500 counts)}
+}
+\value{
+A finalized annotation dataframe containing only barcodes in the count file.
+}
 \description{
-ImportHistologicalAnnotations()
+FinalAnnotations()
+}
+\examples{
+SelectingSubTreeData(my.subtrees, 4617)
+FinalAnnotations(MergedAll, Counts_joined)
 }
