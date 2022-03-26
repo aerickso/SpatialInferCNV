@@ -22,13 +22,42 @@ analyses were ran on the
 [BMRC](https://www.medsci.ox.ac.uk/divisional-services/support-services-1/bmrc/cluster-usage),
 with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
-# Installation
+# Installation of SpatialInferCNV Dependencies
 
 ``` r
+install.packages("tidyverse")
+install.packages("infercnv")
+install.packages("Seurat")
+install.packages("hdf5r")
+install.packages("phylogram")
+install.packages("ape")
+
+library("tidyverse")
+library("infercnv")
+library("Seurat")
+library("hdf5r")
+library("phylogram")
+library("ape")
+```
+
+# Installation - Dev
+
+``` r
+#Note: upon manuscript acceptance, the package will be made public, and thus the need for auth tokens will be removed and thus this code chunk will be deleted. For collaborators, you may need to generate your own new auth token.
+
 #AUTH = '87a674f0a1c03d8ccc57bf23c5303695ec30b7ee'
 
-#install_github('aerickso/SpatialInferCNV',
-#                         auth_token = AUTH)
+install.packages("devtools")
+library(devtools)
+install_github('aerickso/SpatialInferCNV',
+                         auth_token = AUTH)
+library(SpatialInferCNV)
+```
+
+# Installation - Public
+
+``` r
+#This will be the final code chunk, with the above chunk deleted
 install.packages("devtools")
 library(devtools)
 install_github("aerickso/SpatialInferCNV")
@@ -44,4 +73,4 @@ documentation in each function located
 # Study Data
 
 We provide data used in this study at the following [Mendeley
-Repository](https://data.mendeley.com/v1/datasets/svw96g68dv/draft).
+Repository](https://data.mendeley.com/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-5).
