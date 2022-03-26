@@ -57,7 +57,7 @@ library(SpatialInferCNV)
 # Installation - Public
 
 ``` r
-#This will be the final code chunk, with the above chunk deleted
+#This will be the final code chunk, with the above chunk (Installation - Dev) deleted upon release
 install.packages("devtools")
 library(devtools)
 install_github("aerickso/SpatialInferCNV")
