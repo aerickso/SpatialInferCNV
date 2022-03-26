@@ -57,7 +57,7 @@ again and filter only for the selected/filtered benign reference set.
 # Importing Data for Visium Data
 
 Download the files [from
-Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft):
+Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-8c517c3a9e29):
 SCC\_patient/.
 
 Here, we are filtering for the section used in the Figure 4d analysis
@@ -237,7 +237,7 @@ Running infercnv, typically ran on a server.
 
     Visium_P6_Bg_infCNV = infercnv::run(Visium_P6_Bg_infCNV,
                                                   cutoff=0.1,
-                                                out_dir="./Outputs", 
+                                                out_dir="./Figure4c_Step2/Outputs", 
                                                   num_threads = 10,
                                                   cluster_by_groups=FALSE, 
                                                   denoise=TRUE,

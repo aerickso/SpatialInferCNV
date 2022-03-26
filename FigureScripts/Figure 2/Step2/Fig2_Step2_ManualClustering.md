@@ -135,10 +135,10 @@ This Fig2\_forclustering.csv file is used in [Step
 
 LoupeBrowser files are available from the authors upon request:
 <andrew.erickson@nds.ox.ac.uk>, or <joakim.lundenberg@scilifelab.se>.
-However, we provide the high resolution input files:
-<https://data.mendeley.com/v1/datasets/svw96g68dv/draft> :
-Histological\_images/Patient 1/Visium and FASTQ files (EGA link pending)
-to run
+However, we provide the [high resolution input
+files](https://data.mendeley.com/v1/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-8c517c3a9e29)
+: Histological\_images/Patient 1/Visium and FASTQ files (EGA link
+pending) to run
 [SpaceRanger](https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/output/overview)
 to output the LoupeBrowser files.
 

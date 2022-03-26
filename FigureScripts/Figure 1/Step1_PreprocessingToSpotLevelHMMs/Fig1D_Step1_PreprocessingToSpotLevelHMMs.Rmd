@@ -15,7 +15,7 @@ library(SpatialInferCNV)
 
 # Downloading data
 
-First, we need to download the data from [Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft). The files we need are located in Count_matrices/Patient 1/1k_arrays. Downloaded the Patient 1/1k_arrays folder into our working directory.
+First, we need to download the data from [Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-8c517c3a9e29). The files we need are located in Count_matrices/Patient 1/1k_arrays. Downloaded the Patient 1/1k_arrays folder into our working directory.
 
 ```{r, eval = FALSE}
 dir.create("Fig1_Step1")

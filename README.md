@@ -73,4 +73,4 @@ documentation in each function located
 # Study Data
 
 We provide data used in this study at the following [Mendeley
-Repository](https://data.mendeley.com/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-5).
+Repository](https://data.mendeley.com/v1/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-8c517c3a9e29).

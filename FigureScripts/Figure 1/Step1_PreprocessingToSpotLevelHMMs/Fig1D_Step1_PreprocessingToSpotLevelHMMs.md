@@ -11,8 +11,8 @@
 # Downloading data
 
 First, we need to download the data from
-[Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft). The
-files we need are located in Count\_matrices/Patient 1/1k\_arrays.
+[Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-8c517c3a9e29).
+The files we need are located in Count\_matrices/Patient 1/1k\_arrays.
 Downloaded the Patient 1/1k\_arrays folder into our working directory.
 
     dir.create("Fig1_Step1")
@@ -449,7 +449,8 @@ chromosomes X and Y (not included by default).
 
 # Unsupervised Run - (Typically ran on cluster)
 
-Finally, we then perform infercnv::run. This is typically ran on a high
+Finally, we then perform infercnv::run. This is ran on a per-spot level,
+and is extremely time consuming. This is typically ran on a high
 performance cluster.
 
     STOrganscale = infercnv::run(STOrganscale,

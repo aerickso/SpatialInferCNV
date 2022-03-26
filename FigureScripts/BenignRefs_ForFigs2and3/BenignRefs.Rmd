@@ -21,7 +21,7 @@ library(tidyverse)
 
 # Download data
 
-Download all the data from [Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft), specifically all folders from: count_matrices/Patient 1/Visium_with_annotation/.
+Download all the data from [Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-8c517c3a9e29), specifically all folders from: count_matrices/Patient 1/Visium_with_annotation/.
 
 ```{r, eval = FALSE}
 dir.create("Patient1_BenignRefs")

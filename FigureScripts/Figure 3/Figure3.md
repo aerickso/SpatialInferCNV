@@ -31,7 +31,7 @@ library(SpatialInferCNV)
 
 We start by creating an empty working directory so that all downloaded
 files are organized in one place. Download the files [from
-Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft):
+Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-8c517c3a9e29):
 Count_matrices/Patient 1/Visium_with_annotation.
 
 ``` r

@@ -46,7 +46,7 @@ saveRDS(SCC_P6_BenignReferences_Barcodes, file = "SCC_P6_BenignReferences_Barcod
 
 # Importing Data for Visium Data
 
-Download the files [from Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft): SCC_patient/.
+Download the files [from Mendeley](https://data.mendeley.com/v1/datasets/svw96g68dv/draft?a=3f263217-2bd3-4a3c-8125-8c517c3a9e29): SCC_patient/.
 
 Here, we are filtering for the section used in the Figure 4d analysis from a parent seurat object. We output both the counts and the barcodes from this Visium section. We manually apply a QC threshold to only include Visium spots with at least 500 counts.
 
