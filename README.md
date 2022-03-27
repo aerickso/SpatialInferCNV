@@ -25,12 +25,18 @@ with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 # Installation of SpatialInferCNV Dependencies
 
 ``` r
+#26.03.2022 - stopped here, needs potential documentation on system level install of hdf5 https://support.bioconductor.org/p/130139/
+install.packages("hdf5r")
+library("hdf5r")
+```
+
+``` r
 install.packages("tidyverse")
 install.packages("infercnv")
 install.packages("Seurat")
-install.packages("hdf5r")
 install.packages("phylogram")
 install.packages("ape")
+install.packages("devtools")
 
 library("tidyverse")
 library("infercnv")
@@ -38,6 +44,7 @@ library("Seurat")
 library("hdf5r")
 library("phylogram")
 library("ape")
+library(devtools)
 ```
 
 # Installation - Dev
@@ -45,10 +52,8 @@ library("ape")
 ``` r
 #Note: upon manuscript acceptance, the package will be made public, and thus the need for auth tokens will be removed and thus this code chunk will be deleted. For collaborators, you may need to generate your own new auth token.
 
-#AUTH = '87a674f0a1c03d8ccc57bf23c5303695ec30b7ee'
+#AUTH = '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'
 
-install.packages("devtools")
-library(devtools)
 install_github('aerickso/SpatialInferCNV',
                          auth_token = AUTH)
 library(SpatialInferCNV)
