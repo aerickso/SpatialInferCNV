@@ -17,11 +17,17 @@ This code was tested using [R](https://www.r-project.org/) version 4.0.1 (2020-0
 
 # Installation of SpatialInferCNV Dependencies
 
+
+```{r, eval = FALSE}
+#26.03.2022 - stopped here, needs potential documentation on system level install of hdf5 https://support.bioconductor.org/p/130139/
+install.packages("hdf5r")
+library("hdf5r")
+```
+
 ```{r, eval = FALSE}
 install.packages("tidyverse")
 install.packages("infercnv")
 install.packages("Seurat")
-install.packages("hdf5r")
 install.packages("phylogram")
 install.packages("ape")
 
