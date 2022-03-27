@@ -14,37 +14,27 @@ reproduce the main
 figures](https://github.com/aerickso/SpatialInferCNV/tree/main/FigureScripts)
 in the manuscript.
 
-This code was tested using [R](https://www.r-project.org/) version 4.0.1
-(2020-06-06), a Windows 10 Computer, 16GB RAM, and 4 CPUs (2.5 GHz). For
-timely data-analyses of datasets comprising 2 or more Visium sections,
-consider use of a high performance cluster. In our project, such
-analyses were ran on the
+This code was tested using [R](https://www.r-project.org/) version
+4.1.3, a Windows 11 Computer, 32GB RAM, and 12 CPUs (1.6 GHz).
+
+For timely data-analyses of datasets comprising 2 or more Visium
+sections, consider use of a high performance cluster. In our project,
+the infercnv::run analyses steps were ran on the
 [BMRC](https://www.medsci.ox.ac.uk/divisional-services/support-services-1/bmrc/cluster-usage),
 with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
 # Installation of SpatialInferCNV Dependencies
 
 ``` r
-#26.03.2022 - stopped here, needs potential documentation on system level install of hdf5 https://support.bioconductor.org/p/130139/
-install.packages("hdf5r")
-library("hdf5r")
-```
-
-``` r
+install.packages("devtools")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+     install.packages("BiocManager")
+BiocManager::install("infercnv")
 install.packages("tidyverse")
-install.packages("infercnv")
 install.packages("Seurat")
 install.packages("phylogram")
 install.packages("ape")
-install.packages("devtools")
-
-library("tidyverse")
-library("infercnv")
-library("Seurat")
-library("hdf5r")
-library("phylogram")
-library("ape")
-library(devtools)
+install.packages("hdf5r")
 ```
 
 # Installation - Dev
@@ -52,8 +42,9 @@ library(devtools)
 ``` r
 #Note: upon manuscript acceptance, the package will be made public, and thus the need for auth tokens will be removed and thus this code chunk will be deleted. For collaborators, you may need to generate your own new auth token.
 
-#AUTH = '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'
-
+AUTH = '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'
+install.packages("devtools")
+library(devtools)
 install_github('aerickso/SpatialInferCNV',
                          auth_token = AUTH)
 library(SpatialInferCNV)
@@ -69,11 +60,11 @@ install_github("aerickso/SpatialInferCNV")
 library(SpatialInferCNV)
 ```
 
-# Package Functions
+# Userguide
 
 The package provides a number of functions, please read the function
 documentation in each function located
-[here](https://github.com/aerickso/SpatialInferCNV/tree/main/R).
+[here](https://github.com/aerickso/SpatialInferCNV/UserGuide/).
 
 # Study Data
 
