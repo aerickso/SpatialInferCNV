@@ -58,7 +58,7 @@ library(SpatialInferCNV)
 
 # Userguide
 
-The package provides a number of functions, please read the user guide [here](https://github.com/aerickso/SpatialInferCNV).
+The package provides a number of functions, please read the user guide [here](https://aerickso.github.io/SpatialInferCNV/).
 
 # Study Data
 
