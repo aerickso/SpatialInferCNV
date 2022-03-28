@@ -1,10 +1,10 @@
 # SpatialInferCNV UserGuide
 
 
-| ver   | Stable                                                                                                                                 | Dev Date | UserGuide |
+| ver   | Stable                                                                                                                                 | Dev Date | UserGuideUpdate |
 |-------|----------------------------------------------------------------------------------------------------------------------------------------|-------|-----------|
-| 1.0 | [![Build Status 1.0](https://github.com/yintz/SpatialInferCNV/blob/main/UserGuide/Images/passing.svg)](https://github.com/aerickso/SpatialInferCNV) |July 2021| - |
-| 1.1 | [![Build Status 1.1](https://github.com/yintz/SpatialInferCNV/blob/main/UserGuide/Images/unknown.svg)](https://github.com/aerickso/SpatialInferCNV) |Pending | 28/03/2022 |
+| 1.0 | [![Build Status 1.0](https://github.com/yintz/SpatialInferCNV/blob/main/UserGuide/Images/passing.svg)](https://github.com/aerickso/SpatialInferCNV) |July 2021| 28/03/2022 |
+| 1.1 | [![Build Status 1.1](https://github.com/yintz/SpatialInferCNV/blob/main/UserGuide/Images/unknown.svg)](https://github.com/aerickso/SpatialInferCNV) |Pending | - |
 
 
 
@@ -690,6 +690,6 @@ The spots should be now visualized with the clone identity labeled.
 The programme is supported by **XXX** and developped at University of Oxford **XXX** lab.
 
 ## Feedback and suggestion
-For Feeback and suggestion, please contact **XXX@nds.ox.ac.uk**
+For Feeback and suggestion, please contact **XXX@nds.ox.ac.uk** or comment on Issue.
 
 
