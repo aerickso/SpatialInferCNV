@@ -23,10 +23,6 @@ the infercnv::run analyses steps were ran on the
 [BMRC](https://www.medsci.ox.ac.uk/divisional-services/support-services-1/bmrc/cluster-usage),
 with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
-A
-[environment.yml](https://github.com/aerickso/SpatialInferCNV/blob/main/environment.yml)
-file is available for those wishing to work in a conda environent.
-
 # Installation of SpatialInferCNV Dependencies
 
 ``` r
@@ -62,6 +58,33 @@ install.packages("devtools")
 library(devtools)
 install_github("aerickso/SpatialInferCNV")
 library(SpatialInferCNV)
+```
+
+# Setting up a conda environment
+
+We also provide an [environment
+file](https://github.com/aerickso/SpatialInferCNV/blob/main/environment.yml)
+to set up a conda environment with all the dependencies necessary for
+SpatialInferCNV. If you have anaconda installed, you can create a new
+environment and activate it by running the code below.
+
+    conda create -f environment.yml
+    conda activate SpatialInferCNV
+
+If you want to run RStudio within this environment you can install it
+from the terminal with conda:
+
+    # make sure that the environment is active
+    conda install -c r rstudio
+    rstudio
+
+Once you have created the environment you can install SpatialInferCNV.
+
+``` r
+# From R
+install.packages("devtools")
+library(devtools)
+install_github("aerickso/SpatialInferCNV")
 ```
 
 # Userguide
