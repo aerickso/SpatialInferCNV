@@ -5,8 +5,6 @@ output: html_document
 
 ---
 
-Author note: the repo is currently private until accepted for publication. This document will be converted from markdown to html and be provided at https://aerickso.github.io/SpatialInferCNV/.
-
 # Userguide
 ***
 
