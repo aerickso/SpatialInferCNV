@@ -1,10 +1,10 @@
 # SpatialInferCNV UserGuide
 
 
-| ver   | Stable                                                                                                                                 | Date |
-|-------|----------------------------------------------------------------------------------------------------------------------------------------|-------|
-| 1.0 | [![Build Status 1.0](https://github.com/yintz/SpatialInferCNV/blob/main/UserGuide/Images/passing.svg)](https://github.com/aerickso/SpatialInferCNV) |July 2021|
-| 1.1 | [![Build Status 1.1](https://github.com/yintz/SpatialInferCNV/blob/main/UserGuide/Images/unknown.svg)](https://github.com/aerickso/SpatialInferCNV) |Pending |
+| ver   | Stable                                                                                                                                 | Dev Date | UserGuide |
+|-------|----------------------------------------------------------------------------------------------------------------------------------------|-------|-----------|
+| 1.0 | [![Build Status 1.0](https://github.com/yintz/SpatialInferCNV/blob/main/UserGuide/Images/passing.svg)](https://github.com/aerickso/SpatialInferCNV) |July 2021| - |
+| 1.1 | [![Build Status 1.1](https://github.com/yintz/SpatialInferCNV/blob/main/UserGuide/Images/unknown.svg)](https://github.com/aerickso/SpatialInferCNV) |Pending | 28/03/2022 |
 
 
 
@@ -14,15 +14,39 @@ to infer spatial copy number variation in different regions across multiple orga
 
 The full detail of this development, analysis and application is on 
 [Erickson, *et al.*,2021, The spatial landscape of clonal somatic mutations in benign and malignant tissue](https://www.biorxiv.org/content/10.1101/2021.07.12.452018v1).
-Note: this will be updated with a doi link upon acceptance of the
-manuscript for publication.
+Note: this will be updated with a doi link upon acceptance of the manuscript for publication.
 
-This document, is intended to demonstrate:
+## Environment
+[10X Genomics LoupeBrowser](https://www.10xgenomics.com/products/loupe-browser)  
+[R](https://www.r-project.org/) Environment.
 
--   Downloading data from a single ST array (which could be from this
-    study),
--   Describing the steps to analyse the ST data
--   Steps describing the sequential use of each function in siCNV.
+## Contents
+1. Install SpatialInferCNV package
+2. Initialize SpatialInferCNV
+3. Downloading and importing publicly available Visium Datasets (10x Genomics)
+4. Preparation of example histological annotations in the Loupe Browser
+5. Importing Histological Annotation Data
+6. Merging histological annotation data with count data
+7. Selecting finalized annotations for export for use in infercnv::run
+8. Manual selection of output groups from a infercnv run plot for visualization and further analysis
+9. Working with 1k array spatial array ST
+10. Import histological selections
+11. Merging 1k array histological annotation data with count data
+12. Spatial Visualization of Original ST Data - Using publicly available Breast Cancer Data
+13. Extracting sectionwise, spot level HMM data
+14. Creating a visualization matrix for the HMM 1k array data
+15. Plot PGA
+16. Acknowledgement
+17. Feedback and suggestion
+
+## Install SpatialInferCNV package
+
+``` r
+install.packages("devtools")
+library(devtools)
+install_github("aerickso/SpatialInferCNV")
+library(SpatialInferCNV)
+```
 
 ## Initialize SpatialInferCNV
 
@@ -658,3 +682,14 @@ ggsave(paste0("BC23209_C1", "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"
 The spots should be now visualized with the clone identity labeled.
 
 ![](./Images/BC23209_C1_PGA_SpatialVisualization_2022-03-27.png)
+
+
+
+
+## Acknowledgement
+The programme is supported by **XXX** and developped at University of Oxford **XXX** lab.
+
+## Feedback and suggestion
+For Feeback and suggestion, please contact **XXX@nds.ox.ac.uk**
+
+
