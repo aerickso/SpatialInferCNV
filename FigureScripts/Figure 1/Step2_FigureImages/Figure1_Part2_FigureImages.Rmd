@@ -177,6 +177,17 @@ Plot_PGA_Visualization_Matrix("H2_4", PGA_Matrix, MaxVal)
 PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("H2_5", H2_5_Sectionwise_CNVsGenes_Counted, L2_Barcodes)
 Plot_PGA_Visualization_Matrix("H2_5", PGA_Matrix, MaxVal)
 
+#Note: This following code outputs the plot from H2_5
+ggsave(paste0(SectionName, "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"),
+         plot = last_plot() + labs(x=NULL, y=NULL),
+         device = NULL,
+         path = NULL,
+         scale = 1,
+         width = NA,
+         height = NA,
+         dpi = 300,
+         limitsize = TRUE)
+
 PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("V1_1", V1_1_Sectionwise_CNVsGenes_Counted, L2_Barcodes)
 Plot_PGA_Visualization_Matrix("V1_1", PGA_Matrix, MaxVal)
 

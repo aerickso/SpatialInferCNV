@@ -5,9 +5,9 @@
     ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
 
     ## v ggplot2 3.3.5     v purrr   0.3.4
-    ## v tibble  3.1.1     v dplyr   1.0.6
-    ## v tidyr   1.1.3     v stringr 1.4.0
-    ## v readr   2.0.1     v forcats 0.5.1
+    ## v tibble  3.1.6     v dplyr   1.0.8
+    ## v tidyr   1.2.0     v stringr 1.4.0
+    ## v readr   2.1.2     v forcats 0.5.1
 
     ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
     ## x dplyr::filter() masks stats::filter()
@@ -189,6 +189,17 @@ per section.
     #Note: this is also used for the Figure 1G "Zoom in"
     PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("H2_5", H2_5_Sectionwise_CNVsGenes_Counted, L2_Barcodes)
     Plot_PGA_Visualization_Matrix("H2_5", PGA_Matrix, MaxVal)
+
+    #Note: This following code outputs the plot from H2_5
+    ggsave(paste0(SectionName, "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"),
+             plot = last_plot() + labs(x=NULL, y=NULL),
+             device = NULL,
+             path = NULL,
+             scale = 1,
+             width = NA,
+             height = NA,
+             dpi = 300,
+             limitsize = TRUE)
 
     PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("V1_1", V1_1_Sectionwise_CNVsGenes_Counted, L2_Barcodes)
     Plot_PGA_Visualization_Matrix("V1_1", PGA_Matrix, MaxVal)
