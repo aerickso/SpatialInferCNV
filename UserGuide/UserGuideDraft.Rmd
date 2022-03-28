@@ -1,12 +1,12 @@
 ---
 title: "Userguide"
 author: "Andrew Erickson"
-output:
-  md_document:
-    variant: markdown_github
+output: html_document
+
 ---
 
 # Userguide
+***
 
 This document, is intended to demonstrate:
 
@@ -14,14 +14,16 @@ This document, is intended to demonstrate:
 - Describing the steps to analyse the ST data 
 - Steps describing the sequential use of each function in siCNV. 
 
-# Initialize SpatialInferCNV
+## Initialize SpatialInferCNV
+***
 
 ```{r}
 library(SpatialInferCNV)
 library(tidyverse)
 ```
 
-# Downloading publicly available Visium Datasets (10x Genomics) and importing data with ImportCountData()
+## Downloading and importing publicly available Visium Datasets (10x Genomics) 
+***
 
 The [10X Genomics SpaceRanger Pipeline](https://support.10xgenomics.com/spatial-gene-expression/software/pipelines/latest/what-is-space-ranger) outputs, among other files, filtered_feature_bc_matrix.h5 files that store count data. Count data, such as from the Visium assay, is a key input to Spatial InferCNV. 10X Genomics offers a number of publicly available [10x Genomics Visium datasets](https://www.10xgenomics.com/resources/datasets?) including datasets from the Visium Assay. 
 
@@ -43,7 +45,8 @@ unlink("./V1_Breast_Cancer_Block_A_Section_1_filtered_feature_bc_matrix.h5")
 head(Breast_ENSBMLID_Counts)
 ```
 
-# Preparation of example histological annotations in the LoupeBrowser
+# Preparation of example histological annotations in the Loupe Browser
+***
 
 We will first demonstrate how to create an annotation .csv file from the LoupeBrowser, and then We will read in a .csv file containing histological annotations and convert it to the R data.frame format. Histological annotations in our manuscript were performed by clinicians, specifically, pathologists who are experts trained to visually assess histology of patient samples. Using manual annotations from clinicians allows for clinical translation in a spatial/biological context. These annotations are primarily used in our analyses as grouping variables to select/deselect certain groups for analysis. Specific details of how we designed the histological annotation process can be found in our manuscript (Update with publication link upon publication).
 
@@ -74,6 +77,7 @@ Next, left click and drag around the 12 spots at the lower right of the section.
 Select "Histology" from the dropdown menu, and type in an annotation, in this example "Userguide_12", and then click "Create new cluster "Userguide_12", and then click the save button to save the annotation.
 
 ![](./Images/LB_Userguide_12.png)
+
 If this all was done properly, you should see the following:
 
 ![](./Images/LB_Annotated.png)
@@ -81,6 +85,7 @@ If this all was done properly, you should see the following:
 Finally, we will export the annotations. Start by selecting the 3 white dots at the upper right, and select "Export Histology" from the dropdown menu.
 
 ![](./Images/LB_ExportHistology.png)
+
 Select "Exclude Unlabeled".
 
 ![](./Images/LB_ExcludeUnlabeled.png)
@@ -89,7 +94,8 @@ Type in "10xBreast_UserguideHistologyAnnotations.csv", and select "Export".
 
 ![](./Images/LB_ExportingCSV.png)
 
-# Importing Histological Annotation Data from ImportHistologicalAnnotations().
+## Importing Histological Annotation Data
+***
 
 We will next import the histological annotation .csv file containing histological annotations and convert it to the R dataframe format. This was created in the previous step, but we also provide this .csv file in the directory if you wish to skip to this step.
 
@@ -103,7 +109,8 @@ Userguide_10xBreast_Histology <- ImportHistologicalAnnotations("Breast10X", "./U
 head(Userguide_10xBreast_Histology)
 ```
 
-# Merging histological annotation data with count data with MergingCountAndAnnotationData()
+## Merging histological annotation data with count data 
+***
 
 This next step demonstrates functionality of MergingCountAndAnnotationData(). This function requires 3 parameters: a section annotation string (this needs to be identical from the annotation and count files), the annotation dataframe, and the count dataframe)
 
@@ -123,7 +130,8 @@ rm(Breast_ENSBMLID_Counts)
 head(Userguide_10xBreast_Joined_Counts)
 ```
 
-# Selecting finalized annotations for export for use in infercnv::run with FinalAnnotations()
+## Selecting finalized annotations for export for use in infercnv::run 
+***
 
 During pre-processing, you may filter out certain barcodes (either due to selection of certain histological populations, or due to not passing QC). The function FinalAnnotations() compares the processed count file (which has all of the count data to be analyzed) with the original parent histological annotation file, removes any extra annotations not included in the count file, and returns a finalized annotation dataframe for export.
 
@@ -143,7 +151,8 @@ FinalAnnotationsForExport <- FinalAnnotations(Userguide_10xBreast_Histology, Use
 dim(FinalAnnotationsForExport)
 ```
 
-# Manual selection of output groups from a infercnv run plot for visualization and further analysis with SelectingSubTreeData()
+## Manual selection of output groups from a infercnv run plot for visualization and further analysis
+***
 
 In order to run the next function, we need to run infercnv. InferCNV requires 3 inputs: a count file, an annotation file, and a gene loci file. We will output the first annotation and count file created above. Documentation to create a gene loci file can be found [here at the infercnv wiki documentation](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome-position-file). To save you time, we provide a file download in the chunk. Author Note: given that the repo is private, this is currently commented out: [manually download](https://raw.githubusercontent.com/aerickso/SpatialInferCNV/main/FigureScripts/) the siCNV_GeneOrderFile.tsv file from the repo.
 
@@ -283,7 +292,8 @@ The spots should be now visualized with the clone identity labeled.
 
 ![](./Images/LB_UserguideClones_Visualized.png)
 
-# Working with 1k array spatial array ST data and importing data with ImportOriginalSTCountData()
+## Working with 1k array spatial array ST 
+***
 
 SpatialInferCNV functions also work with [1K array ST data](https://www.science.org/doi/10.1126/science.aaf2403). This is functionally similar to the above ImportCountData(), but instead ImportOriginalSTCountData imports count data in .tsv format, appends a section identifier to the barcodes, and returns an R dataframe.
 
@@ -300,13 +310,12 @@ BC23209_C1_counts <- ImportOriginalSTCountData("BC23209_C1", "./BC23209_C1_stdat
 head(BC23209_C1_counts)
 ```
 
-# ImportHistologicalOriginalSTSelections()
+## Import histological selections 
+***
 
 The [STPipeline](https://github.com/SpatialTranscriptomicsResearch/st_pipeline) outputs a spot_data-selection.tsv file, which is used to identify which spots actually had tissue covering them. This step is automatically performed in the SpaceRanger pipeline, so is not needed for Visium data.
 
-The above Mendeley data repository also provides the spot selection file.
-
-#https://data.mendeley.com/datasets/29ntw7sh4r/2
+The [Mendeley data repository](https://data.mendeley.com/datasets/29ntw7sh4r/2) also provides the spot selection file.
 
 ```{r, eval = FALSE}
 #Downloading the files from the published Mendeley
@@ -333,7 +342,8 @@ BC23209_C1_SelectedBarcodes <- ImportHistologicalOriginalSTSelections("BC23209_C
 head(BC23209_C1_SelectedBarcodes)
 ```
 
-# Merging 1k array histological annotation data with count data with OriginalST_MergingCountAndAnnotationData()
+## Merging 1k array histological annotation data with count data
+***
 
 In this chunk, we will subselect 10 spots at random from the selected barcodes, append an annotation for these 10 spots, and then run OriginalST_MergingCountAndAnnotationData() to select count data only from these 10 spots. This function also passes a QC check. This function is similar to MergingCountAndAnnotationData() ran above on Visium Data
 
@@ -357,7 +367,9 @@ BC23209_C1_JoinedCounts <- BC23209_C1_JoinedCounts %>% column_to_rownames(var = 
 #Displaying first part of this dataframe
 head(BC23209_C1_JoinedCounts)
 ```
-# Spatial Visualization of Original ST Data - Using publicly available Breast Cancer Data
+
+## Spatial Visualization of Original ST Data - Using publicly available Breast Cancer Data
+***
 
 SpatialInferCNV provides functions to visualize 1k array, spot level inferCNV HMM results. We will need to generate the spot level HMM results.
 
@@ -445,7 +457,8 @@ head(CNV_Genes_Userguide)
 
 ```
 
-# Extracting sectionwise, spot level HMM data with ExtractSectionWise()
+## Extracting sectionwise, spot level HMM data 
+***
 
 ExtractSectionWise() is designed to extract specific section, spot level HMM data: while not relevant for the userguide as we are using data from only 1 section, this is useful in the modified output HMM dataframes containing multiple sections data.
 
@@ -457,8 +470,9 @@ BC23209_C1_Sectionwise_CNVsGenes_Counted <- ExtractSectionWise("BC23209_C1", #Th
                                                                AllBarcodes, #All barcodes that had tissue (imported above)
                                                                0.45) #A threshold, to filter only for HMMs that are detected in 45 percent of spots with HMM data
 ```
-# Creating a visualization matrix for the HMM 1k array data with Output_PGA_Visualization_MatrixGreyNA()
 
+## Creating a visualization matrix for the HMM 1k array data 
+***
 Using the output from ExtractSectionWise(), we can then create a matrix for spatially plotting the 1k array data with Output_PGA_Visualization_MatrixGreyNA().
 
 ```{r, eval = FALSE}
@@ -466,8 +480,9 @@ PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("BC23209_C1", #The section n
                                                     BC23209_C1_Sectionwise_CNVsGenes_Counted, #The output from ExtractSectionWise() above
                                                     L2_Barcodes) #All barcodes in the 1k array, used to generate the matrix for the plot
 ```
-# PlottiPlot_PGA_Visualization_Matrix()
 
+## Plot PGA 
+***
 Using the output from Output_PGA_Visualization_MatrixGreyNA(), we can finall apatially plotting the 1k array data with Plot_PGA_Visualization_Matrix().
 
 ```{r, eval = FALSE}
