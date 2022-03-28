@@ -17,6 +17,8 @@ This code was tested using [R](https://www.r-project.org/) version 4.1.3, a Wind
 
 For timely data-analyses of datasets comprising 2 or more Visium sections, consider use of a high performance cluster. In our project, the infercnv::run analyses steps were ran on the [BMRC](https://www.medsci.ox.ac.uk/divisional-services/support-services-1/bmrc/cluster-usage), with 10-20 CPUs, each 1.6 GHz and 16GB ram. 
 
+A [environment.yml](https://github.com/aerickso/SpatialInferCNV/blob/main/environment.yml) file is available for those wishing to work in a conda environent.
+
 # Installation of SpatialInferCNV Dependencies
 
 ```{r, eval = FALSE}
