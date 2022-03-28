@@ -1,6 +1,6 @@
 ---
-title: "Userguide"
-author: "Andrew Erickson"
+title: "Spatial InferCNV Userguide"
+author: "Andrew Erickson, Ludvig Larsson"
 output: html_document
 #output:
 #  md_document:

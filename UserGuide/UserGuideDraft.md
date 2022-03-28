@@ -21,25 +21,8 @@ This document, is intended to demonstrate:
 
 ``` r
 library(SpatialInferCNV)
-```
-
-    ## Warning: replacing previous import 'phylogram::as.phylo' by 'ape::as.phylo' when
-    ## loading 'SpatialInferCNV'
-
-``` r
 library(tidyverse)
 ```
-
-    ## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
-
-    ## v ggplot2 3.3.5     v purrr   0.3.4
-    ## v tibble  3.1.6     v dplyr   1.0.8
-    ## v tidyr   1.2.0     v stringr 1.4.0
-    ## v readr   2.1.2     v forcats 0.5.1
-
-    ## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
-    ## x dplyr::filter() masks stats::filter()
-    ## x dplyr::lag()    masks stats::lag()
 
 ## Downloading and importing publicly available Visium Datasets (10x Genomics)
 
@@ -652,7 +635,7 @@ MaxVal<- max(BC23209_C1Max)
 Plot_PGA_Visualization_Matrix("BC23209_C1", PGA_Matrix, MaxVal)
 
 #Saving the plot with ggsave
-ggsave(paste0(SectionName, "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"),
+ggsave(paste0("BC23209_C1", "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"),
          plot = last_plot() + labs(x=NULL, y=NULL),
          device = NULL,
          path = NULL,
