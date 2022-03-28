@@ -23,6 +23,10 @@ the infercnv::run analyses steps were ran on the
 [BMRC](https://www.medsci.ox.ac.uk/divisional-services/support-services-1/bmrc/cluster-usage),
 with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
+A
+[environment.yml](https://github.com/aerickso/SpatialInferCNV/blob/main/environment.yml)
+file is available for those wishing to work in a conda environent.
+
 # Installation of SpatialInferCNV Dependencies
 
 ``` r
@@ -62,9 +66,8 @@ library(SpatialInferCNV)
 
 # Userguide
 
-The package provides a number of functions, please read the function
-documentation in each function located
-[here](https://github.com/aerickso/SpatialInferCNV/blob/main/UserGuide/UserGuideDraft.md).
+The package provides a number of functions, please read the user guide
+[here](https://github.com/aerickso/SpatialInferCNV).
 
 # Study Data
 
