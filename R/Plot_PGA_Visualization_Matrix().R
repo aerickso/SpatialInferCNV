@@ -28,14 +28,4 @@ Plot_PGA_Visualization_Matrix <- function(SectionName, InputMatrix, MaxValInput)
           axis.ticks=element_blank(),
           legend.position = "none",
           plot.margin=grid::unit(c(0,0,0,0), "mm"))
-
-  ggsave(paste0(SectionName, "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"),
-         plot = last_plot() + labs(x=NULL, y=NULL),
-         device = NULL,
-         path = NULL,
-         scale = 1,
-         width = NA,
-         height = NA,
-         dpi = 300,
-         limitsize = TRUE)
 }

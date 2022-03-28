@@ -504,9 +504,10 @@ head(BC23209_C1_JoinedCounts)
 
 ------------------------------------------------------------------------
 
-SpatialInferCNV provides functions to visualize 1k array, spot level
-inferCNV HMM results. We will need to generate the spot level HMM
-results.
+SpatialInferCNV provides functions to visualize the number of genes with
+an inferred copy number alteration (as presented in Figure 1 of our
+manuscript). We will need to generate the 1k array, spot level inferCNV
+HMM results.
 
 In order to run the next function, we need to run infercnv. InferCNV
 requires 3 inputs: a count file, an annotation file, and a gene loci
@@ -589,7 +590,7 @@ names(L2_Barcodes)[1] <- "Barcode"
 #We then use the first threshold to optimize signal-to-noise for spatial visualization across all genes with an inferred CNV, all genes genes with an inferred CNV (for this dataset, 35%).
 
 #Uncomment, and use this line if you want to use the file you generated above
-#CNV_Genes_Organscale <- read.delim("./InferCNVrun_outputs_1karray/17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat")
+#CNV_Genes_Userguide <- read.delim("./InferCNVrun_outputs_1karray/17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat")
 
 #Use this comment if you want to use the file that we have provided 
 CNV_Genes_Userguide <- read.delim("./UserGuideFiles/17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat")
@@ -646,8 +647,20 @@ finall apatially plotting the 1k array data with
 #Defining Max Value, this is more relevant when working with multiple sections
 BC23209_C1Max <- as.numeric(max(BC23209_C1_Sectionwise_CNVsGenes_Counted$PercentageGenomeAltered))
 MaxVal<- max(BC23209_C1Max)
-             
+
+#Plotting the visualization
 Plot_PGA_Visualization_Matrix("BC23209_C1", PGA_Matrix, MaxVal)
+
+#Saving the plot with ggsave
+ggsave(paste0(SectionName, "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"),
+         plot = last_plot() + labs(x=NULL, y=NULL),
+         device = NULL,
+         path = NULL,
+         scale = 1,
+         width = NA,
+         height = NA,
+         dpi = 300,
+         limitsize = TRUE)
 ```
 
 The spots should be now visualized with the clone identity labeled.
