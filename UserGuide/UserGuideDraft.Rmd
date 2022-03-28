@@ -498,7 +498,7 @@ MaxVal<- max(BC23209_C1Max)
 Plot_PGA_Visualization_Matrix("BC23209_C1", PGA_Matrix, MaxVal)
 
 #Saving the plot with ggsave
-ggsave(paste0(SectionName, "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"),
+ggsave(paste0("BC23209_C1", "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"),
          plot = last_plot() + labs(x=NULL, y=NULL),
          device = NULL,
          path = NULL,
