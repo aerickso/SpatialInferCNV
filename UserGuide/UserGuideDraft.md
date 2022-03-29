@@ -10,8 +10,7 @@ manuscript for publication.
 
 This document, is intended to demonstrate:
 
--   Downloading data from a single ST array (which could be from this
-    study),
+-   Downloading data from a single ST array
 -   Describing the steps to analyse the ST data
 -   Steps describing the sequential use of each function in siCNV.
 
@@ -36,15 +35,14 @@ input to Spatial InferCNV. 10X Genomics offers a number of publicly
 available [10x Genomics Visium
 datasets](https://www.10xgenomics.com/resources/datasets?).
 
-We will start by downloading a publicly available 10x Genomics Visium
-dataset [Breast
+Start by downloading a publicly available 10x Genomics Visium dataset
+[Breast
 Cancer](https://www.10xgenomics.com/resources/datasets/human-breast-cancer-block-a-section-1-1-standard-1-1-0).
 
-Then, we will read in the filtered_feature_bc_matrix.h5 file and convert
-it to the R `data.frame` format. Additionally, we will append a “Section
+Then, read in the filtered_feature_bc_matrix.h5 file and convert it to
+the R `data.frame` format. Additionally, we will append a “Section
 Label”. This is because each 10x Genomics Visium assay uses the same set
-of barcodes, and thus we need to append an identifier to distinguish
-from which array comes which data.
+of barcodes, and thus we need to append an section identifier.
 
 ``` r
 # Downloading Breast Cancer Data H5 file
@@ -64,22 +62,23 @@ head(Breast_ENSBMLID_Counts)
 
 ------------------------------------------------------------------------
 
-We will first demonstrate how to create an annotation .csv file from the
-Loupe Browser, and then We will read in a .csv file containing
-histological annotations and convert it to the R `data.frame` format.
-Histological annotations in our manuscript were performed by clinicians,
-specifically, pathologists who are experts trained to visually assess
-histology of patient samples. Using manual annotations from clinicians
-allows for clinical translation in a spatial/biological context. These
-annotations are primarily used in our analyses as grouping variables to
-select/deselect spots with specific morphology for analysis. Specific
-details of how we designed the histological annotation process can be
-found in our manuscript (Update with publication link upon publication).
+Next, we will first demonstrate how to create an annotation .csv file
+from the Loupe Browser. The user will then read in a .csv file
+containing histological annotations and convert it to the R `data.frame`
+format. Histological annotations in our manuscript were performed by
+clinicians, specifically, pathologists who are experts trained to
+visually assess histology of patient samples. Using manual annotations
+from clinicians allows for clinical translation in a spatial/biological
+context. These annotations are primarily used in our analyses as
+grouping variables to select/deselect spots with specific morphology for
+analysis. Specific details of how we designed the histological
+annotation process can be found in our manuscript (Update with
+publication link upon publication).
 
 It is important to emphasize, that for our manuscript, histological
 annotation work was not done in R, but done using the [10X Genomics
 LoupeBrowser](https://www.10xgenomics.com/products/loupe-browser). For
-our manuscript, we used versions \[INSERT VERSION NUMBERS\].
+this userguide, we used version 5.1.0.
 
 For the sample in the above code chunk, 10X Genomics provides a [Breast
 Cancer .cloupe Loupe Browser
@@ -120,9 +119,8 @@ If this all was done properly, you should see the following:
 
 ![](./Images/LB_Annotated.png)
 
-Finally, we will export the annotations. Start by selecting the 3 white
-dots at the upper right, and select “Export Histology” from the dropdown
-menu.
+Finally, export the annotations. Start by selecting the 3 white dots at
+the upper right, and select “Export Histology” from the dropdown menu.
 
 ![](./Images/LB_ExportHistology.png)
 
@@ -139,10 +137,10 @@ Type in “10xBreast_UserguideHistologyAnnotations.csv”, and select
 
 ------------------------------------------------------------------------
 
-We will next import the histological annotation .csv file containing
-histological annotations and convert it to the R `data.frame` format.
-This was created in the previous step, but we also provide this .csv
-file in the directory if you wish to skip to this step.
+Next, the user will import the histological annotation .csv file
+containing histological annotations and convert it to the R `data.frame`
+format. This was created in the previous step, but we also provide this
+.csv file in the directory if you wish to skip to this step.
 
 The motivations for annotations is described above and in our
 manuscript. These annotations are typically used in analyses to
@@ -216,11 +214,11 @@ dim(FinalAnnotationsForExport)
 
 ------------------------------------------------------------------------
 
-In order to run the next function, we need to run infercnv. InferCNV
-requires 3 inputs: a count file, an annotation file, and a gene loci
-file. We will output the first annotation and count file created above.
-Documentation to create a gene loci file can be found [here at the
-infercnv wiki
+In order to run the next function, the user needs to run infercnv.
+InferCNV requires 3 inputs: a count file, an annotation file, and a gene
+loci file. The code will output the first annotation and count file
+created above. Documentation to create a gene loci file can be found
+[here at the infercnv wiki
 documentation](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome-position-file).
 To save you time, we provide a file download in the chunk. Author Note:
 given that the repo is private, this is currently commented out:
@@ -244,21 +242,21 @@ write.table(FinalAnnotationsForExport, "Userguide_10xBreastFinalAnnotationsForEx
             col.names = FALSE, 
             row.names = FALSE)
 
-# Create the inferCNV object from the 3 files.
-Userguide_10xBreastCancer_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Userguide_10xBreast_Joined_Counts.tsv", #created above
-                                               gene_order_file="./UserGuideFiles/siCNV_GeneOrderFile.tsv", #downloaded
-                                               annotations_file="./Userguide_10xBreastFinalAnnotationsForExport.tsv", #created above
-                                               delim="\t", #separator
-                                               ref_group_names=NULL, #reference group is null as we do not have a reference group
-                                               chr_exclude = c("chrM")) #run on all chromosomes except mitochondria
+# Create the inferCNV object from the 3 files, without the reference group and mitochondria 
+Userguide_10xBreastCancer_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./Userguide_10xBreast_Joined_Counts.tsv", 
+                                               gene_order_file="./UserGuideFiles/siCNV_GeneOrderFile.tsv",
+                                               annotations_file="./Userguide_10xBreastFinalAnnotationsForExport.tsv",
+                                               delim="\t",
+                                               ref_group_names=NULL, 
+                                               chr_exclude = c("chrM")) 
 
 # Run inferCNV
-Userguide_10xBreastCancer_infCNV = infercnv::run(Userguide_10xBreastCancer_infCNV, #call the infercnv object
-                                              cutoff=0.1, #standard infercnv cutoff parameter (see infercnv::run documentation)
-                                              out_dir="./InferCNVrun_outputs", #create a separate output folder
+Userguide_10xBreastCancer_infCNV = infercnv::run(Userguide_10xBreastCancer_infCNV, 
+                                              cutoff=0.1, #(see infercnv::run documentation)
+                                              out_dir="./InferCNVrun_outputs", 
                                               cluster_by_groups=FALSE, #unsupervised analysis
-                                              HMM = FALSE, #We dont need HMM outputs
-                                              denoise=TRUE) #denoising applies noise reduction for the plot output
+                                              HMM = FALSE, 
+                                              denoise=TRUE) #denoising applies noise reduction for the plot 
 ```
 
 Further documentation on running infercnv [can be found
@@ -291,16 +289,16 @@ Paint).
 library(ape)
 library(phylogram)
 
-#We use read.dendrogram() to import the dendogram file
+#Use read.dendrogram() to import the dendogram file
 BreastCancer10x_for_clustering <- read.dendrogram(file = "./UserGuideFiles/infercnv.21_denoised.observations_dendrogram.txt")
 
-#We convert to a phylo object using as.phylo()
+#Convert to a phylo object using as.phylo()
 BreastCancer10x_for_clustering_phylo <- as.phylo(BreastCancer10x_for_clustering)
 
-#We then use subtrees() to enable further interaction with the dendrogram
+#Use subtrees() to enable further interaction with the dendrogram
 my.subtrees = subtrees(BreastCancer10x_for_clustering_phylo)  # subtrees() to subset
 
-#We then output an image to visualize all of the dengdrogram nodes 
+#Output an image to visualize all of the dengdrogram nodes 
 png("BreastCancer10x_forclustering_phylo.png",width=10000,height=2500, res = 300)
 plot(BreastCancer10x_for_clustering_phylo,show.tip.label = FALSE)
 nodelabels(text=1:BreastCancer10x_for_clustering_phylo$Nnode,node=1:BreastCancer10x_for_clustering_phylo$Nnode+Ntip(BreastCancer10x_for_clustering_phylo))
@@ -333,13 +331,13 @@ Node3 <- SelectingSubTreeData(my.subtrees, 3)
 MergedNodes <- rbind(Node5, Node9)
 MergedNodes <- rbind(MergedNodes, Node3)
 
-#Note, since the "additional spot" for Clone 3 did not have a node, we will identify it by joining the original annotations to the MergedNodes dataframe
+#Note, since the "additional spot" for Clone 3 did not have a node, identify it by joining the original annotations to the MergedNodes dataframe
 MergedNodes <- full_join(MergedNodes, FinalAnnotationsForExport)
 
-#The additionally joined barcode does not have a node identity, so we will manually change it to "Clone 3" (in line with the image above)
+#The additionally joined barcode does not have a node identity, so manually change it to "Clone 3" (in line with the image above)
 MergedNodes$Node <- ifelse(is.na(MergedNodes$Node), "Clone 3", MergedNodes$Node)
 
-#We will then drop the Histology column
+#Then drop the Histology column
 MergedNodes <- MergedNodes %>% select(-Histology)
 
 #This then renames "Node" to "Clone"
@@ -457,8 +455,8 @@ head(BC23209_C1_SelectedBarcodes)
 
 ------------------------------------------------------------------------
 
-In this chunk, we will subselect 10 spots at random from the selected
-barcodes, append an annotation for these 10 spots, and then run
+In this chunk, the user will subselect 10 spots at random from the
+selected barcodes, append an annotation for these 10 spots, and then run
 `OriginalST_MergingCountAndAnnotationData()` to select count data only
 from these 10 spots. This function also passes a QC check. This function
 is similar to `MergingCountAndAnnotationData()` ran above on Visium Data
@@ -489,14 +487,14 @@ head(BC23209_C1_JoinedCounts)
 
 SpatialInferCNV provides functions to visualize the number of genes with
 an inferred copy number alteration (as presented in Figure 1 of our
-manuscript). We will need to generate the 1k array, spot level inferCNV
-HMM results.
+manuscript). The user needs to generate the 1k array, spot level
+inferCNV HMM results.
 
-In order to run the next function, we need to run infercnv. InferCNV
-requires 3 inputs: a count file, an annotation file, and a gene loci
-file. We will output the first annotation and count file created above.
-Documentation to create a gene loci file can be found [here at the
-infercnv wiki
+In order to run the next function, the user needs to run infercnv.
+InferCNV requires 3 inputs: a count file, an annotation file, and a gene
+loci file. We will output the first annotation and count file created
+above. Documentation to create a gene loci file can be found [here at
+the infercnv wiki
 documentation](https://github.com/broadinstitute/inferCNV/wiki/instructions-create-genome-position-file).
 To save you time, we provide a file download in the chunk. Author Note:
 given that the repo is private, this is currently commented out:
@@ -523,27 +521,27 @@ write.table(FinalAnnotationsForExport1karray, "BC23209_C1_SelectedBarcodes.tsv",
             col.names = FALSE, 
             row.names = FALSE)
 
-# Create the inferCNV object from the 3 files.
-Userguide_1kArrayBreastCancer_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./BC23209_C1_JoinedCounts.tsv", #created above
-                                               gene_order_file="./UserGuideFiles/siCNV_GeneOrderFile.tsv", #downloaded
-                                               annotations_file="./BC23209_C1_SelectedBarcodes.tsv", #created above
-                                               delim="\t", #separator
-                                               ref_group_names=NULL, #reference group is null as we do not have a reference group
-                                               chr_exclude = c("chrM")) #run on all chromosomes except mitochondria
+# Create the inferCNV object from the 3 files, without a reference group nor running mitochondrial genes
+Userguide_1kArrayBreastCancer_infCNV <- infercnv::CreateInfercnvObject(raw_counts_matrix="./BC23209_C1_JoinedCounts.tsv", 
+                                               gene_order_file="./UserGuideFiles/siCNV_GeneOrderFile.tsv", 
+                                               annotations_file="./BC23209_C1_SelectedBarcodes.tsv", 
+                                               delim="\t", 
+                                               ref_group_names=NULL, 
+                                               chr_exclude = c("chrM"))
 
 # Run inferCNV
-Userguide_1kArrayBreastCancer_infCNV = infercnv::run(Userguide_1kArrayBreastCancer_infCNV, #call the infercnv object
-                                              cutoff=0.1, #standard infercnv cutoff parameter (see infercnv::run documentation)
-                                              out_dir="./InferCNVrun_outputs_1karray", #create a separate output folder
+Userguide_1kArrayBreastCancer_infCNV = infercnv::run(Userguide_1kArrayBreastCancer_infCNV,
+                                              cutoff=0.1, 
+                                              out_dir="./InferCNVrun_outputs_1karray", 
                                               cluster_by_groups=TRUE, #We want to run the analysis by spot, so need this parameter = TRUE
-                                              denoise=TRUE, # denoising applies noise reduction for the plot output
+                                              denoise=TRUE, 
                                               HMM=TRUE, #We need the HMM data for the visualization
                                               analysis_mode = "cells", #We want to run the analysis by spot (inferCNV was designed for scRNAseq)
                                               HMM_report_by = "cell") #we need to set the HMM report to output by cell 
 ```
 
-Having then run inferCNV and obtained HMM outputs, we then need to
-further format the data prior to using the functions for 1k array
+Having then run inferCNV and obtained HMM outputs, the user then needs
+to further format the data prior to using the functions for 1k array
 visualization
 
 ``` r
@@ -570,7 +568,7 @@ L2_Barcodes <- L2_Barcodes %>%
 names(L2_Barcodes)[1] <- "Barcode"
 
 
-#We then use the first threshold to optimize signal-to-noise for spatial visualization across all genes with an inferred CNV, all genes genes with an inferred CNV (for this dataset, 35%).
+#Then use the first threshold to optimize signal-to-noise for spatial visualization across all genes with an inferred CNV, all genes genes with an inferred CNV (for this dataset, 35%).
 
 #Uncomment, and use this line if you want to use the file you generated above
 #CNV_Genes_Userguide <- read.delim("./InferCNVrun_outputs_1karray/17_HMM_predHMMi6.hmm_mode-cells.pred_cnv_genes.dat")
@@ -594,7 +592,7 @@ level HMM data: while not relevant for the userguide as we are using
 data from only 1 section, this is useful in the modified output HMM
 `data.frame`s containing multiple sections data.
 
-Having now obtained the necessary inputs, we can run
+Having now obtained the necessary inputs, you can run
 `ExtractSectionWise()`.
 
 ``` r
@@ -608,7 +606,7 @@ BC23209_C1_Sectionwise_CNVsGenes_Counted <- ExtractSectionWise("BC23209_C1", #Th
 
 ------------------------------------------------------------------------
 
-Using the output from `ExtractSectionWise()`, we can then create a
+Using the output from `ExtractSectionWise()`, you can then create a
 matrix for spatially plotting the 1k array data with
 `Output_PGA_Visualization_MatrixGreyNA()`.
 
@@ -623,7 +621,7 @@ PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("BC23209_C1", #The section n
 ------------------------------------------------------------------------
 
 Using the output from `Output_PGA_Visualization_MatrixGreyNA()`, we can
-finall apatially plotting the 1k array data with
+finally spatially plot the 1k array data with
 `Plot_PGA_Visualization_Matrix()`.
 
 ``` r
