@@ -61,7 +61,7 @@ We also provide environment files to set up a conda environment in a MacOSX or L
 [environment.yml file](https://github.com/aerickso/SpatialInferCNV/blob/main/environment.yml)
 
 ```
-conda create env -f environment_osx_linux.yml
+conda create env -f environment.yml
 conda activate SpatialInferCNV
 ```
 

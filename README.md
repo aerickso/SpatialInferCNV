@@ -72,7 +72,7 @@ the code below.
 [environment.yml
 file](https://github.com/aerickso/SpatialInferCNV/blob/main/environment.yml)
 
-    conda create env -f environment_osx_linux.yml
+    conda create env -f environment.yml
     conda activate SpatialInferCNV
 
 If you want to run RStudio within this environment you can install it
