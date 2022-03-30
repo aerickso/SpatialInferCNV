@@ -25,9 +25,8 @@ with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
 # System level dependency (for the hdf5r package)
 
-SpatialInferCNV has HDF5 as a system level dependency for the package
-`hd5fr` R package, which needs to be installed before installing the R
-package. See here for details:
+SpatialInferCNV has HDF5 as a system level dependency which needs to be
+installed before installing the `hd5fr` R package. See here for details:
 <https://github.com/hhoeflin/hdf5r#Requirements>. For Windows users, you
 can download the windows version here:
 <https://github.com/mannau/h5-libwin>.
