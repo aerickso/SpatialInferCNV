@@ -102,7 +102,10 @@ install_github("aerickso/SpatialInferCNV")
 
 # SpatialInferCNV installation via in a conda environment - Windows
 
-This was tested in Anaconda3, conda version 4.12.0, on Windows 11.
+This was tested in Anaconda3, conda version 4.12.0, on Windows 11, R
+version 4.1.3.
+
+In anaconda3 terminal, create a new conda environment with R 4.1.3.
 
     conda config --add channels conda-forge 
     conda create -n siCNV r-base=4.1.3
@@ -111,11 +114,17 @@ This was tested in Anaconda3, conda version 4.12.0, on Windows 11.
 
     R
 
+Install devtools, and configure the file download method for windows to
+allow install_githb() to resolve
+
 ``` r
 install.packages("devtools")
 library(devtools)
 options(download.file.method = "wininet")
 ```
+
+Installing R dependencies. Note: hdf5r has a system level dependency of
+hdf5, see above for more details.
 
 ``` r
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -135,6 +144,9 @@ library(phylogram)
 library(ape)
 library(hdf5r)
 ```
+
+After installing the R dependencies, install and initialize
+SpatialInferCNV.
 
 ``` r
 #Note: the auth key / parameter will be deleted when the package is made public (upon manuscript acceptance)
