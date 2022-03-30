@@ -70,7 +70,7 @@ installed, you can create a new environment and activate it by running
 the code below.
 
 [environment.yml
-file](https://github.com/aerickso/SpatialInferCNV/blob/main/environment_osx_linux.yml)
+file](https://github.com/aerickso/SpatialInferCNV/blob/main/environment.yml)
 
     conda create env -f environment_osx_linux.yml
     conda activate SpatialInferCNV
