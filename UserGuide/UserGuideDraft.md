@@ -269,7 +269,7 @@ resultant infercnv.21_denoised.png looks like:
 
 This is where SpatialInferCNV’s `SelectingSubTreeData()` function can
 help: it allows you to identify barcodes associated with certain
-clusters by manual selection from the dengrogram at left. For this The
+clusters by manual selection from the dendrogram at left. For this The
 dendrogram, visualized at left in the above denoised output plot, is
 also generated in infercnv::run, and can be found at
 “./InferCNVrun_outputs/infercnv.21_denoised.observations_dendrogram.txt”.
