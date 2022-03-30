@@ -23,7 +23,16 @@ the infercnv::run analyses steps were ran on the
 [BMRC](https://www.medsci.ox.ac.uk/divisional-services/support-services-1/bmrc/cluster-usage),
 with 10-20 CPUs, each 1.6 GHz and 16GB ram.
 
-# Installation of SpatialInferCNV Dependencies
+# System level dependency (for the hdf5r package)
+
+SpatialInferCNV has HDF5 as a system level dependency for the package
+`hd5fr` R package, which needs to be installed before installing the R
+package. See here for details:
+<https://github.com/hhoeflin/hdf5r#Requirements>. For Windows users, you
+can download the windows version here:
+<https://github.com/mannau/h5-libwin>.
+
+# Installation of SpatialInferCNV Dependencies - R
 
 ``` r
 install.packages("devtools")
@@ -60,7 +69,7 @@ install_github("aerickso/SpatialInferCNV")
 library(SpatialInferCNV)
 ```
 
-# Setting up a conda environment (Supported for MacOX or Linux)
+# SpatialInferCNV installation via in a conda environment - MacOS or Linux
 
 We also provide environment files to set up a conda environment in a
 MacOSX or Linux environment with all the dependencies necessary for
@@ -89,6 +98,52 @@ Once you have created the environment you can install SpatialInferCNV.
 install.packages("devtools")
 library(devtools)
 install_github("aerickso/SpatialInferCNV")
+```
+
+# SpatialInferCNV installation via in a conda environment - Windows
+
+This was tested in Anaconda3, conda version 4.12.0, on Windows 11.
+
+    conda config --add channels conda-forge 
+    conda create -n siCNV r-base=4.1.3
+    # Select yes to install all new packages
+    conda activate siCNV
+
+    R
+
+``` r
+install.packages("devtools")
+library(devtools)
+options(download.file.method = "wininet")
+```
+
+``` r
+if (!requireNamespace("BiocManager", quietly = TRUE))
+     install.packages("BiocManager")
+BiocManager::install("infercnv")
+install.packages("tidyverse")
+install.packages("Seurat")
+install.packages("phylogram")
+install.packages("ape")
+install.packages("hdf5r")
+# enter a to update/install all
+
+library(infercnv)
+library(tidyverse)
+library(Seurat)
+library(phylogram)
+library(ape)
+library(hdf5r)
+```
+
+``` r
+#Note: the auth key / parameter will be deleted when the package is made public (upon manuscript acceptance)
+AUTH = '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'
+install_github('aerickso/SpatialInferCNV',
+                         auth_token = AUTH)
+# enter 1 to update all
+# yes 
+library(SpatialInferCNV)
 ```
 
 # Userguide

@@ -645,5 +645,10 @@ ggsave(paste0("BC23209_C1", "_", "PGA_SpatialVisualization_", Sys.Date(), ".png"
 ```
 
 The spots should be now visualized with the clone identity labeled.
+Remember that we are using data from \<10 spots, so the majority of the
+image should be grey.
 
 ![](./Images/BC23209_C1_PGA_SpatialVisualization_2022-03-27.png)
+
+This ends the user guide, complementary information is embedded in the
+provided scripts.
