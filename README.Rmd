@@ -54,12 +54,14 @@ install_github("aerickso/SpatialInferCNV")
 library(SpatialInferCNV)
 ```
 
-# Setting up a conda environment
+# Setting up a conda environment (Supported for MacOX or Linux)
 
-We also provide an [environment file](https://github.com/aerickso/SpatialInferCNV/blob/main/environment.yml) to set up a conda environment with all the dependencies necessary for SpatialInferCNV. If you have anaconda installed, you can create a new environment and activate it by running the code below.
+We also provide environment files to set up a conda environment in a MacOSX or Linux environment with all the dependencies necessary for SpatialInferCNV. Installation was tested using MacOS Mojave, Version 10.14.6 and an HPC running Scientific Linux 7.9. If you have anaconda installed, you can create a new environment and activate it by running the code below.
+
+[environment.yml file](https://github.com/aerickso/SpatialInferCNV/blob/main/environment_osx_linux.yml)
 
 ```
-conda create -f environment.yml
+conda create env -f environment_osx_linux.yml
 conda activate SpatialInferCNV
 ```
 

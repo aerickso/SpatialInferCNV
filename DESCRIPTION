@@ -9,5 +9,11 @@ Description: More about what it does (maybe more than one line)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-Imports: tidyverse, infercnv, Seurat, hdf5r, phylogram, ape
+Imports: 
+	tidyverse, 
+	infercnv, 
+	Seurat,
+	hdf5r,
+	phylogram,
+	ape
 RoxygenNote: 7.1.2
