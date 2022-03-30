@@ -52,7 +52,7 @@ head(Breast_ENSBMLID_Counts)
 # Preparation of example histological annotations in the Loupe Browser
 ***
 
-Next, we will first demonstrate how to create an annotation .csv file from the Loupe Browser. The user will then read in a .csv file containing histological annotations and convert it to the R `data.frame` format. Histological annotations in our manuscript were performed by clinicians, specifically, pathologists who are experts trained to visually assess histology of patient samples. Using manual annotations from clinicians allows for clinical translation in a spatial/biological context. These annotations are primarily used in our analyses as grouping variables to select/deselect spots with specific morphology for analysis. Specific details of how we designed the histological annotation process can be found in our manuscript (Update with publication link upon publication).
+Next, we will first demonstrate how to create an annotation .csv file from the Loupe Browser. The user will then read in a .csv file containing histological annotations and convert it to the R `data.frame` format. Histological annotations in our manuscript were performed at ‘per-spot’ level by clinical histopathologists who are expert trained to assess morphology of prostate samples. These detailed annotations permit clinical translation in a spatio-biological context. These annotations are primarily used in our analyses to enable groups of spots to be selected according to specific morphological classification (e.g. tumour versus benign; or epithelial versus stroma). We have included specific details of our histological annotation work-flow in the manuscript (Update with publication link upon publication).
 
 It is important to emphasize, that for our manuscript, histological annotation work was not done in R, but done using the [10X Genomics LoupeBrowser](https://www.10xgenomics.com/products/loupe-browser). For this userguide, we used version 5.1.0.
 
@@ -299,7 +299,7 @@ The spots should be now visualized with the clone identity labeled.
 ## Working with 1k array spatial array ST 
 ***
 
-SpatialInferCNV functions also work with [1K array ST data](https://www.science.org/doi/10.1126/science.aaf2403). This is functionally similar to the above `ImportCountData()`, but instead ImportOriginalSTCountData imports count data in .tsv format, appends a section identifier to the barcodes, and returns an R `data.frame`.
+SpatialInferCNV functions also work with 1K array ST data from the [original version of spatial transcriptomics](https://www.science.org/doi/10.1126/science.aaf2403). This is functionally similar to the above `ImportCountData()`, but instead ImportOriginalSTCountData imports count data in .tsv format, appends a section identifier to the barcodes, and returns an R `data.frame`.
 
 We will download data from this publicly available [BreastCancer](https://data.mendeley.com/datasets/29ntw7sh4r/2) 1k array spatial transcriptomics dataset.
 
@@ -484,7 +484,7 @@ PGA_Matrix <- Output_PGA_Visualization_MatrixGreyNA("BC23209_C1", #The section n
                                                     L2_Barcodes) #All barcodes in the 1k array, used to generate the matrix for the plot
 ```
 
-## Plot PGA 
+## Spatially plot the number of genes with an inferredCNV, per spot from 1k array data 
 ***
 Using the output from `Output_PGA_Visualization_MatrixGreyNA()`, we can finally spatially plot the 1k array data with `Plot_PGA_Visualization_Matrix()`.
 
