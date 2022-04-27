@@ -1,14 +1,13 @@
-#run in terminal: conda env create -f environment.yml
 name: SpatialInferCNV
 channels:
   - conda-forge
   - bioconda
   - defaults
 dependencies:
-  - r-essentials
-  - r-base
-  - bioconductor-infercnv
-  - r-seurat
-  - r-phylogram
-  - r-hdf5r
-  - r-devtools
+  - bioconductor-infercnv=1.10.0
+  - r-essentials=4.1
+  - r-devtools=2.4.3
+  - r-phylogram=2.1.0
+  - r-base=4.1.2
+  - r-hdf5r=1.3.5
+  - r-seurat=4.1.0
