@@ -45,23 +45,9 @@ install.packages("ape")
 install.packages("hdf5r")
 ```
 
-# Installation - Dev
+# Installation
 
 ``` r
-#Note: upon manuscript acceptance, the package will be made public, and thus the need for auth tokens will be removed and thus this code chunk will be deleted. For collaborators, you may need to generate your own new auth token.
-
-AUTH = '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'
-install.packages("devtools")
-library(devtools)
-install_github('aerickso/SpatialInferCNV',
-                         auth_token = AUTH)
-library(SpatialInferCNV)
-```
-
-# Installation - Public
-
-``` r
-#This will be the final code chunk, with the above chunk (Installation - Dev) deleted upon release
 install.packages("devtools")
 library(devtools)
 install_github("aerickso/SpatialInferCNV")
@@ -148,10 +134,7 @@ After installing the R dependencies, install and initialize
 SpatialInferCNV.
 
 ``` r
-#Note: the auth key / parameter will be deleted when the package is made public (upon manuscript acceptance)
-AUTH = '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'
-install_github('aerickso/SpatialInferCNV',
-                         auth_token = AUTH)
+install_github("aerickso/SpatialInferCNV")
 # enter 1 to update all
 # yes 
 library(SpatialInferCNV)
