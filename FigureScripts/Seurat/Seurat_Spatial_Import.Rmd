@@ -1,0 +1,61 @@
+---
+title: "Ericksonetal_SeuratSpatialImport"
+author: "Andrew Erickson"
+date: "2022-12-07"
+output: html_document
+---
+
+# Seurat Spatial Import example
+
+The data for [Erickson et al](https://www.nature.com/articles/s41586-022-05023-2) can be found at the following Mendeley link [(latest dataset version = 4)](https://data.mendeley.com/datasets/svw96g68dv/4). This version of the dataset is not yet live as of 07.12.2022 but should be public shortly.
+
+The following code downloads the count matrix file, and the spaceranger "spatial" folder files, and imports them into a [Seurat](https://satijalab.org/seurat/index.html) object for further analysis.
+
+```{r}
+#Install Seurat if not already installed
+#install.packages('Seurat')
+
+#Initialize the Seurat library
+library(Seurat)
+
+#Downloading Patient 1 - H2_1 filtered_feature_bc_matrix.h5 file to working folder
+url = "https://data.mendeley.com/public-files/datasets/svw96g68dv/files/8b69170c-6c07-4e69-abf2-35fade0f5e2c/file_downloaded"
+download.file(url,'./filtered_feature_bc_matrix.h5', mode = 'wb')
+
+#Create subdirectory called "spatial"
+dir.create("spatial")
+
+#07.12.2022 - This is manually downloaded for the user while waiting for Mendeley updates to be pushed
+#Downloading Patient 1 - H2_1 tissue_hires_image.png image file to spatial folder
+#url = "https://data.mendeley.com/api/datasets/svw96g68dv/draft/files/e1399690-dc45-43e5-ae39-7a065bf7d34e/file_downloaded"
+#download.file(url,'./spatial/H2_1_tissue_hires_image.png', mode = 'wb')
+
+#Downloading Patient 1 - H2_1 scalefactors_json.json file to spatial folder
+url = "https://data.mendeley.com/public-files/datasets/svw96g68dv/files/06eb7410-a6a3-4ea9-a364-c6a734a22169/file_downloaded"
+download.file(url,'./spatial/scalefactors_json.json', mode = 'wb')
+
+#Downloading Patient 1 - H2_1 tissue_positions_list.csv file to spatial folder
+url = "https://data.mendeley.com/public-files/datasets/svw96g68dv/files/e028d330-142b-4d8b-b32d-9114b5c48421/file_downloaded"
+download.file(url,'./spatial/tissue_positions_list.csv', mode = 'wb')
+
+#Creating an image file using the Seurat Read10X_image() function
+InputImage <- Read10X_Image(
+  "./spatial",
+  image.name = "H2_1_tissue_hires_image.png",
+  filter.matrix = FALSE
+)
+
+#Loading a Seurat object using the Load10X_Spatial() function
+H2_1_Seurat <- Load10X_Spatial(
+  ".",
+  filename = "filtered_feature_bc_matrix.h5",
+  assay = "Spatial",
+  image = InputImage
+)
+
+#Confirming that the Seurat object was created and loaded.  
+summary(H2_1_Seurat)
+head(H2_1_Seurat)
+
+sessionInfo()
+```
