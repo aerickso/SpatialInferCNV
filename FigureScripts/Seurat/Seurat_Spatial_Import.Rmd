@@ -2,7 +2,7 @@
 title: "Ericksonetal_SeuratSpatialImport"
 author: "Andrew Erickson"
 date: "2022-12-08"
-output: html_document
+output: md_document
 ---
 
 # Seurat Spatial Import example
